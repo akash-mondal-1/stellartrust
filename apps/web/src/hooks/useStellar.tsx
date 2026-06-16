@@ -151,6 +151,9 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const connectWallet = async (type: WalletType): Promise<string> => {
     setConnecting(true);
     setError(null);
+    // Clear any stale demo address so real wallet can connect fresh
+    localStorage.removeItem('stellar_trust_wallet_address');
+    localStorage.removeItem('stellar_trust_demo_mode');
     try {
       // ── STEP 1: Verify Freighter extension is installed (window.freighter injected by extension) ──
       console.log("STEP 1: Checking Freighter extension presence");
