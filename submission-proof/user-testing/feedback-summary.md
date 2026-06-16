@@ -5,13 +5,14 @@ This document aggregates the actual feedback collected from users during the act
 ---
 
 ## 👥 User Count
-*   **Total Feedback Submissions**: 1
-*   **Unique Wallet Addresses**: 1
+*   **Total Feedback Submissions**: 2
+*   **Unique Wallet Addresses**: 2
 
 ---
 
 ## 🌟 Positive Feedback
 *   **GDEMOCLI... (16/6/2026)** [Rating: 5★]: "Test 1"
+*   **GBELVX4O... (16/6/2026)** [Rating: 5★]: "Loved the app"
 
 ---
 
