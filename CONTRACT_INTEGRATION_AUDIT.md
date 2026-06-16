@@ -7,9 +7,10 @@
 ---
 
 ## Executive Summary
-This audit reviews the integration between the Next.js frontend application and the deployed Soroban smart contracts on the Stellar Testnet. 
 
-**Critical Findings:** While the smart contracts (`identity`, `escrow`, `reputation`, and `nft`) are fully written in Rust and deployable to Stellar Testnet, the frontend application is running entirely on a local storage-backed **Mock Database simulation layer** (`MockDatabase` in `apps/web/src/lib/supabase.ts` and `apps/web/src/hooks/useStellar.tsx`). 
+This audit reviews the integration between the Next.js frontend application and the deployed Soroban smart contracts on the Stellar Testnet.
+
+**Critical Findings:** While the smart contracts (`identity`, `escrow`, `reputation`, and `nft`) are fully written in Rust and deployable to Stellar Testnet, the frontend application is running entirely on a local storage-backed **Mock Database simulation layer** (`MockDatabase` in `apps/web/src/lib/supabase.ts` and `apps/web/src/hooks/useStellar.tsx`).
 
 Only **Wallet Connection** triggers the Freighter extension popup to request access. All subsequent transactions (escrow funding, milestone releases, reputation rating submission, and NFT minting) are processed in simulated local browser state without triggering Freighter signatures or posting transactions to the Stellar network.
 
@@ -38,21 +39,25 @@ Only **Wallet Connection** triggers the Freighter extension popup to request acc
 ## Phase 2: Escrow Workflow Audit Details
 
 ### 1. Create Agreement
+
 - **Trigger:** "Initialize On-Chain Escrow" button submit in `/escrow`.
 - **Status:** **MOCK IMPLEMENTATION**.
 - **Explanation:** The agreement metadata is appended to `localStorage` under `stellar_trust_agreements`. No transaction is built, signed, or submitted to the Stellar network.
 
 ### 2. Fund Escrow
+
 - **Trigger:** "Fund Escrow Payouts" button click in `/escrow?id=...`.
 - **Status:** **MOCK IMPLEMENTATION**.
 - **Explanation:** Status changes to `Funded` locally, and a fake transaction hash is generated on-the-fly (`'0x' + Math.random().toString(16)`). No XLM is transferred on Testnet, and the Freighter popup is not shown.
 
 ### 3. Complete Milestone
+
 - **Trigger:** "Submit Milestone Work" and "Approve Deliverables" button clicks.
 - **Status:** **MOCK IMPLEMENTATION**.
 - **Explanation:** The state updates inside browser memory/localStorage, but no Soroban contract states are modified on-chain.
 
 ### 4. Release Payment
+
 - **Trigger:** "Release Milestone Payment" button click.
 - **Status:** **MOCK IMPLEMENTATION**.
 - **Explanation:** The funds are theoretically sent to the freelancer's wallet balance, but no actual on-chain transaction is built or signed.
@@ -76,4 +81,5 @@ Only **Wallet Connection** triggers the Freighter extension popup to request acc
 ---
 
 ## Final Recommendation
+
 To graduate this project from a sandbox simulation to a true Web3 production-ready application, the simulated methods in `useStellar.tsx` must be refactored to construct real Stellar transaction envelopes, request signature authorization via Freighter, and broadcast the transaction envelopes to the Stellar Testnet RPC.
