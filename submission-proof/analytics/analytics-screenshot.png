@@ -1,0 +1,8 @@
+[PLACEHOLDER NOTE: POSTHOG ANALYTICS DASHBOARD SCREENSHOT]
+
+Please replace this file with an actual screenshot (.png format) of your PostHog Events dashboard capturing user testing interactions.
+
+The screenshot should verify:
+1. Active event streams matching the event names registered in analytics-events.md (e.g., wallet_connected, profile_created, escrow_funded).
+2. The ingestion table verifying multiple distinct user wallet sessions.
+3. Event metadata details expanded, verifying clean payload structure.

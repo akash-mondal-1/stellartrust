@@ -1,0 +1,57 @@
+name: StellarTrust CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+        cache-dependency-path: apps/web/package-lock.json
+        
+    - name: Install Dependencies
+      run: npm install --prefix apps/web
+      
+    - name: Build Web App
+      run: npm run build --prefix apps/web
+      env:
+        NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+  test-contracts:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Rust toolchain
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+        targets: wasm32-unknown-unknown
+        
+    - name: Cargo Cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          contracts/target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('contracts/Cargo.toml') }}
+        
+    - name: Check Rust Compilation
+      run: cargo check --manifest-path contracts/Cargo.toml
+      
+    - name: Run Contract Tests
+      run: cargo test --manifest-path contracts/Cargo.toml

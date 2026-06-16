@@ -1,0 +1,8 @@
+[PLACEHOLDER NOTE: SENTRY MONITORING DASHBOARD SCREENSHOT]
+
+Please replace this file with an actual screenshot (.png format) of your Sentry Issues stream dashboard.
+
+The screenshot should verify:
+1. Sentry is successfully capturing runtime warning/error exceptions from your production environment.
+2. The browser environment client context tags are being captured correctly.
+3. Clean, readable Stack Traces corresponding to target component source files.
