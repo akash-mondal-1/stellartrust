@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useStellar } from '@/hooks/useStellar';
@@ -13,23 +14,68 @@ import {
   HelpCircle,
   ThumbsUp,
   AlertTriangle,
-  User
+  User,
+  ArrowRight
 } from 'lucide-react';
 
 export default function Reputation() {
-  const { address, connected, userProfile } = useStellar();
+  const { address, connected, userProfile, submitReview } = useStellar();
   const [reviews, setReviews] = useState<any[]>([]);
+  const [agreements, setAgreements] = useState<any[]>([]);
 
-  useEffect(() => {
+  // Form states
+  const [selectedAgreementId, setSelectedAgreementId] = useState<string>('');
+  const [ratingInput, setRatingInput] = useState<number>(5);
+  const [commentInput, setCommentInput] = useState<string>('');
+  const [submittingReview, setSubmittingReview] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const reloadData = () => {
     if (address) {
       setReviews(mockDb.getReviews().filter(r => r.target_address === address));
+      setAgreements(mockDb.getAgreements().filter(a => a.client_address === address || a.freelancer_address === address));
     }
+  };
+
+  useEffect(() => {
+    reloadData();
   }, [address]);
 
   // Calculations
   const trustScore = userProfile?.trust_score ?? 50;
   const rating = userProfile?.rating ?? 0.00;
   const completedCount = reviews.length;
+  
+  const allReviews = mockDb.getReviews();
+  const userHasReviewed = (agreementId: string) => {
+    return allReviews.some((r: any) => r.agreement_id === agreementId && r.author_address === address);
+  };
+
+  const eligibleAgreements = agreements.filter(a => 
+    a.status === 'Released' && !userHasReviewed(a.id)
+  );
+
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedAgreementId) return;
+    setSubmittingReview(true);
+    setSuccessMessage(null);
+    setErrorMessage(null);
+    try {
+      await submitReview(selectedAgreementId, ratingInput, commentInput);
+      setSuccessMessage('Feedback submitted successfully! The collaborator\'s rating and Trust Score have been updated.');
+      setSelectedAgreementId('');
+      setCommentInput('');
+      setRatingInput(5);
+      reloadData();
+    } catch (err: any) {
+      console.error(err);
+      setErrorMessage(err?.message || 'Failed to submit review.');
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
   
   const getRatingStars = (val: number) => {
     const stars = [];
@@ -157,6 +203,118 @@ export default function Reputation() {
                 </div>
 
               </div>
+
+              {/* Review Submission Section */}
+              <div className="glass-panel border border-white/5 rounded-2xl p-6 space-y-4">
+                <h3 className="text-base font-bold text-slate-200 flex items-center space-x-1.5">
+                  <ThumbsUp className="h-4.5 w-4.5 text-cyan-400" />
+                  <span>Leave Feedback for Collaborators</span>
+                </h3>
+
+                {eligibleAgreements.length === 0 ? (
+                  <div className="bg-slate-900/40 border border-white/5 rounded-xl p-4 text-xs text-slate-400 space-y-2">
+                    <p>No projects are currently pending your feedback.</p>
+                    <p className="text-slate-500">
+                      To submit on-chain feedback: Complete an escrow agreement, ensure payments are released, then return here to rate your partner's performance.
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleReviewSubmit} className="space-y-4">
+                    {successMessage && (
+                      <div className="p-3 bg-emerald-950/45 border border-emerald-800/40 text-emerald-400 rounded-xl text-xs font-bold">
+                        {successMessage}
+                      </div>
+                    )}
+                    {errorMessage && (
+                      <div className="p-3 bg-rose-950/45 border border-rose-800/40 text-rose-400 rounded-xl text-xs font-bold">
+                        {errorMessage}
+                      </div>
+                    )}
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase block tracking-wider">Select Completed Project</label>
+                        <select
+                          value={selectedAgreementId}
+                          onChange={(e) => setSelectedAgreementId(e.target.value)}
+                          required
+                          className="w-full bg-slate-900 border border-white/10 rounded-xl py-2 px-3 text-xs text-slate-350 focus:outline-none focus:border-cyan-500"
+                        >
+                          <option value="">-- Choose project --</option>
+                          {eligibleAgreements.map(a => (
+                            <option key={a.id} value={a.id}>
+                              {a.title} ({a.amount} XLM) - Partner: {address === a.client_address ? 'Freelancer' : 'Client'}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-300 uppercase block tracking-wider">Rating</label>
+                        <select
+                          value={ratingInput}
+                          onChange={(e) => setRatingInput(Number(e.target.value))}
+                          className="w-full bg-slate-900 border border-white/10 rounded-xl py-2 px-3 text-xs text-slate-350 focus:outline-none focus:border-cyan-500"
+                        >
+                          {[5, 4, 3, 2, 1].map(r => (
+                            <option key={r} value={r}>{r} Star{r > 1 ? 's' : ''}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-300 uppercase block tracking-wider">Review Comments</label>
+                      <textarea
+                        required
+                        value={commentInput}
+                        onChange={(e) => setCommentInput(e.target.value)}
+                        placeholder="Outstanding execution! Very quick turn-around."
+                        rows={2}
+                        className="w-full bg-slate-900 border border-white/10 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 resize-none"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={submittingReview}
+                      className="py-2.5 px-5 bg-gradient-to-r from-cyan-500 to-purple-600 hover:opacity-90 text-white font-extrabold text-xs rounded-xl shadow-md transition-all disabled:opacity-50"
+                    >
+                      {submittingReview ? 'Registering feedback...' : 'Submit On-Chain Review'}
+                    </button>
+                  </form>
+                )}
+              </div>
+
+              {/* Active Agreements checklist/helper */}
+              {agreements.filter(a => a.status !== 'Released' && a.status !== 'Cancelled').length > 0 && (
+                <div className="glass-panel border border-white/5 rounded-2xl p-6 space-y-4">
+                  <h3 className="text-base font-bold text-slate-200 flex items-center space-x-1.5">
+                    <FileText className="h-4.5 w-4.5 text-yellow-500" />
+                    <span>Your Active/In-Progress Projects</span>
+                  </h3>
+                  <div className="space-y-3">
+                    {agreements.filter(a => a.status !== 'Released' && a.status !== 'Cancelled').map(a => (
+                      <div key={a.id} className="flex justify-between items-center bg-slate-900/30 border border-white/5 p-3.5 rounded-xl text-xs">
+                        <div className="space-y-0.5">
+                          <h4 className="font-bold text-slate-200">{a.title}</h4>
+                          <div className="flex space-x-2 text-slate-500">
+                            <span>Status: <strong className="text-yellow-500/80">{a.status}</strong></span>
+                            <span>•</span>
+                            <span>Role: <strong>{address === a.client_address ? 'Client' : 'Freelancer'}</strong></span>
+                          </div>
+                        </div>
+                        <Link 
+                          href={`/escrow?id=${a.id}`}
+                          className="px-3 py-1.5 bg-slate-800 border border-white/10 text-cyan-400 hover:text-cyan-300 font-bold rounded-lg transition-colors"
+                        >
+                          Manage
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Review History Logs */}
               <div className="space-y-4">
