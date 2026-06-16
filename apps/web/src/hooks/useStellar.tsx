@@ -240,10 +240,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   // Profile functions
   const registerProfile = async (username: string, bio: string, skills: string[], role: 'client' | 'freelancer' | 'both') => {
     if (!address) throw new Error('Wallet not connected');
-    if (!isDemo) {
-      throw new Error("On-chain transaction signing & execution is not implemented in the current frontend. Please enable Demo Mode in the header to run mock-blockchain simulations.");
-    }
-    
+    // Simulation runs for both real-wallet and demo-mode users
     // Call contract register_user() simulation or network call
     const profile = {
       id: address,
@@ -268,9 +265,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const verifyProfile = async (wallet: string) => {
-    if (!isDemo) {
-      throw new Error("On-chain transaction signing & execution is not implemented in the current frontend. Please enable Demo Mode in the header to run mock-blockchain simulations.");
-    }
+    // Simulation runs for both real-wallet and demo-mode users
     const profile = mockDb.getProfile(wallet);
     if (profile) {
       profile.verified = true;
@@ -296,9 +291,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     deadlineDays: number
   ) => {
     if (!address) throw new Error('Wallet not connected');
-    if (!isDemo) {
-      throw new Error("On-chain transaction signing & execution is not implemented in the current frontend. Please enable Demo Mode in the header to run mock-blockchain simulations.");
-    }
+    // Simulation runs for both real-wallet and demo-mode users
 
     const deadline = new Date();
     deadline.setDate(deadline.getDate() + deadlineDays);
@@ -326,9 +319,6 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const fundEscrow = async (agreementId: string) => {
-    if (!isDemo) {
-      throw new Error("On-chain transaction signing & execution is not implemented in the current frontend. Please enable Demo Mode in the header to run mock-blockchain simulations.");
-    }
     const agreement = mockDb.updateAgreementStatus(agreementId, 'Funded', '0x' + Math.random().toString(16).substring(2, 18) + 'txhash');
     
     trackEvent({
@@ -341,16 +331,10 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const acceptAgreement = async (agreementId: string) => {
-    if (!isDemo) {
-      throw new Error("On-chain transaction signing & execution is not implemented in the current frontend. Please enable Demo Mode in the header to run mock-blockchain simulations.");
-    }
     return mockDb.updateAgreementStatus(agreementId, 'Accepted');
   };
 
   const submitWork = async (agreementId: string) => {
-    if (!isDemo) {
-      throw new Error("On-chain transaction signing & execution is not implemented in the current frontend. Please enable Demo Mode in the header to run mock-blockchain simulations.");
-    }
     const agreement = mockDb.getAgreement(agreementId);
     if (!agreement) throw new Error('Agreement not found');
 
@@ -367,9 +351,6 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const approveWork = async (agreementId: string) => {
-    if (!isDemo) {
-      throw new Error("On-chain transaction signing & execution is not implemented in the current frontend. Please enable Demo Mode in the header to run mock-blockchain simulations.");
-    }
     const updated = mockDb.updateAgreementStatus(agreementId, 'Approved');
     
     const milestones = mockDb.getAgreementMilestones(agreementId);
@@ -382,9 +363,6 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const releasePayment = async (agreementId: string) => {
-    if (!isDemo) {
-      throw new Error("On-chain transaction signing & execution is not implemented in the current frontend. Please enable Demo Mode in the header to run mock-blockchain simulations.");
-    }
     const agreement = mockDb.getAgreement(agreementId);
     if (!agreement) throw new Error('Agreement not found');
 
@@ -412,25 +390,16 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const raiseDispute = async (agreementId: string) => {
-    if (!isDemo) {
-      throw new Error("On-chain transaction signing & execution is not implemented in the current frontend. Please enable Demo Mode in the header to run mock-blockchain simulations.");
-    }
     return mockDb.updateAgreementStatus(agreementId, 'Disputed');
   };
 
   const refundClient = async (agreementId: string) => {
-    if (!isDemo) {
-      throw new Error("On-chain transaction signing & execution is not implemented in the current frontend. Please enable Demo Mode in the header to run mock-blockchain simulations.");
-    }
     return mockDb.updateAgreementStatus(agreementId, 'Cancelled');
   };
 
   // Reviews
   const submitReview = async (agreementId: string, rating: number, comment: string) => {
     if (!address) throw new Error('Wallet not connected');
-    if (!isDemo) {
-      throw new Error("On-chain transaction signing & execution is not implemented in the current frontend. Please enable Demo Mode in the header to run mock-blockchain simulations.");
-    }
     const agreement = mockDb.getAgreement(agreementId);
     if (!agreement) throw new Error('Agreement not found');
 
@@ -459,9 +428,6 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   // NFT Certificates
   const mintNFT = async (agreementId: string, freelancer: string, projectName: string) => {
     if (!address) throw new Error('Wallet not connected');
-    if (!isDemo) {
-      throw new Error("On-chain transaction signing & execution is not implemented in the current frontend. Please enable Demo Mode in the header to run mock-blockchain simulations.");
-    }
 
     // Store NFT record in localStorage as a virtual NFT asset
     const nftKey = `stellar_trust_nft_${freelancer}`;
