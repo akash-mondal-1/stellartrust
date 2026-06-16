@@ -33,8 +33,11 @@ This document catalogs the desktop and mobile user interface layouts captured by
 ---
 
 ## ⚙️ Automated Captures Script
+
 These screenshots are generated automatically by starting the local testing web server and running the Playwright screenshots runner:
+
 ```bash
 npm run test:screenshots --prefix apps/web
 ```
+
 This guarantees UI responsiveness checks remain easily reproducible.

@@ -9,27 +9,27 @@ StellarTrust is a decentralized freelance payment and trust protocol designed to
 
 ## 🚀 Key Features
 
-*   🔒 **On-Chain Milestone Escrow:** Payments are locked in Soroban smart contracts. Funds release is automated on client approval or mutual cancellation.
-*   📈 **Dynamic Trust Score Engine:** Reviews are logged on-chain. An algorithmic Reputation contract calculates and clamps user scores (0–100).
-*   🏆 **Completion Badge NFTs:** A non-transferable NFT certificate is issued to the freelancer for every project completed, containing metadata, signatures, and deliverables hashes.
-*   ⚡ **Zero-Trust Wallet Authentication:** Connects with Stellar wallets (Albedo, Freighter) via the Stellar Wallets Kit.
-*   🛠️ **Integrated Testing Hub:** Features a developer sandbox allowing testers to faucet XLM, seed simulation data (3+ profiles, active projects), and log feedback.
+* 🔒 **On-Chain Milestone Escrow:** Payments are locked in Soroban smart contracts. Funds release is automated on client approval or mutual cancellation.
+* 📈 **Dynamic Trust Score Engine:** Reviews are logged on-chain. An algorithmic Reputation contract calculates and clamps user scores (0–100).
+* 🏆 **Completion Badge NFTs:** A non-transferable NFT certificate is issued to the freelancer for every project completed, containing metadata, signatures, and deliverables hashes.
+* ⚡ **Zero-Trust Wallet Authentication:** Connects with Stellar wallets (Albedo, Freighter) via the Stellar Wallets Kit.
+* 🛠️ **Integrated Testing Hub:** Features a developer sandbox allowing testers to faucet XLM, seed simulation data (3+ profiles, active projects), and log feedback.
 
 ---
 
 ## 🛠️ Technology Stack
 
-*   **Frontend:** Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS, Framer Motion
-*   **Blockchain:** Stellar Testnet, Soroban Smart Contracts (Rust SDK v20.0.0), Stellar SDK, `@creit.tech/stellar-wallets-kit`
-*   **Database & Auth:** PostgreSQL (Supabase schema and RLS policies)
-*   **Monitoring & Analytics:** Sentry (exceptions tracking) & PostHog (event analytics)
-*   **CI/CD:** GitHub Actions (contracts tests and frontend builds)
+* **Frontend:** Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS, Framer Motion
+* **Blockchain:** Stellar Testnet, Soroban Smart Contracts (Rust SDK v20.0.0), Stellar SDK, `@creit.tech/stellar-wallets-kit`
+* **Database & Auth:** PostgreSQL (Supabase schema and RLS policies)
+* **Monitoring & Analytics:** Sentry (exceptions tracking) & PostHog (event analytics)
+* **CI/CD:** GitHub Actions (contracts tests and frontend builds)
 
 ---
 
 ## 📂 Project Structure
 
-```
+```text
 .
 ├── .github/workflows/       # GitHub Actions CI/CD pipeline
 ├── apps/
@@ -39,7 +39,6 @@ StellarTrust is a decentralized freelance payment and trust protocol designed to
 │       │   ├── components/  # Navbar, Footer, UI containers
 │       │   ├── hooks/       # useStellar hook (Stellar SDK wallet & mock simulator)
 │       │   └── lib/         # Supabase, Sentry, and PostHog clients
-├── contracts/               # Cargo Workspace for Soroban Contracts
 │   ├── Cargo.toml
 │   ├── identity/            # Identity profile contract
 │   ├── escrow/              # Milestones escrow state machine contract
@@ -67,15 +66,20 @@ The protocol contracts are deployed on **Stellar Testnet** at the following addr
 ## ⚙️ Local Development Setup
 
 ### Prerequisites
-*   Node.js v18+ & npm
-*   Rust toolchain with `wasm32-unknown-unknown` target (for contract compilation)
-    ```bash
-    rustup target add wasm32-unknown-unknown
-    ```
-*   Stellar CLI (Optional, for manual deployments)
+
+* Node.js v18+ & npm
+* Rust toolchain with `wasm32-unknown-unknown` target (for contract compilation)
+
+  ```bash
+  rustup target add wasm32-unknown-unknown
+  ```
+
+* Stellar CLI (Optional, for manual deployments)
 
 ### 1. Set Up Environment Variables
+
 Create a `.env.local` file inside `apps/web/` (default values are already supplied for quick sandbox runs):
+
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://stellartrust.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
@@ -88,16 +92,21 @@ NEXT_PUBLIC_NFT_CONTRACT=CD7VFS7P6E2V5X7Y8S55DDT5Q7G7F6UX6N6JLUWT9FCRNXZX7GNFTCe
 ```
 
 ### 2. Install Dependencies
-Run the installation in the web workspace:
+
+Roadmap installation in the web workspace:
+
 ```bash
 npm install --prefix apps/web
 ```
 
 ### 3. Run Frontend Server
+
 Launch the local dev server:
+
 ```bash
 npm run dev --prefix apps/web
 ```
+
 Open `http://localhost:3000` to interact with the platform. Click on **Testing Hub** in the header to seed mock profiles and evaluate the full escrow cycle instantly.
 
 ---
@@ -105,6 +114,7 @@ Open `http://localhost:3000` to interact with the platform. Click on **Testing H
 ## 🧪 Testing Smart Contracts
 
 Run Rust cargo unit tests directly to verify contract state transitions:
+
 ```bash
 cargo test --manifest-path contracts/Cargo.toml
 ```
@@ -115,15 +125,15 @@ cargo test --manifest-path contracts/Cargo.toml
 
 This repository structured development is built upon the following roadmap of meaningful commits:
 
-1.  `feat: initialize workspace directories and structures`
-2.  `feat: design relational supabase postgres schema migrations`
-3.  `feat: initialize nextjs app in apps/web with tailwind v4`
-4.  `feat: configure cargo workspace configuration for soroban`
-5.  `feat: implement identity registry smart contract in rust`
-6.  `feat: implement reputation calculations smart contract`
-7.  `feat: implement milestone payment escrow contract in rust`
-8.  `feat: implement project completion certificate nft contract`
-9.  `test: add rust mock tests for all four soroban contracts`
+1. `feat: initialize workspace directories and structures`
+2. `feat: design relational supabase postgres schema migrations`
+3. `feat: initialize nextjs app in apps/web with tailwind v4`
+4. `feat: configure cargo workspace configuration for soroban`
+5. `feat: implement identity registry smart contract in rust`
+6. `feat: implement reputation calculations smart contract`
+7. `feat: implement milestone payment escrow contract in rust`
+8. `feat: implement project completion certificate nft contract`
+9. `test: add rust mock tests for all four soroban contracts`
 10. `feat: implement local storage synced mock database fallback`
 11. `feat: integrate stellar sdk and wallets kit integration`
 12. `feat: build layout shell, navbar, and footer layout`
@@ -146,9 +156,9 @@ This repository structured development is built upon the following roadmap of me
 
 ## 🗺️ Future Roadmap
 
-*   👩‍⚖️ **Decentralized Arbitration (Escrow Dispute Guilds):** Let high-rating StellarTrust validators arbitrate disputes for micro-fees.
-*   💵 **Multi-Asset Pool Support:** Support locked escrow in USDC, EURC, and custom SEP-20 tokens.
-*   📄 **SEP-compliant Career Profiles:** Generate standardized XML resume templates linked directly to the freelancer's NFT gallery.
+* 👩‍⚖️ **Decentralized Arbitration (Escrow Dispute Guilds):** Let high-rating StellarTrust validators arbitrate disputes for micro-fees.
+* 💵 **Multi-Asset Pool Support:** Support locked escrow in USDC, EURC, and custom SEP-20 tokens.
+* 📄 **SEP-compliant Career Profiles:** Generate standardized XML resume templates linked directly to the freelancer's NFT gallery.
 
 ## 📸 Screenshots Showcase
 

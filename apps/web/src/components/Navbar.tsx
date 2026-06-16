@@ -28,7 +28,8 @@ export default function Navbar() {
     userProfile, 
     connectWallet, 
     disconnectWallet, 
-    toggleDemo 
+    toggleDemo,
+    error
   } = useStellar();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -297,6 +298,16 @@ export default function Navbar() {
                 <span>Connect Wallet</span>
               </button>
             )}
+          </div>
+        </div>
+      )}
+
+      {error && (
+        <div className="bg-rose-950/95 border-t border-rose-800 text-rose-200 px-4 py-3 text-sm flex items-start space-x-3 w-full font-mono max-h-40 overflow-y-auto">
+          <ShieldAlert className="h-5 w-5 text-rose-400 shrink-0 mt-0.5" />
+          <div className="flex-1 space-y-1">
+            <p className="font-bold">WALLET CONNECTION ERROR DETECTED:</p>
+            <pre className="whitespace-pre-wrap text-xs font-mono">{error}</pre>
           </div>
         </div>
       )}

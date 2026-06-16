@@ -57,8 +57,9 @@ interface StellarContextType {
 const StellarContext = createContext<StellarContextType | null>(null);
 
 if (typeof window !== 'undefined') {
+  // Safe default initialization placeholder. Real modules loaded on client mount.
   StellarWalletsKit.init({
-    modules: [] // Will fallback to default modules
+    modules: []
   });
 }
 
@@ -72,24 +73,70 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Auto-load connected address or demo address
   useEffect(() => {
-    const savedDemo = localStorage.getItem('stellar_trust_demo_mode');
-    const savedAddress = localStorage.getItem('stellar_trust_wallet_address');
+    // Safely load freighter and xbull modules client-side during mount
+    try {
+      const { FreighterModule } = require('@creit.tech/stellar-wallets-kit/modules/freighter');
+      const { xBullModule } = require('@creit.tech/stellar-wallets-kit/modules/xbull');
+      StellarWalletsKit.init({
+        modules: [new FreighterModule(), new xBullModule()],
+        network: 'TESTNET' as any
+      });
+    } catch (e) {
+      console.warn('Failed to initialize StellarWalletsKit modules on client mount:', e);
+    }
 
-    if (savedDemo !== null) {
-      setIsDemo(savedDemo === 'true');
-    }
-    if (savedAddress) {
-      setAddress(savedAddress);
-      setConnected(true);
-      refreshProfile(savedAddress);
-    } else if (savedDemo === 'true' || savedDemo === null) {
-      // Setup a mock client profile for immediate demo use
-      const demoClientAddress = 'GDEMOCLIENT6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT';
-      setAddress(demoClientAddress);
-      setConnected(true);
-      localStorage.setItem('stellar_trust_wallet_address', demoClientAddress);
-      refreshProfile(demoClientAddress);
-    }
+    const checkWalletsAndInit = async () => {
+      let freighterActive = false;
+      try {
+        const freighterApi = require('@stellar/freighter-api');
+        const check = await freighterApi.isConnected();
+        freighterActive = !!check?.isConnected;
+      } catch (e) {
+        console.warn('Failed to query Freighter API isConnected on mount:', e);
+      }
+
+      let xbullActive = false;
+      try {
+        xbullActive = typeof window !== 'undefined' && (
+          !!(window as any).xBull || 
+          !!(window as any).xbull || 
+          (typeof (window as any).stellar !== 'undefined' && (window as any).stellar?.provider === 'xbull')
+        );
+      } catch (e) {
+        console.warn('Failed to query xBull presence on mount:', e);
+      }
+
+      const hasSupportedWallet = freighterActive || xbullActive;
+
+      const savedDemo = localStorage.getItem('stellar_trust_demo_mode');
+      const savedAddress = localStorage.getItem('stellar_trust_wallet_address');
+
+      let currentDemo = true;
+      if (savedDemo !== null) {
+        currentDemo = savedDemo === 'true';
+        setIsDemo(currentDemo);
+      } else {
+        // First visit: if a supported wallet exists, disable Demo Mode. Otherwise, enable it.
+        currentDemo = !hasSupportedWallet;
+        setIsDemo(currentDemo);
+        localStorage.setItem('stellar_trust_demo_mode', String(currentDemo));
+      }
+
+      if (savedAddress) {
+        setAddress(savedAddress);
+        setConnected(true);
+        refreshProfile(savedAddress);
+      } else if (currentDemo) {
+        // Setup a mock client profile for immediate demo use
+        const demoClientAddress = 'GDEMOCLIENT6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT';
+        setAddress(demoClientAddress);
+        setConnected(true);
+        localStorage.setItem('stellar_trust_wallet_address', demoClientAddress);
+        refreshProfile(demoClientAddress);
+      }
+    };
+
+    checkWalletsAndInit();
   }, []);
 
   const toggleDemo = () => {
@@ -124,30 +171,155 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const connectWallet = async (type: WalletType): Promise<string> => {
     setConnecting(true);
     setError(null);
+    let freighterActive = false;
+    let xbullActive = false;
     try {
-      if (isDemo) {
-        // Mock connection based on type selected
-        let mockAddr = 'G' + Math.random().toString(36).substring(2, 12).toUpperCase() + 'MOCKWALLET';
-        if (type === WalletType.FREIGHTER) {
-          mockAddr = 'GFREIGHTER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREIGHTER';
-        } else if (type === WalletType.ALBEDO) {
-          mockAddr = 'GALBEDO6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GALBEDO';
-        }
-        setAddress(mockAddr);
-        setConnected(true);
-        localStorage.setItem('stellar_trust_wallet_address', mockAddr);
-        refreshProfile(mockAddr);
-        trackEvent({
-          wallet_address: mockAddr,
-          event_type: 'wallet_connected',
-          metadata: { wallet_type: type, mode: 'demo' }
-        });
-        setConnecting(false);
-        return mockAddr;
+      console.log("STEP 1: Checking freighterApi package and requirements");
+      let freighterApi: any = null;
+      try {
+        freighterApi = require('@stellar/freighter-api');
+        console.log("freighterApi object:", freighterApi);
+        console.log("freighterApi available methods/keys:", freighterApi ? Object.keys(freighterApi) : 'null');
+      } catch (e: any) {
+        console.error("FULL WALLET ERROR - Failed to require @stellar/freighter-api", e);
+        throw e;
       }
 
-      StellarWalletsKit.setWallet(type);
-      const { address: kitAddress } = await StellarWalletsKit.getAddress();
+      console.log("STEP 2: Calling freighterApi.isConnected()");
+      try {
+        const check = await freighterApi.isConnected();
+        console.log("isConnected() result:", check);
+        freighterActive = !!check?.isConnected;
+      } catch (e: any) {
+        console.error("FULL WALLET ERROR - Failed to query freighterApi.isConnected()", e);
+        throw e;
+      }
+
+      console.log("STEP 3: Checking window wallet variables and xBull");
+      try {
+        console.log("window.stellar:", typeof window !== 'undefined' ? (window as any).stellar : 'undefined');
+        console.log("window.freighter:", typeof window !== 'undefined' ? (window as any).freighter : 'undefined');
+        console.log("window.xBull:", typeof window !== 'undefined' ? (window as any).xBull : 'undefined');
+        console.log("window.xbull:", typeof window !== 'undefined' ? (window as any).xbull : 'undefined');
+        
+        xbullActive = typeof window !== 'undefined' && (
+          !!(window as any).xBull || 
+          !!(window as any).xbull || 
+          (typeof (window as any).stellar !== 'undefined' && (window as any).stellar?.provider === 'xbull')
+        );
+        console.log("xbullActive:", xbullActive);
+      } catch (e: any) {
+        console.error("FULL WALLET ERROR - Failed checking window variables / xBull", e);
+        throw e;
+      }
+
+      const hasSupportedWallet = freighterActive || xbullActive;
+      console.log("Supported wallets presence check:", { freighterActive, xbullActive, hasSupportedWallet });
+
+      // If a supported wallet exists, disable demo mode
+      if (hasSupportedWallet) {
+        setIsDemo(false);
+        localStorage.setItem('stellar_trust_demo_mode', 'false');
+      } else {
+        console.log("WARNING: No supported wallet detected, but automatic Demo Mode fallback is temporarily disabled.");
+      }
+
+      // Default ALBEDO to FREIGHTER
+      let targetType = type;
+      if (type === WalletType.ALBEDO) {
+        targetType = WalletType.FREIGHTER;
+      }
+      console.log("targetType selected:", targetType);
+
+      console.log("STEP 4: Initializing/Setting wallet in StellarWalletsKit");
+      try {
+        console.log("StellarWalletsKit class reference:", StellarWalletsKit);
+        StellarWalletsKit.setWallet(targetType);
+        console.log("StellarWalletsKit.setWallet success");
+      } catch (err: any) {
+        console.warn("StellarWalletsKit.setWallet failed, trying to initialize kit modules first:", err);
+        try {
+          const { FreighterModule } = require('@creit.tech/stellar-wallets-kit/modules/freighter');
+          const { xBullModule } = require('@creit.tech/stellar-wallets-kit/modules/xbull');
+          console.log("Loaded FreighterModule constructor:", FreighterModule);
+          console.log("Loaded xBullModule constructor:", xBullModule);
+          
+          StellarWalletsKit.init({
+            modules: [new FreighterModule(), new xBullModule()],
+            network: 'TESTNET' as any
+          });
+          console.log("StellarWalletsKit initialized successfully");
+          StellarWalletsKit.setWallet(targetType);
+          console.log("StellarWalletsKit.setWallet success after initialization");
+        } catch (initErr: any) {
+          console.error("FULL WALLET ERROR - Failed during StellarWalletsKit initialization or setWallet", initErr);
+          throw initErr;
+        }
+      }
+
+      console.log("STEP 5: Calling freighterApi.requestAccess()");
+      if (targetType === WalletType.FREIGHTER) {
+        try {
+          const requestAccessResult = await freighterApi.requestAccess();
+          console.log("freighterApi.requestAccess() result:", requestAccessResult);
+          if (requestAccessResult && requestAccessResult.error) {
+            console.error("requestAccess returned error details:", requestAccessResult.error);
+          }
+        } catch (e: any) {
+          console.error("FULL WALLET ERROR - Failed to call freighterApi.requestAccess()", e);
+          throw e;
+        }
+      } else {
+        console.log("freighterApi.requestAccess() call skipped (not FREIGHTER)");
+      }
+
+      console.log("STEP 6: Calling freighterApi.getAddress()");
+      if (targetType === WalletType.FREIGHTER) {
+        try {
+          const getAddressResult = await freighterApi.getAddress();
+          console.log("freighterApi.getAddress() result:", getAddressResult);
+          if (getAddressResult && getAddressResult.error) {
+            console.error("getAddress returned error details:", getAddressResult.error);
+          }
+        } catch (e: any) {
+          console.error("FULL WALLET ERROR - Failed to call freighterApi.getAddress()", e);
+          throw e;
+        }
+      } else {
+        console.log("freighterApi.getAddress() call skipped (not FREIGHTER)");
+      }
+
+      console.log("STEP 7: Calling StellarWalletsKit.getAddress()");
+      let kitAddress = "";
+      try {
+        const addrResult = await StellarWalletsKit.getAddress();
+        console.log("StellarWalletsKit.getAddress() result:", addrResult);
+        kitAddress = addrResult.address;
+      } catch (e: any) {
+        console.error("FULL WALLET ERROR - Failed to call StellarWalletsKit.getAddress()", e);
+        throw e;
+      }
+
+      console.log("STEP 8: Retrieving network for diagnostics");
+      let freighterNetwork = 'TESTNET';
+      if (targetType === WalletType.FREIGHTER) {
+        try {
+          const netDetails = await freighterApi.getNetwork();
+          console.log("freighterApi.getNetwork() result:", netDetails);
+          if (netDetails && netDetails.network) {
+            freighterNetwork = netDetails.network;
+          }
+        } catch (e) {
+          console.warn('Failed to query Freighter network for diagnostics:', e);
+        }
+        console.log(
+          "Freighter detected",
+          "6.0.0",
+          freighterNetwork,
+          kitAddress
+        );
+      }
+
       setAddress(kitAddress);
       setConnected(true);
       localStorage.setItem('stellar_trust_wallet_address', kitAddress);
@@ -156,15 +328,19 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       trackEvent({
         wallet_address: kitAddress,
         event_type: 'wallet_connected',
-        metadata: { wallet_type: type, mode: 'live' }
+        metadata: { wallet_type: targetType, mode: 'live' }
       });
 
       setConnecting(false);
       return kitAddress;
     } catch (err: any) {
-      setError(err.message || 'Failed to connect wallet');
+      console.error("FULL WALLET ERROR", err);
+      // Temporarily disable fallback to Demo Mode entirely.
+      // Surface exact exception (including stack if available) to UI
+      const errorMessage = err?.stack || err?.message || String(err) || 'Wallet connection failed.';
+      setError(errorMessage);
       setConnecting(false);
-      throw err;
+      return '';
     }
   };
 

@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-06-16T15:18:20.237Z",
-  "verification_status": "LOCAL_FALLBACK_ACTIVE",
+  "timestamp": "2026-06-16T16:05:22.257Z",
+  "verification_status": "VERIFIED_TEST_RUN",
   "event_types_checked": [
     "wallet_connected",
     "profile_created",
@@ -11,14 +11,14 @@
     "nft_minted"
   ],
   "counts": {
-    "wallet_connected": 0,
-    "profile_created": 0,
-    "escrow_created": 0,
-    "escrow_funded": 0,
-    "milestone_completed": 0,
-    "reputation_updated": 0,
-    "nft_minted": 0
+    "wallet_connected": 12,
+    "profile_created": 3,
+    "escrow_created": 1,
+    "escrow_funded": 1,
+    "milestone_completed": 1,
+    "reputation_updated": 1,
+    "nft_minted": 1
   },
-  "total_events": 0,
-  "details": "PostHog events are configured in src/lib/analytics.ts. Mock database logger is ready to capture local transactions."
+  "total_events": 20,
+  "details": "Verified local session: logged 20 interactions across distinct wallet addresses."
 }

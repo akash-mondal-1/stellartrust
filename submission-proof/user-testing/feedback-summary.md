@@ -1,36 +1,34 @@
 # 💬 User Feedback Summary
 
-This document registers the qualitative feedback and issues raised by users during the active testnet beta testing sessions.
+This document aggregates the actual feedback collected from users during the active testing sessions.
 
 ---
 
 ## 👥 User Count
-*   **Total Active Testers**: [Insert number of testers, target: 10+]
-*   **Unique Wallet Addresses**: [Insert count of verified wallet addresses]
+*   **Total Feedback Submissions**: 1
+*   **Unique Wallet Addresses**: 1
 
 ---
 
 ## 🌟 Positive Feedback
-*   *e.g. "The onboarding flow with username selection is very smooth and requires very low gas fees."*
-*   *e.g. "Milestone splitting makes payment guarantees feel much safer than lump-sum locks."*
-*   [Insert further positive feedback points gathered during manual runs]
+*   **GDEMOCLI... (16/6/2026)** [Rating: 5★]: "Test 1"
 
 ---
 
-## ⚠️ Issues Found
-*   *e.g. "Slight latency in updating wallet status when toggling browser extensions."*
-*   [Insert details of any bugs, transaction rejections, or error reports logged]
+## ⚠️ Negative Feedback
+*   *No negative feedback registered.*
 
 ---
 
-## 💡 Suggested Improvements
-*   *e.g. "Provide direct link to Friendbot testnet faucet on profile settings page if wallet has 0 XLM."*
-*   [Insert user ideas for enhancements and feature additions]
+## 🐛 Bugs Found
+*   *No bugs reported.*
 
 ---
 
-## 🔧 Resolution Status
-*   **Resolved Items**:
-    *   [Insert resolved details and commit hashes]
-*   **Pending Items**:
-    *   [Insert scheduled changes and target release schedules]
+## 💡 Feature Requests & Suggested Improvements
+*   *No feature requests registered.*
+
+---
+
+## 🔧 Resolved Items
+*   *No items marked as resolved.*
