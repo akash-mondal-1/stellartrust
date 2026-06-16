@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { StellarWalletsKit } from '@creit.tech/stellar-wallets-kit';
+
 import { mockDb } from '@/lib/supabase';
 import { trackEvent } from '@/lib/analytics';
 
@@ -54,13 +54,6 @@ interface StellarContextType {
 
 const StellarContext = createContext<StellarContextType | null>(null);
 
-if (typeof window !== 'undefined') {
-  // Safe default initialization placeholder. Real modules loaded on client mount.
-  StellarWalletsKit.init({
-    modules: []
-  });
-}
-
 export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [address, setAddress] = useState<string | null>(null);
   const [connecting, setConnecting] = useState(false);
@@ -71,17 +64,6 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Auto-load connected address or demo address
   useEffect(() => {
-    // Safely load freighter and xbull modules client-side during mount
-    try {
-      const { FreighterModule } = require('@creit.tech/stellar-wallets-kit/modules/freighter');
-      const { xBullModule } = require('@creit.tech/stellar-wallets-kit/modules/xbull');
-      StellarWalletsKit.init({
-        modules: [new FreighterModule(), new xBullModule()],
-        network: 'TESTNET' as any
-      });
-    } catch (e) {
-      console.warn('Failed to initialize StellarWalletsKit modules on client mount:', e);
-    }
 
     const checkWalletsAndInit = async () => {
       let freighterActive = false;
@@ -170,51 +152,57 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setConnecting(true);
     setError(null);
     try {
-      // ── STEP 1: Always re-initialize the kit with modules so activeModules is populated ──
-      console.log("STEP 1: Re-initializing StellarWalletsKit with FreighterModule + xBullModule");
-      const { FreighterModule } = require('@creit.tech/stellar-wallets-kit/modules/freighter');
-      const { xBullModule } = require('@creit.tech/stellar-wallets-kit/modules/xbull');
-      StellarWalletsKit.init({
-        modules: [new FreighterModule(), new xBullModule()],
-        network: 'TESTNET' as any,
-      });
-      console.log("STEP 1 OK: Kit initialized. Modules registered:", [
-        new FreighterModule().productId,
-        new xBullModule().productId,
-      ]);
+      // ── STEP 1: Verify Freighter extension is installed (window.freighter injected by extension) ──
+      console.log("STEP 1: Checking Freighter extension presence");
+      const { isConnected, requestAccess, getAddress } = require('@stellar/freighter-api');
 
-      // ── STEP 2: Resolve target wallet ID (must match module.productId exactly) ──
-      // WalletType.FREIGHTER = "freighter" matches FreighterModule.productId = "freighter"
-      // WalletType.XBULL = "xbull" matches xBullModule.productId = "xbull"
-      const targetId: string = type; // WalletType values are already correct productIds
-      console.log("STEP 2: targetId =", targetId, "| type passed =", type);
+      // Check if extension is installed (window.freighter is set by the extension regardless of permission)
+      const connStatus = await isConnected();
+      console.log("STEP 1: isConnected result =", connStatus);
 
-      // ── STEP 3: setWallet — select the module by productId ──
-      console.log("STEP 3: Calling StellarWalletsKit.setWallet('" + targetId + "')");
-      StellarWalletsKit.setWallet(targetId);
-      console.log("STEP 3 OK: setWallet succeeded");
+      // isConnected() returns false when NOT PERMITTED yet, but window.freighter is still set if extension exists
+      const extensionInstalled = typeof window !== 'undefined' && !!(window as any).freighter;
+      console.log("STEP 1: window.freighter present =", extensionInstalled);
 
-      // ── STEP 4: fetchAddress — actually invokes the module (triggers Freighter popup) ──
-      // This calls FreighterModule.getAddress() internally which does:
-      //   1. requestAccess() → opens Freighter popup
-      //   2. getAddress() → returns the public key
-      console.log("STEP 4: Calling StellarWalletsKit.fetchAddress() — this will trigger the wallet popup");
-      let walletAddress = "";
-      try {
-        const result = await StellarWalletsKit.fetchAddress();
-        console.log("STEP 4 OK: fetchAddress result =", result);
-        walletAddress = result.address;
-      } catch (fetchErr: any) {
-        console.error("FULL WALLET ERROR - fetchAddress() failed:", fetchErr);
-        throw fetchErr;
+      if (!extensionInstalled && !connStatus?.isConnected) {
+        throw new Error(
+          "Freighter extension not detected. Please install Freighter from freighter.app and refresh."
+        );
+      }
+
+      // ── STEP 2: requestAccess() — THIS opens the Freighter popup ──
+      // In @stellar/freighter-api v6, requestAccess() returns { address, error? }
+      // It shows the permission popup if not yet granted, then returns the public key.
+      console.log("STEP 2: Calling requestAccess() — popup will appear now");
+      const accessResult = await requestAccess();
+      console.log("STEP 2: requestAccess result =", accessResult);
+
+      if (accessResult?.error) {
+        throw new Error(`Access denied: ${accessResult.error}`);
+      }
+
+      // In v6, requestAccess returns { address } directly
+      let walletAddress: string = accessResult?.address || '';
+
+      // ── STEP 3: If requestAccess didn't return address, call getAddress() ──
+      if (!walletAddress) {
+        console.log("STEP 3: requestAccess returned no address, calling getAddress()");
+        const addrResult = await getAddress();
+        console.log("STEP 3: getAddress result =", addrResult);
+        if (addrResult?.error) {
+          throw new Error(`Failed to get address: ${addrResult.error}`);
+        }
+        walletAddress = addrResult?.address || '';
+      } else {
+        console.log("STEP 3: Address from requestAccess =", walletAddress);
       }
 
       if (!walletAddress) {
-        throw new Error("fetchAddress() returned empty address. User may have rejected the connection.");
+        throw new Error("No address returned. User may have rejected the connection request.");
       }
 
-      // ── STEP 5: Persist connection ──
-      console.log("STEP 5: Connection successful. Address =", walletAddress);
+      // ── STEP 4: Persist connection ──
+      console.log("STEP 4: Connection successful. Address =", walletAddress);
       setIsDemo(false);
       setAddress(walletAddress);
       setConnected(true);
@@ -225,7 +213,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       trackEvent({
         wallet_address: walletAddress,
         event_type: 'wallet_connected',
-        metadata: { wallet_type: targetId, mode: 'live' }
+        metadata: { wallet_type: type, mode: 'live' }
       });
 
       setConnecting(false);

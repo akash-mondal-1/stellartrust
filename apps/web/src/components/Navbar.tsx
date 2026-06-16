@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useStellar } from '@/hooks/useStellar';
+import { useStellar, WalletType } from '@/hooks/useStellar';
 import { mockDb } from '@/lib/supabase';
 import { 
   ShieldAlert, 
@@ -208,7 +208,7 @@ export default function Navbar() {
               </div>
             ) : (
               <button
-                onClick={() => connectWallet('ALBEDO' as any)} // Simple default
+                onClick={() => connectWallet(WalletType.FREIGHTER)}
                 disabled={connecting}
                 className="flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold text-sm px-5 py-2.5 rounded-xl hover:opacity-90 shadow-lg shadow-cyan-950/40 transition-all active:scale-95 disabled:opacity-50"
               >
@@ -289,7 +289,7 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={() => {
-                  connectWallet('ALBEDO' as any);
+                  connectWallet(WalletType.FREIGHTER);
                   setIsOpen(false);
                 }}
                 className="mt-2 w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold py-2.5 rounded-lg flex items-center justify-center space-x-1"

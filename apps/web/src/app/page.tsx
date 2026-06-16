@@ -16,7 +16,7 @@ import {
   Users,
   CheckCircle2
 } from 'lucide-react';
-import { useStellar } from '@/hooks/useStellar';
+import { useStellar, WalletType } from '@/hooks/useStellar';
 
 export default function LandingPage() {
   const { connected, connectWallet } = useStellar();
@@ -107,7 +107,7 @@ export default function LandingPage() {
             </Link>
             {!connected && (
               <button
-                onClick={() => connectWallet('ALBEDO' as any)}
+                onClick={() => connectWallet(WalletType.FREIGHTER)}
                 className="w-full sm:w-auto px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-slate-200 font-extrabold rounded-xl transition-all duration-200 flex items-center justify-center space-x-2"
               >
                 <span>Connect Wallet</span>
