@@ -280,9 +280,16 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (isDemo || !userAddress) return;
     try {
       console.log("Discovering on-chain agreements for address:", userAddress);
+      const localAgs = mockDb.getAgreements();
+      const maxLocalId = localAgs.reduce((max: number, a: any) => {
+        const parsed = parseInt(a.id);
+        return isNaN(parsed) ? max : Math.max(max, parsed);
+      }, 0);
+
+      const checkLimit = Math.max(10, maxLocalId + 5);
       const promises = [];
-      // Query IDs 1 to 150 in parallel
-      for (let id = 1; id <= 150; id++) {
+      // Query dynamically sized batch instead of spamming 150 parallel calls
+      for (let id = 1; id <= checkLimit; id++) {
         promises.push(getAgreement(id.toString()));
       }
       const results = await Promise.all(promises);
@@ -290,7 +297,6 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       
       console.log(`Discovered ${activeAgreements.length} active agreements on-chain. Filtering for user...`);
       
-      const localAgs = mockDb.getAgreements();
       let updated = false;
       
       for (const chainAg of activeAgreements) {

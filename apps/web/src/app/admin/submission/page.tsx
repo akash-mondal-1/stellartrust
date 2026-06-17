@@ -41,7 +41,53 @@ export default function SubmissionDashboard() {
   };
 
   const loadData = async () => {
-    setEvents(mockDb.getValidationEvents());
+    try {
+      const csvRes = await fetch('/api/export-csv');
+      let serverEvents: any[] = [];
+      if (csvRes.ok) {
+        serverEvents = await csvRes.json();
+      }
+      
+      const localEvents = mockDb.getValidationEvents();
+      const unsynced = localEvents.filter((local: any) => 
+        !serverEvents.some((server: any) => server.id === local.id)
+      );
+
+      if (unsynced.length > 0) {
+        const postRes = await fetch('/api/export-csv', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ events: localEvents })
+        });
+        if (postRes.ok) {
+          const data = await postRes.json();
+          if (data.success && data.events) {
+            mockDb.setStorage('validation_events', data.events);
+            setEvents(data.events);
+          } else {
+            setEvents(mockDb.getValidationEvents());
+          }
+        } else {
+          setEvents(mockDb.getValidationEvents());
+        }
+      } else {
+        let updated = false;
+        const mergedLocal = [...localEvents];
+        serverEvents.forEach((se: any) => {
+          if (!mergedLocal.some((le: any) => le.id === se.id)) {
+            mergedLocal.push(se);
+            updated = true;
+          }
+        });
+        if (updated) {
+          mockDb.setStorage('validation_events', mergedLocal);
+        }
+        setEvents(mockDb.getValidationEvents());
+      }
+    } catch (e) {
+      setEvents(mockDb.getValidationEvents());
+    }
+
     try {
       const res = await fetch('/api/export-feedback');
       if (res.ok) {
@@ -95,6 +141,8 @@ export default function SubmissionDashboard() {
     loadData();
     // Pre-test run triggers
     handleRunDiagnostic();
+    const interval = setInterval(loadData, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleRunDiagnostic = async () => {

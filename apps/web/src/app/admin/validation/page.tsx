@@ -26,16 +26,61 @@ export default function ValidationReport() {
 
   const loadEvents = async () => {
     try {
+      const res = await fetch('/api/export-csv');
+      let serverEvents: any[] = [];
+      if (res.ok) {
+        serverEvents = await res.json();
+      }
+      
       const localEvents = mockDb.getValidationEvents();
       let chainEvents: any[] = [];
       if (!isDemo) {
-        chainEvents = await getBlockchainEvents();
+        try {
+          chainEvents = await getBlockchainEvents();
+        } catch (e) {
+          console.warn("Audit Board getBlockchainEvents warning:", e);
+        }
       }
 
-      // Merge and deduplicate by ID
+      // Check if we have local events NOT present on the server
+      const unsynced = localEvents.filter((local: any) => 
+        !serverEvents.some((server: any) => server.id === local.id)
+      );
+
+      if (unsynced.length > 0) {
+        console.log(`Syncing ${unsynced.length} unsynced local validation events to server...`);
+        const postRes = await fetch('/api/export-csv', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ events: localEvents })
+        });
+        if (postRes.ok) {
+          const data = await postRes.json();
+          if (data.success && data.events) {
+            mockDb.setStorage('validation_events', data.events);
+            serverEvents = data.events;
+          }
+        }
+      } else {
+        // Sync server events down to local storage
+        let updated = false;
+        const mergedLocal = [...localEvents];
+        serverEvents.forEach((se: any) => {
+          if (!mergedLocal.some((le: any) => le.id === se.id)) {
+            mergedLocal.push(se);
+            updated = true;
+          }
+        });
+        if (updated) {
+          mockDb.setStorage('validation_events', mergedLocal);
+        }
+      }
+
+      // Merge and deduplicate by ID with chain events
       const allEventsMap = new Map<string, any>();
-      localEvents.forEach(e => allEventsMap.set(e.id, e));
-      chainEvents.forEach(e => allEventsMap.set(e.id, e));
+      serverEvents.forEach((e: any) => allEventsMap.set(e.id, e));
+      mockDb.getValidationEvents().forEach((e: any) => allEventsMap.set(e.id, e));
+      chainEvents.forEach((e: any) => allEventsMap.set(e.id, e));
 
       const sorted = Array.from(allEventsMap.values()).sort(
         (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
@@ -43,7 +88,11 @@ export default function ValidationReport() {
       setEvents(sorted);
     } catch (err) {
       console.error("Failed to load merged validation events:", err);
-      setEvents(mockDb.getValidationEvents());
+      const fallbackMap = new Map<string, any>();
+      mockDb.getValidationEvents().forEach((e: any) => fallbackMap.set(e.id, e));
+      setEvents(Array.from(fallbackMap.values()).sort(
+        (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      ));
     } finally {
       setLoading(false);
     }

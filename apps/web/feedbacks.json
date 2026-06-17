@@ -22,5 +22,29 @@
     "comment": "Loved the app",
     "category": "UI/UX Usability",
     "created_at": "2026-06-16T18:25:23.023Z"
+  },
+  {
+    "id": "wsuwkbyb3",
+    "user_address": "GDUJZO6O4IGRTYL2S37NYK5P74AKIJ2XCXUQF46AWIFTOJLWGKGTXYR3",
+    "rating": 5,
+    "comment": "Easy onboarding and clean UI.",
+    "category": "UI/UX Usability",
+    "created_at": "2026-06-17T12:56:58.792Z"
+  },
+  {
+    "id": "bu9wfv8p3",
+    "user_address": "GBED5MJWS2HY5NYMAMIOWT5RZANGS2R4PUQ5DTLX562S6NTOQJAYDOG4",
+    "rating": 4,
+    "comment": "Escrow workflow is smooth and understandable.",
+    "category": "On-Chain Escrows",
+    "created_at": "2026-06-17T13:08:04.128Z"
+  },
+  {
+    "id": "6qmiqop8u",
+    "user_address": "GBB7YHMDHBXSCNBLBEKVTHJHWROIO6O3VFM5ZSHEGGEYOKS5Q6B35TAG",
+    "rating": 4,
+    "comment": "Creating agreements was straightforward.",
+    "category": "Reputation Scores",
+    "created_at": "2026-06-17T13:52:08.724Z"
   }
 ]
