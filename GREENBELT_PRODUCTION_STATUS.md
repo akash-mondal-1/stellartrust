@@ -13,7 +13,7 @@ This document lists the production readiness and classification of every feature
 | **Verify Profile** | Next.js API Route + Admin Signature + Identity Contract (`verify_user`) | **REAL TESTNET** | Real Stellar Transaction Hash | Stellar Ledger persistent storage |
 | **Create Agreement** | Escrow Contract (`create_agreement`) | **REAL TESTNET** | Real Stellar Transaction Hash | Stellar Ledger persistent storage |
 | **Fund Escrow** | Escrow Contract (`fund_escrow`) + XLM native token transfer authorization | **REAL TESTNET** | Real Stellar Transaction Hash | Stellar Ledger persistent storage |
-| **Accept Agreement**| Escrow Contract (`accept_agreement`) | **REAL TESTNET** | Real Stellar Transaction Hash | Stellar Ledger persistent storage |
+| **Accept Agreement** | Escrow Contract (`accept_agreement`) | **REAL TESTNET** | Real Stellar Transaction Hash | Stellar Ledger persistent storage |
 | **Submit Work** | Escrow Contract (`submit_work`) | **REAL TESTNET** | Real Stellar Transaction Hash | Stellar Ledger persistent storage |
 | **Approve Work** | Escrow Contract (`approve_work`) | **REAL TESTNET** | Real Stellar Transaction Hash | Stellar Ledger persistent storage |
 | **Release Payment** | Escrow Contract (`release_payment`) + XLM native token payout | **REAL TESTNET** | Real Stellar Transaction Hash | Stellar Ledger persistent storage |
