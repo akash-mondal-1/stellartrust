@@ -86,8 +86,19 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       // Initialize the Stellar Wallets Kit static class client-side
       try {
         const { StellarWalletsKit, Networks } = require('@creit.tech/stellar-wallets-kit');
+        const { AlbedoModule } = require('@creit.tech/stellar-wallets-kit/modules/albedo');
+        const { FreighterModule } = require('@creit.tech/stellar-wallets-kit/modules/freighter');
+        const { xBullModule } = require('@creit.tech/stellar-wallets-kit/modules/xbull');
+        const { LobstrModule } = require('@creit.tech/stellar-wallets-kit/modules/lobstr');
+
         StellarWalletsKit.init({
-          network: Networks.TESTNET
+          network: Networks.TESTNET,
+          modules: [
+            new FreighterModule(),
+            new AlbedoModule(),
+            new xBullModule(),
+            new LobstrModule()
+          ]
         });
       } catch (err) {
         console.warn("Failed to initialize StellarWalletsKit:", err);
@@ -167,6 +178,26 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const refreshProfile = async (walletAddr: string) => {
+    let isValidAddress = false;
+    if (walletAddr) {
+      try {
+        new Address(walletAddr);
+        isValidAddress = true;
+      } catch (e) {
+        // Not a valid Stellar address format, treated as mock
+      }
+    }
+
+    if (isDemo || !isValidAddress) {
+      const fallback = mockDb.getProfile(walletAddr);
+      if (fallback) {
+        setUserProfile(fallback as UserSession);
+      } else {
+        setUserProfile({ address: walletAddr });
+      }
+      return;
+    }
+
     try {
       // 1. Fetch profile metadata from Identity contract
       const walletScVal = new Address(walletAddr).toScVal();
@@ -319,9 +350,23 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     localStorage.removeItem('stellar_trust_wallet_address');
     localStorage.removeItem('stellar_trust_demo_mode');
     try {
-      const { StellarWalletsKit } = require('@creit.tech/stellar-wallets-kit');
+      const { StellarWalletsKit, Networks } = require('@creit.tech/stellar-wallets-kit');
+      const { AlbedoModule } = require('@creit.tech/stellar-wallets-kit/modules/albedo');
+      const { FreighterModule } = require('@creit.tech/stellar-wallets-kit/modules/freighter');
+      const { xBullModule } = require('@creit.tech/stellar-wallets-kit/modules/xbull');
+      const { LobstrModule } = require('@creit.tech/stellar-wallets-kit/modules/lobstr');
+
+      StellarWalletsKit.init({
+        network: Networks.TESTNET,
+        modules: [
+          new FreighterModule(),
+          new AlbedoModule(),
+          new xBullModule(),
+          new LobstrModule()
+        ]
+      });
+
       console.log("Opening Stellar Wallets Kit Auth Modal...");
-      
       const result = await StellarWalletsKit.authModal();
       const walletAddress = result?.address || '';
 

@@ -30,4 +30,4 @@ This folder contains automatically generated screenshots of the StellarTrust app
 
 ---
 
-*Generated automatically on 16/6/2026 by Playwright screenshots spec.*
+*Generated automatically on 17/6/2026 by Playwright screenshots spec.*
