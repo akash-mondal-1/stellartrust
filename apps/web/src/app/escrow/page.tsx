@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, Suspense } from 'react';
+import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -43,7 +44,8 @@ function EscrowContent() {
     submitReview,
     mintNFT,
     syncAgreement,
-    modifyAgreement
+    modifyAgreement,
+    discoverAndSyncAgreements
   } = useStellar();
 
   // Creation form states
@@ -74,6 +76,26 @@ function EscrowContent() {
   const [modifyDeadlineExtend, setModifyDeadlineExtend] = useState(7);
   const [modifyDesc, setModifyDesc] = useState('');
   const [modifyWarning, setModifyWarning] = useState<string | null>(null);
+
+  // Agreements list for dashboard/fallback view
+  const [allAgreements, setAllAgreements] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!id && address) {
+      setAllAgreements(mockDb.getAgreements());
+      
+      if (!isDemo && discoverAndSyncAgreements) {
+        discoverAndSyncAgreements(address).then(() => {
+          setAllAgreements(mockDb.getAgreements());
+        });
+      }
+      
+      const interval = setInterval(() => {
+        setAllAgreements(mockDb.getAgreements());
+      }, 4000);
+      return () => clearInterval(interval);
+    }
+  }, [id, address, isDemo]);
 
   // Load details
   const loadAgreementDetails = async () => {
@@ -175,8 +197,9 @@ function EscrowContent() {
     <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8">
       
       {!id ? (
-        /* Create Escrow View */
-        <div className="max-w-2xl mx-auto space-y-6">
+        <>
+          {/* Create Escrow View */}
+          <div className="max-w-2xl mx-auto space-y-6">
           <div className="space-y-1 text-center md:text-left">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100">Create Work Agreement</h1>
             <p className="text-slate-400 text-sm">Lock payments securely in a Soroban escrow contract before starting work.</p>
@@ -273,6 +296,108 @@ function EscrowContent() {
             </form>
           </div>
         </div>
+
+        {/* Agreements List Section */}
+        {connected && (
+          <div className="space-y-6 mt-12">
+            <h2 className="text-xl font-bold text-slate-100 flex items-center justify-between">
+              <span>Your Escrow Agreements</span>
+              {!isDemo && discoverAndSyncAgreements && (
+                <button
+                  onClick={async () => {
+                    if (address) {
+                      setLoading(true);
+                      try {
+                        await discoverAndSyncAgreements(address);
+                        setAllAgreements(mockDb.getAgreements());
+                        alert("Synchronized with on-chain Soroban registry!");
+                      } catch (err: any) {
+                        alert("Failed to sync: " + (err.message || err));
+                      } finally {
+                        setLoading(false);
+                      }
+                    }
+                  }}
+                  disabled={loading}
+                  className="px-3 py-1 bg-purple-950/80 hover:bg-purple-900/40 border border-purple-800/30 text-purple-400 rounded-xl text-xs font-bold transition-all disabled:opacity-50"
+                >
+                  Sync Ledger Agreements
+                </button>
+              )}
+            </h2>
+            
+            {allAgreements.filter(ag => 
+              ag.client_address?.toLowerCase() === address?.toLowerCase() ||
+              ag.freelancer_address?.toLowerCase() === address?.toLowerCase()
+            ).length === 0 ? (
+              <div className="text-center py-12 bg-slate-900/20 border border-dashed border-slate-800 rounded-2xl">
+                <p className="text-sm text-slate-500">No agreements found. Create one above to get started.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {allAgreements.filter(ag => 
+                  ag.client_address?.toLowerCase() === address?.toLowerCase() ||
+                  ag.freelancer_address?.toLowerCase() === address?.toLowerCase()
+                ).map((ag: any) => {
+                  const isUserClient = ag.client_address?.toLowerCase() === address?.toLowerCase();
+                  const isUserFreelancer = ag.freelancer_address?.toLowerCase() === address?.toLowerCase();
+                  
+                  return (
+                    <div 
+                      key={ag.id} 
+                      className="glass-panel border border-white/5 rounded-2xl p-6 flex flex-col justify-between hover:border-cyan-500/20 transition-all duration-300 relative overflow-hidden"
+                    >
+                      {isUserFreelancer && ['Created', 'Funded'].includes(ag.status) && (
+                        <div className="absolute top-0 right-0 bg-purple-950/80 border-b border-l border-purple-800/35 px-2.5 py-1 text-[10px] font-bold text-purple-400 uppercase tracking-widest rounded-bl-xl">
+                          Pending Accept
+                        </div>
+                      )}
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-start">
+                          <h4 className="font-bold text-base text-slate-100 line-clamp-1 pr-24">{ag.title}</h4>
+                          <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${
+                            ag.status === 'Created' ? 'bg-yellow-950/45 text-yellow-400 border-yellow-800/40' :
+                            ag.status === 'Funded' ? 'bg-blue-950/45 text-blue-400 border-blue-800/40' :
+                            ag.status === 'Accepted' ? 'bg-indigo-950/45 text-indigo-400 border-indigo-800/40' :
+                            ag.status === 'Submitted' ? 'bg-purple-950/45 text-purple-400 border-purple-800/40' :
+                            ag.status === 'Approved' ? 'bg-pink-950/45 text-pink-400 border-pink-800/40' :
+                            ag.status === 'Released' ? 'bg-emerald-950/45 text-emerald-400 border-emerald-800/40' :
+                            ag.status === 'Disputed' ? 'bg-rose-950/45 text-rose-400 border-rose-800/40' :
+                            'bg-slate-900/60 text-slate-400 border-slate-700/40'
+                          }`}>
+                            {ag.status}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                          {ag.description || 'No description provided.'}
+                        </p>
+                      </div>
+
+                      <div className="border-t border-white/5 mt-4 pt-4 flex justify-between items-center text-xs">
+                        <div>
+                          <span className="text-slate-500 block text-[10px] font-semibold uppercase tracking-wider">Amount</span>
+                          <span className="font-extrabold text-slate-200">{ag.amount} XLM</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block text-[10px] font-semibold uppercase tracking-wider">Role</span>
+                          <span className="text-slate-300 font-semibold">{isUserClient ? 'Client' : 'Freelancer'}</span>
+                        </div>
+                        <Link
+                          href={`/escrow?id=${ag.id}`}
+                          className="flex items-center space-x-1 text-cyan-400 hover:text-cyan-300 font-bold"
+                        >
+                          <span>Manage</span>
+                          <ArrowRight className="h-4 w-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+        </>
       ) : (
         /* Manage Escrow details */
         loading || !agreement ? (

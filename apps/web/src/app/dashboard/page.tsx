@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 export default function Dashboard() {
-  const { address, connected, userProfile, isDemo, acceptAgreement } = useStellar();
+  const { address, connected, userProfile, isDemo, acceptAgreement, discoverAndSyncAgreements } = useStellar();
   
   const [activeRole, setActiveRole] = useState<'client' | 'freelancer'>('client');
   const [agreements, setAgreements] = useState<any[]>([]);
@@ -69,14 +69,32 @@ export default function Dashboard() {
     }
   }, [address]);
 
-  // Set default board role from user profile role settings
+  // Set default board role from user profile role settings or fallback to existing agreements role
   useEffect(() => {
     if (userProfile?.role === 'client') {
       setActiveRole('client');
     } else if (userProfile?.role === 'freelancer') {
       setActiveRole('freelancer');
+    } else if (address) {
+      const clientCount = agreements.filter(a => a.client_address?.toLowerCase() === address.toLowerCase()).length;
+      const freelancerCount = agreements.filter(a => a.freelancer_address?.toLowerCase() === address.toLowerCase()).length;
+      if (freelancerCount > 0 && clientCount === 0) {
+        setActiveRole('freelancer');
+      } else if (clientCount > 0 && freelancerCount === 0) {
+        setActiveRole('client');
+      }
     }
-  }, [userProfile?.role]);
+  }, [userProfile?.role, agreements, address]);
+
+  // Trigger on-chain agreement auto-discovery in live mode
+  useEffect(() => {
+    if (address && !isDemo && discoverAndSyncAgreements) {
+      console.log("Triggering on-chain auto-discovery on dashboard mount/wallet connect...");
+      discoverAndSyncAgreements(address).then(() => {
+        setAgreements(mockDb.getAgreements());
+      });
+    }
+  }, [address, isDemo]);
 
   const handleAcceptAgreement = async (id: string, status: string) => {
     if (status === 'Created' && !isDemo) {
@@ -242,6 +260,28 @@ export default function Dashboard() {
                   >
                     <span>Edit Profile</span>
                   </Link>
+                  {!isDemo && (
+                    <button
+                      onClick={async () => {
+                        if (address && discoverAndSyncAgreements) {
+                          setLoading(true);
+                          try {
+                            await discoverAndSyncAgreements(address);
+                            setAgreements(mockDb.getAgreements());
+                            alert("Synchronized with on-chain Soroban registry!");
+                          } catch (err: any) {
+                            alert("Failed to sync: " + (err.message || err));
+                          } finally {
+                            setLoading(false);
+                          }
+                        }
+                      }}
+                      disabled={loading}
+                      className="ml-2 px-3.5 py-1.5 bg-purple-950/80 hover:bg-purple-900/40 border border-purple-800/30 text-purple-400 rounded-xl text-xs font-bold transition-all disabled:opacity-50 flex items-center space-x-1"
+                    >
+                      <span>Sync Ledger Agreements</span>
+                    </button>
+                  )}
                 </div>
                 <p className="text-slate-400 text-sm">Review payments, metrics, and contracts sync status.</p>
               </div>
@@ -319,7 +359,7 @@ export default function Dashboard() {
             </div>
 
             {/* Freelancer Assignment Inbox */}
-            {activeRole === 'freelancer' && agreements.filter(
+            {agreements.filter(
               a => a.freelancer_address?.toLowerCase() === address?.toLowerCase() &&
                    ['Created', 'Funded'].includes(a.status)
             ).length > 0 && (

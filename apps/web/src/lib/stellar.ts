@@ -106,7 +106,7 @@ export async function submitTransaction(
     networkPassphrase: NETWORK_PASSPHRASE,
   })
   .addOperation(op)
-  .setTimeout(30)
+  .setTimeout(300)
   .build();
 
   // 3. Simulate and prepare transaction (appends footprint & resource fees)
@@ -136,7 +136,8 @@ export async function submitTransaction(
   const response = await server.sendTransaction(signedTx);
   
   if (response.status !== 'PENDING') {
-    throw new Error(`Transaction rejected by RPC: ${response.status}`);
+    console.error("sendTransaction failed details:", JSON.stringify(response, null, 2));
+    throw new Error(`Transaction rejected by RPC: ${response.status}. Details: ${JSON.stringify(response)}`);
   }
 
   const txHash = response.hash;
