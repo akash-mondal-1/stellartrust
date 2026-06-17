@@ -19,7 +19,8 @@ import {
   NFT_CONTRACT,
   XLM_TOKEN_CONTRACT,
   getAgreement,
-  getBlockchainEvents
+  getBlockchainEvents,
+  decodeScVal
 } from '@/lib/stellar';
 
 export enum WalletNetwork {
@@ -43,6 +44,7 @@ export interface UserSession {
   trust_score?: number;
   verified?: boolean;
   verification_tx?: string | null;
+  profile_tx?: string | null;
 }
 
 interface StellarContextType {
@@ -182,6 +184,63 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
   };
 
+  const fetchVerificationTxFromHorizon = async (walletAddr: string): Promise<string | null> => {
+    try {
+      const adminAddress = 'GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4'; // Admin public address
+      const res = await fetch(`https://horizon-testnet.stellar.org/accounts/${adminAddress}/operations?limit=100&order=desc`);
+      if (!res.ok) return null;
+      const data = await res.json();
+      if (!data._embedded || !data._embedded.records) return null;
+      
+      for (const op of data._embedded.records) {
+        if (op.type === 'invoke_host_function' && op.parameters) {
+          const funcParam = op.parameters[1];
+          if (funcParam && funcParam.type === 'Sym') {
+            const decodedFunc = decodeScVal(funcParam.value);
+            if (decodedFunc === 'verify_user') {
+              const userParam = op.parameters[2];
+              if (userParam && userParam.type === 'Address') {
+                const decodedUser = decodeScVal(userParam.value);
+                if (decodedUser?.toLowerCase() === walletAddr.toLowerCase()) {
+                  return op.transaction_hash;
+                }
+              }
+            }
+          }
+        }
+      }
+      return null;
+    } catch (err) {
+      console.warn("Failed to fetch verification tx from Horizon:", err);
+      return null;
+    }
+  };
+
+  const fetchProfileTxFromHorizon = async (walletAddr: string): Promise<string | null> => {
+    try {
+      const res = await fetch(`https://horizon-testnet.stellar.org/accounts/${walletAddr}/operations?limit=50&order=desc`);
+      if (!res.ok) return null;
+      const data = await res.json();
+      if (!data._embedded || !data._embedded.records) return null;
+
+      for (const op of data._embedded.records) {
+        if (op.type === 'invoke_host_function' && op.parameters) {
+          const funcParam = op.parameters[1];
+          if (funcParam && funcParam.type === 'Sym') {
+            const decodedFunc = decodeScVal(funcParam.value);
+            if (decodedFunc === 'register_user' || decodedFunc === 'update_profile') {
+              return op.transaction_hash;
+            }
+          }
+        }
+      }
+      return null;
+    } catch (err) {
+      console.warn("Failed to fetch profile tx from Horizon:", err);
+      return null;
+    }
+  };
+
   const refreshProfile = async (walletAddr: string) => {
     let isValidAddress = false;
     if (walletAddr) {
@@ -218,10 +277,31 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
         const localProf = mockDb.getProfile(walletAddr);
         const existingRole = localProf?.role || 'both';
 
-        // Retrieve transaction hash from the verify activity log
-        const logs = mockDb.getActivityLogs().filter((l: any) => l.user_address?.toLowerCase() === walletAddr.toLowerCase());
-        const verifyLog = logs.find((l: any) => l.action_type === 'verify_profile');
-        const verificationTx = verifyLog ? verifyLog.tx_hash : (localProf?.verification_tx || null);
+        // Retrieve transaction hash from the verify activity log (search by user address or inclusion in description)
+        const logs = mockDb.getActivityLogs();
+        const verifyLog = logs.find((l: any) => 
+          l.action_type === 'verify_profile' && 
+          (l.user_address?.toLowerCase() === walletAddr.toLowerCase() || 
+           l.description?.toLowerCase().includes(walletAddr.toLowerCase()))
+        );
+        let verificationTx = verifyLog ? verifyLog.tx_hash : (localProf?.verification_tx || null);
+
+        // Dynamic testnet Horizon verification fallback
+        if (!verificationTx && profileData.verified) {
+          verificationTx = await fetchVerificationTxFromHorizon(walletAddr);
+        }
+
+        // Retrieve profile registration transaction hash
+        const registerLog = logs.find((l: any) => 
+          l.action_type === 'register_profile' && 
+          l.user_address?.toLowerCase() === walletAddr.toLowerCase()
+        );
+        let profileTx = registerLog ? registerLog.tx_hash : (localProf?.profile_tx || null);
+
+        // Dynamic testnet Horizon profile update fallback
+        if (!profileTx) {
+          profileTx = await fetchProfileTxFromHorizon(walletAddr);
+        }
 
         updatedProfile = {
           address: walletAddr,
@@ -231,6 +311,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
           role: existingRole,
           verified: profileData.verified,
           verification_tx: verificationTx,
+          profile_tx: profileTx,
           trust_score: reputationData ? reputationData.trust_score : 50,
           rating: reputationData && reputationData.rating_count > 0 
             ? Number((reputationData.rating_sum / reputationData.rating_count).toFixed(2)) 
@@ -246,6 +327,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
           role: existingRole,
           verified: updatedProfile.verified || false,
           verification_tx: verificationTx,
+          profile_tx: profileTx,
           trust_score: updatedProfile.trust_score || 50,
           rating: updatedProfile.rating || 0.0
         });
@@ -616,9 +698,13 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setConnecting(false);
       return walletAddress;
     } catch (err: any) {
-      console.error("FULL WALLET ERROR", err);
       const errorMessage = err?.message || String(err) || 'Wallet connection failed.';
-      setError(errorMessage);
+      if (errorMessage.includes('closed') || errorMessage.includes('cancel') || errorMessage.includes('reject') || errorMessage === '[object Object]') {
+        console.warn(`Wallet connection request closed or rejected by user.`);
+      } else {
+        console.error("Wallet connection error:", err);
+      }
+      setError(errorMessage === '[object Object]' ? 'Connection cancelled or closed by user.' : errorMessage);
       setConnecting(false);
       return '';
     }
@@ -650,14 +736,15 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       role,
       verified: localProf?.verified || false,
       verification_tx: localProf?.verification_tx || null,
+      profile_tx: localProf?.profile_tx || null,
       trust_score: localProf?.trust_score || 50,
       rating: localProf?.rating || 0.0
     });
 
     if (isDemo) {
-      await refreshProfile(address);
       mockDb.addActivityLog(address, 'register_profile', `Registered user profile for @${username}`);
-      return mockDb.getProfile(address);
+      await refreshProfile(address);
+      return { ...mockDb.getProfile(address), txHash: null };
     }
 
     const walletScVal = new Address(address).toScVal();
@@ -677,8 +764,8 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       [walletScVal, usernameScVal, bioScVal, skillsScVal]
     );
 
-    await refreshProfile(address);
     mockDb.addActivityLog(address, 'register_profile', `Registered user profile for @${username}`, txHash);
+    await refreshProfile(address);
     
     trackEvent({
       wallet_address: address,
@@ -686,7 +773,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       metadata: { username, role, tx_hash: txHash }
     });
 
-    return result;
+    return { ...result, txHash };
   };
 
   const verifyProfile = async (wallet: string) => {
@@ -695,8 +782,8 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       if (profile) {
         profile.verified = true;
         mockDb.upsertProfile(profile);
-        if (address) {
-          mockDb.addActivityLog(address, 'verify_profile', `Verified user profile for ${wallet}`);
+        if (wallet) {
+          mockDb.addActivityLog(wallet, 'verify_profile', `Verified user profile for ${wallet}`);
         }
         if (wallet === address) {
           await refreshProfile(wallet);
@@ -718,10 +805,10 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       throw new Error(data.error || 'Identity verification failed');
     }
 
-    await refreshProfile(wallet);
-    if (address) {
-      mockDb.addActivityLog(address, 'verify_profile', `Verified user profile for ${wallet}`, data.txHash);
+    if (wallet) {
+      mockDb.addActivityLog(wallet, 'verify_profile', `Verified user profile for ${wallet}`, data.txHash);
     }
+    await refreshProfile(wallet);
     return data;
   };
 

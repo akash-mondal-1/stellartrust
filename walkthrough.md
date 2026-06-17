@@ -25,5 +25,9 @@ This walkthrough describes the implementation of missing UI options on the Reput
 
 ## 📈 Verification Results
 
-- Verified that all pages compile successfully and that the dev server runs without errors.
-- Confirmed that the new UI modules render cleanly in both client-side and simulated wallet modes.
+- **Profile Verification & Edit Transactions Fix**:
+  - Resolved the race condition by logging the activity hash *before* executing profile refreshes.
+  - Implemented dynamic fallback queries using the Stellar Horizon API (`horizon-testnet.stellar.org`) to scan the network transaction history. If the local storage state is cleared or empty, the app queries the admin's and user's operations history on-chain to locate the actual transaction hash.
+  - Added support for displaying the transaction hash of the profile update itself on the Settings screen, beneath the "Save Profile Details" button, in addition to the KYC Verification transaction hash.
+- Verified that all pages compile successfully and that the Next.js production build succeeds without errors.
+- Confirmed that the settings page renders and links the real on-chain transactions correctly for both creation/edits and KYC verification status.

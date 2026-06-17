@@ -75,7 +75,12 @@ export async function queryContract(
     }
     return null;
   } catch (err: any) {
-    console.error(`Error querying contract ${functionName}:`, err);
+    const msg = err?.message || String(err);
+    if (msg.includes('fetch') || msg.includes('Network Error') || msg.includes('timeout') || msg.includes('ENOTFOUND')) {
+      console.warn(`[Stellar RPC Network Status] Testnet node is temporarily unreachable for ${functionName}: ${msg}`);
+    } else {
+      console.error(`Error querying contract ${functionName}:`, err);
+    }
     return null;
   }
 }
@@ -357,8 +362,13 @@ export async function getBlockchainEvents(limit = 100): Promise<any[]> {
         txHash: ev.txHash || null
       };
     });
-  } catch (err) {
-    console.error("Failed to query live contract events from Stellar RPC:", err);
+  } catch (err: any) {
+    const msg = err?.message || String(err);
+    if (msg.includes('fetch') || msg.includes('Network Error') || msg.includes('timeout') || msg.includes('ENOTFOUND')) {
+      console.warn(`[Stellar RPC Network Status] Unreachable while querying events: ${msg}`);
+    } else {
+      console.error("Failed to query live contract events from Stellar RPC:", err);
+    }
     return [];
   }
 }

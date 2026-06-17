@@ -933,5 +933,66 @@
       "tx_hash": "1352ac9574c912fe5c11528d4f948e62222392abf2c52039fafe7b87aa57866c"
     },
     "created_at": "2026-06-17T14:18:19.574Z"
+  },
+  {
+    "id": "oab6qyh2v",
+    "wallet_address": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR",
+    "event_type": "wallet_connected",
+    "session_id": "sess_z6dcokbcy1",
+    "metadata": {
+      "wallet_type": "freighter",
+      "mode": "live"
+    },
+    "created_at": "2026-06-17T18:33:51.446Z"
+  },
+  {
+    "id": "d2fj5o8qp",
+    "wallet_address": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR",
+    "event_type": "escrow_created",
+    "session_id": "sess_z6dcokbcy1",
+    "metadata": {
+      "agreement_id": "3",
+      "amount": 100,
+      "title": "Fix broken ui",
+      "tx_hash": "e53f83ab1294267796b76dcf4c118da0db19615ad6d38d7c089cd60b956eddee"
+    },
+    "created_at": "2026-06-17T18:35:59.800Z"
+  },
+  {
+    "id": "j74uiur8j",
+    "wallet_address": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR",
+    "event_type": "escrow_funded",
+    "session_id": "sess_z6dcokbcy1",
+    "metadata": {
+      "agreement_id": "3",
+      "tx_hash": "ed2436affdc836816387d2cf2a0e45b7e5f60a527c454078073a04cd14d3e044"
+    },
+    "created_at": "2026-06-17T18:38:08.709Z"
+  },
+  {
+    "id": "32hapzl7e",
+    "wallet_address": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR",
+    "event_type": "milestone_completed",
+    "session_id": "sess_z6dcokbcy1",
+    "metadata": {
+      "agreement_id": "3",
+      "all_released": false,
+      "current_status": "Accepted",
+      "tx_hash": "51b8f9d8f68514581668d511c1c97683664354c4a466c089960da5ffa36ccb7e"
+    },
+    "created_at": "2026-06-17T18:45:15.337Z"
+  },
+  {
+    "id": "eh231xdxg",
+    "wallet_address": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR",
+    "event_type": "reputation_updated",
+    "session_id": "sess_z6dcokbcy1",
+    "metadata": {
+      "agreement_id": "3",
+      "rating": 5,
+      "target": "GADMWKIK3KRYWWDFL7W3KIRU2CJ3O27ZYEGZ72YIQ4IKFTNWYBIZEAD7",
+      "tx_hash": "88c5c3e523ba2de78e20a2039055428fe6c3be9ea135a13724029357bfabfeba"
+    },
+    "created_at": "2026-06-17T18:47:46.402Z"
   }
 ]

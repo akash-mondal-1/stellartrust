@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 export default function Settings() {
-  const { address, connected, userProfile, registerProfile, verifyProfile } = useStellar();
+  const { address, connected, userProfile, registerProfile, verifyProfile, isDemo } = useStellar();
 
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
@@ -57,8 +57,16 @@ export default function Settings() {
         .map(s => s.trim())
         .filter(s => s.length > 0);
 
-      await registerProfile(username.trim(), bio.trim(), skills, role);
-      setMessage({ type: 'success', text: 'Profile updated successfully on-chain!' });
+      const res = await registerProfile(username.trim(), bio.trim(), skills, role);
+      const txHash = res?.txHash || (res && typeof res === 'object' ? res.txHash : null);
+      if (txHash) {
+        setMessage({ 
+          type: 'success', 
+          text: `Profile updated successfully on-chain! Tx Hash: ${txHash}` 
+        });
+      } else {
+        setMessage({ type: 'success', text: 'Profile updated successfully on-chain!' });
+      }
     } catch (err: any) {
       setMessage({ type: 'error', text: err.message || 'Failed to update profile' });
     } finally {
@@ -213,6 +221,20 @@ export default function Settings() {
                 >
                   {saving ? 'Updating Ledger Profile...' : 'Save Profile Details'}
                 </button>
+
+                {!isDemo && userProfile?.profile_tx && (
+                  <div className="text-[10px] text-slate-400 font-mono text-center pt-2.5 break-all">
+                    <span className="text-slate-500 font-semibold uppercase tracking-wider block mb-0.5">Profile Contract Tx:</span>
+                    <a
+                      href={`https://stellar.expert/explorer/testnet/tx/${userProfile.profile_tx}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors"
+                    >
+                      {userProfile.profile_tx}
+                    </a>
+                  </div>
+                )}
 
               </form>
             </div>
