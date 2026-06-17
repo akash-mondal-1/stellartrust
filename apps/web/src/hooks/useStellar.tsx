@@ -4,6 +4,20 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 import { mockDb } from '@/lib/supabase';
 import { trackEvent } from '@/lib/analytics';
+import { 
+  queryContract, 
+  submitTransaction, 
+  validateAddress,
+  nativeToScVal, 
+  scValToNative, 
+  ScInt, 
+  Address,
+  IDENTITY_CONTRACT,
+  ESCROW_CONTRACT,
+  REPUTATION_CONTRACT,
+  NFT_CONTRACT,
+  XLM_TOKEN_CONTRACT
+} from '@/lib/stellar';
 
 export enum WalletNetwork {
   PUBLIC = "PUBLIC",
@@ -64,7 +78,6 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Auto-load connected address or demo address
   useEffect(() => {
-
     const checkWalletsAndInit = async () => {
       let freighterActive = false;
       try {
@@ -139,12 +152,58 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
   };
 
-  const refreshProfile = (walletAddr: string) => {
-    const profile = mockDb.getProfile(walletAddr);
-    if (profile) {
-      setUserProfile(profile as UserSession);
-    } else {
-      setUserProfile({ address: walletAddr });
+  const refreshProfile = async (walletAddr: string) => {
+    try {
+      // 1. Fetch profile metadata from Identity contract
+      const walletScVal = new Address(walletAddr).toScVal();
+      const profileData = await queryContract(IDENTITY_CONTRACT, 'get_profile', [walletScVal]);
+
+      // 2. Fetch reputation statistics from Reputation contract
+      const reputationData = await queryContract(REPUTATION_CONTRACT, 'get_reputation', [walletScVal]);
+
+      let updatedProfile: UserSession = { address: walletAddr };
+
+      if (profileData) {
+        updatedProfile = {
+          address: walletAddr,
+          username: profileData.username,
+          bio: profileData.bio,
+          skills: profileData.skills,
+          verified: profileData.verified,
+          trust_score: reputationData ? reputationData.trust_score : 50,
+          rating: reputationData && reputationData.rating_count > 0 
+            ? Number((reputationData.rating_sum / reputationData.rating_count).toFixed(2)) 
+            : 0.0,
+        };
+
+        // Sync with mockDb so other pages/components querying mockDb remain updated
+        mockDb.upsertProfile({
+          id: walletAddr,
+          username: updatedProfile.username || '',
+          bio: updatedProfile.bio || '',
+          skills: updatedProfile.skills || [],
+          role: 'both',
+          verified: updatedProfile.verified || false,
+          trust_score: updatedProfile.trust_score || 50,
+          rating: updatedProfile.rating || 0.0
+        });
+      } else {
+        // Fallback to local storage if not registered on-chain yet
+        const localProf = mockDb.getProfile(walletAddr);
+        if (localProf) {
+          updatedProfile = localProf as UserSession;
+        }
+      }
+
+      setUserProfile(updatedProfile);
+    } catch (e) {
+      console.error('Failed to refresh profile from blockchain:', e);
+      const fallback = mockDb.getProfile(walletAddr);
+      if (fallback) {
+        setUserProfile(fallback as UserSession);
+      } else {
+        setUserProfile({ address: walletAddr });
+      }
     }
   };
 
@@ -155,15 +214,12 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     localStorage.removeItem('stellar_trust_wallet_address');
     localStorage.removeItem('stellar_trust_demo_mode');
     try {
-      // ── STEP 1: Verify Freighter extension is installed (window.freighter injected by extension) ──
       console.log("STEP 1: Checking Freighter extension presence");
       const { isConnected, requestAccess, getAddress } = require('@stellar/freighter-api');
 
-      // Check if extension is installed (window.freighter is set by the extension regardless of permission)
       const connStatus = await isConnected();
       console.log("STEP 1: isConnected result =", connStatus);
 
-      // isConnected() returns false when NOT PERMITTED yet, but window.freighter is still set if extension exists
       const extensionInstalled = typeof window !== 'undefined' && !!(window as any).freighter;
       console.log("STEP 1: window.freighter present =", extensionInstalled);
 
@@ -173,9 +229,6 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
         );
       }
 
-      // ── STEP 2: requestAccess() — THIS opens the Freighter popup ──
-      // In @stellar/freighter-api v6, requestAccess() returns { address, error? }
-      // It shows the permission popup if not yet granted, then returns the public key.
       console.log("STEP 2: Calling requestAccess() — popup will appear now");
       const accessResult = await requestAccess();
       console.log("STEP 2: requestAccess result =", accessResult);
@@ -184,10 +237,8 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
         throw new Error(`Access denied: ${accessResult.error}`);
       }
 
-      // In v6, requestAccess returns { address } directly
       let walletAddress: string = accessResult?.address || '';
 
-      // ── STEP 3: If requestAccess didn't return address, call getAddress() ──
       if (!walletAddress) {
         console.log("STEP 3: requestAccess returned no address, calling getAddress()");
         const addrResult = await getAddress();
@@ -196,22 +247,20 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
           throw new Error(`Failed to get address: ${addrResult.error}`);
         }
         walletAddress = addrResult?.address || '';
-      } else {
-        console.log("STEP 3: Address from requestAccess =", walletAddress);
       }
 
       if (!walletAddress) {
         throw new Error("No address returned. User may have rejected the connection request.");
       }
 
-      // ── STEP 4: Persist connection ──
       console.log("STEP 4: Connection successful. Address =", walletAddress);
       setIsDemo(false);
       setAddress(walletAddress);
       setConnected(true);
       localStorage.setItem('stellar_trust_wallet_address', walletAddress);
       localStorage.setItem('stellar_trust_demo_mode', 'false');
-      refreshProfile(walletAddress);
+      
+      await refreshProfile(walletAddress);
 
       trackEvent({
         wallet_address: walletAddress,
@@ -238,47 +287,85 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   // Profile functions
-  const registerProfile = async (username: string, bio: string, skills: string[], role: 'client' | 'freelancer' | 'both') => {
+  const registerProfile = async (
+    username: string, 
+    bio: string, 
+    skills: string[], 
+    role: 'client' | 'freelancer' | 'both'
+  ) => {
     if (!address) throw new Error('Wallet not connected');
-    // Simulation runs for both real-wallet and demo-mode users
-    // Call contract register_user() simulation or network call
-    const profile = {
-      id: address,
-      username,
-      bio,
-      skills,
-      role,
-      verified: false
-    };
+    
+    if (isDemo) {
+      const profile = { id: address, username, bio, skills, role, verified: false };
+      mockDb.upsertProfile(profile);
+      await refreshProfile(address);
+      mockDb.addActivityLog(address, 'register_profile', `Registered user profile for @${username}`);
+      return profile;
+    }
 
-    mockDb.upsertProfile(profile);
-    refreshProfile(address);
-    mockDb.addActivityLog(address, 'register_profile', `Registered user profile for @${username}`);
+    const walletScVal = new Address(address).toScVal();
+    const usernameScVal = nativeToScVal(username);
+    const bioScVal = nativeToScVal(bio);
+    const skillsScVal = nativeToScVal(skills);
+
+    // Check if user is already registered to choose register or update method
+    const existing = await queryContract(IDENTITY_CONTRACT, 'get_profile', [walletScVal]);
+    const method = existing ? 'update_profile' : 'register_user';
+
+    console.log(`Executing ${method} on-chain for profile @${username}...`);
+    const { txHash, result } = await submitTransaction(
+      address,
+      IDENTITY_CONTRACT,
+      method,
+      [walletScVal, usernameScVal, bioScVal, skillsScVal]
+    );
+
+    await refreshProfile(address);
+    mockDb.addActivityLog(address, 'register_profile', `Registered user profile for @${username}`, txHash);
     
     trackEvent({
-      wallet_address: address || "",
+      wallet_address: address,
       event_type: 'profile_created',
-      metadata: { username, role }
+      metadata: { username, role, tx_hash: txHash }
     });
 
-    return profile;
+    return result;
   };
 
   const verifyProfile = async (wallet: string) => {
-    // Simulation runs for both real-wallet and demo-mode users
-    const profile = mockDb.getProfile(wallet);
-    if (profile) {
-      profile.verified = true;
-      mockDb.upsertProfile(profile);
-      if (address) {
-        mockDb.addActivityLog(address, 'verify_profile', `Verified user profile for ${wallet}`);
+    if (isDemo) {
+      const profile = mockDb.getProfile(wallet);
+      if (profile) {
+        profile.verified = true;
+        mockDb.upsertProfile(profile);
+        if (address) {
+          mockDb.addActivityLog(address, 'verify_profile', `Verified user profile for ${wallet}`);
+        }
+        if (wallet === address) {
+          await refreshProfile(wallet);
+        }
+        return profile;
       }
-      if (wallet === address) {
-        refreshProfile(wallet);
-      }
-      return profile;
+      throw new Error('Profile not found');
     }
-    throw new Error('Profile not found');
+
+    console.log(`Triggering admin identity verification endpoint for ${wallet}...`);
+    const res = await fetch('/api/verify-profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ wallet }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || 'Identity verification failed');
+    }
+
+    await refreshProfile(wallet);
+    if (address) {
+      mockDb.addActivityLog(address, 'verify_profile', `Verified user profile for ${wallet}`, data.txHash);
+    }
+    return data;
   };
 
   // Escrow functions
@@ -291,56 +378,188 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     deadlineDays: number
   ) => {
     if (!address) throw new Error('Wallet not connected');
-    // Simulation runs for both real-wallet and demo-mode users
 
-    const deadline = new Date();
-    deadline.setDate(deadline.getDate() + deadlineDays);
+    if (isDemo) {
+      const deadline = new Date();
+      deadline.setDate(deadline.getDate() + deadlineDays);
+      const agreement = {
+        title,
+        description: desc,
+        client_address: address,
+        freelancer_address: freelancer,
+        amount,
+        token_address: XLM_TOKEN_CONTRACT,
+        milestone_count: milestoneCount,
+        deadline: deadline.toISOString(),
+      };
+      return mockDb.createAgreement(agreement);
+    }
 
+    validateAddress(freelancer);
+
+    const clientScVal = new Address(address).toScVal();
+    const freelancerScVal = new Address(freelancer).toScVal();
+    
+    // Scale amount to Stroops (1 XLM = 10^7 Stroops)
+    const stroops = BigInt(Math.round(amount * 10000000));
+    const amountScVal = new ScInt(stroops).toI128();
+    
+    const tokenScVal = new Address(XLM_TOKEN_CONTRACT).toScVal();
+    
+    const deadlineDate = new Date();
+    deadlineDate.setDate(deadlineDate.getDate() + deadlineDays);
+    const deadlineSeconds = BigInt(Math.floor(deadlineDate.getTime() / 1000));
+    const deadlineScVal = nativeToScVal(deadlineSeconds);
+    
+    const milestoneCountScVal = nativeToScVal(milestoneCount); // converts to scvU64/u32 representation
+
+    console.log("Creating escrow agreement on-chain...");
+    const { txHash, result: agreementId } = await submitTransaction(
+      address,
+      ESCROW_CONTRACT,
+      'create_agreement',
+      [
+        clientScVal,
+        freelancerScVal,
+        amountScVal,
+        tokenScVal,
+        deadlineScVal,
+        milestoneCountScVal
+      ]
+    );
+
+    console.log(`Agreement created successfully. ID: ${agreementId}, Tx Hash: ${txHash}`);
+
+    // Store in local storage using the real contract's generated u32 ID
     const agreement = {
+      id: agreementId.toString(),
       title,
       description: desc,
       client_address: address,
       freelancer_address: freelancer,
       amount,
-      token_address: 'CDLZFC3SYJYDZT7KMGV55XX2XZPP2D4EE3CYC5EFO7ISXYCLAT234TRZ', // XLM Native
+      token_address: XLM_TOKEN_CONTRACT,
       milestone_count: milestoneCount,
-      deadline: deadline.toISOString(),
+      deadline: deadlineDate.toISOString(),
+      tx_hash: txHash,
     };
 
     const newAgreement = mockDb.createAgreement(agreement);
+
+    // Sync IDs in local storage mockDb
+    const agreements = mockDb.getAgreements();
+    const idx = agreements.findIndex(a => a.id === newAgreement.id);
+    if (idx >= 0) {
+      agreements[idx].id = agreementId.toString();
+      mockDb.setStorage('agreements', agreements);
+    }
+
+    const milestones = mockDb.getMilestones();
+    milestones.forEach(m => {
+      if (m.agreement_id === newAgreement.id) {
+        m.agreement_id = agreementId.toString();
+      }
+    });
+    mockDb.setStorage('milestones', milestones);
     
     trackEvent({
-      wallet_address: address || "",
+      wallet_address: address,
       event_type: 'escrow_created',
-      metadata: { agreement_id: newAgreement.id, amount, title }
+      metadata: { agreement_id: agreementId.toString(), amount, title, tx_hash: txHash }
     });
 
-    return newAgreement;
+    return { ...newAgreement, id: agreementId.toString() };
   };
 
   const fundEscrow = async (agreementId: string) => {
-    const agreement = mockDb.updateAgreementStatus(agreementId, 'Funded', '0x' + Math.random().toString(16).substring(2, 18) + 'txhash');
+    if (!address) throw new Error('Wallet not connected');
+
+    if (isDemo) {
+      const agreement = mockDb.updateAgreementStatus(agreementId, 'Funded', '0x' + Math.random().toString(16).substring(2, 18) + 'txhash');
+      trackEvent({
+        wallet_address: address,
+        event_type: 'escrow_funded',
+        metadata: { agreement_id: agreementId }
+      });
+      return agreement;
+    }
+
+    const agreementIdNum = parseInt(agreementId);
+    if (isNaN(agreementIdNum)) {
+      throw new Error(`Invalid agreement ID: ${agreementId}`);
+    }
+
+    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const clientScVal = new Address(address).toScVal();
+
+    console.log(`Funding escrow on-chain for agreement ID: ${agreementIdNum}...`);
+    const { txHash } = await submitTransaction(
+      address,
+      ESCROW_CONTRACT,
+      'fund_escrow',
+      [agreementIdScVal, clientScVal]
+    );
+
+    const agreement = mockDb.updateAgreementStatus(agreementId, 'Funded', txHash);
     
     trackEvent({
-      wallet_address: address || "",
+      wallet_address: address,
       event_type: 'escrow_funded',
-      metadata: { agreement_id: agreementId }
+      metadata: { agreement_id: agreementId, tx_hash: txHash }
     });
 
     return agreement;
   };
 
   const acceptAgreement = async (agreementId: string) => {
-    return mockDb.updateAgreementStatus(agreementId, 'Accepted');
+    if (!address) throw new Error('Wallet not connected');
+
+    if (isDemo) {
+      return mockDb.updateAgreementStatus(agreementId, 'Accepted');
+    }
+
+    const agreementIdNum = parseInt(agreementId);
+    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const freelancerScVal = new Address(address).toScVal();
+
+    console.log(`Accepting agreement on-chain for ID: ${agreementIdNum}...`);
+    const { txHash } = await submitTransaction(
+      address,
+      ESCROW_CONTRACT,
+      'accept_agreement',
+      [agreementIdScVal, freelancerScVal]
+    );
+
+    return mockDb.updateAgreementStatus(agreementId, 'Accepted', txHash);
   };
 
   const submitWork = async (agreementId: string) => {
-    const agreement = mockDb.getAgreement(agreementId);
-    if (!agreement) throw new Error('Agreement not found');
+    if (!address) throw new Error('Wallet not connected');
 
-    const updated = mockDb.updateAgreementStatus(agreementId, 'Submitted');
+    if (isDemo) {
+      const updated = mockDb.updateAgreementStatus(agreementId, 'Submitted');
+      const milestones = mockDb.getAgreementMilestones(agreementId);
+      const pending = milestones.find((m: any) => m.status === 'Pending');
+      if (pending) {
+        mockDb.updateMilestoneStatus(pending.id, 'Submitted');
+      }
+      return updated;
+    }
+
+    const agreementIdNum = parseInt(agreementId);
+    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const freelancerScVal = new Address(address).toScVal();
+
+    console.log(`Submitting milestone work on-chain for ID: ${agreementIdNum}...`);
+    const { txHash } = await submitTransaction(
+      address,
+      ESCROW_CONTRACT,
+      'submit_work',
+      [agreementIdScVal, freelancerScVal]
+    );
+
+    const updated = mockDb.updateAgreementStatus(agreementId, 'Submitted', txHash);
     
-    // Automatically flag first pending milestone as submitted
     const milestones = mockDb.getAgreementMilestones(agreementId);
     const pending = milestones.find((m: any) => m.status === 'Pending');
     if (pending) {
@@ -351,7 +570,31 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const approveWork = async (agreementId: string) => {
-    const updated = mockDb.updateAgreementStatus(agreementId, 'Approved');
+    if (!address) throw new Error('Wallet not connected');
+
+    if (isDemo) {
+      const updated = mockDb.updateAgreementStatus(agreementId, 'Approved');
+      const milestones = mockDb.getAgreementMilestones(agreementId);
+      const submitted = milestones.find((m: any) => m.status === 'Submitted' || m.status === 'Pending');
+      if (submitted) {
+        mockDb.updateMilestoneStatus(submitted.id, 'Completed');
+      }
+      return updated;
+    }
+
+    const agreementIdNum = parseInt(agreementId);
+    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const clientScVal = new Address(address).toScVal();
+
+    console.log(`Approving milestone work on-chain for ID: ${agreementIdNum}...`);
+    const { txHash } = await submitTransaction(
+      address,
+      ESCROW_CONTRACT,
+      'approve_work',
+      [agreementIdScVal, clientScVal]
+    );
+
+    const updated = mockDb.updateAgreementStatus(agreementId, 'Approved', txHash);
     
     const milestones = mockDb.getAgreementMilestones(agreementId);
     const submitted = milestones.find((m: any) => m.status === 'Submitted' || m.status === 'Pending');
@@ -363,38 +606,96 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const releasePayment = async (agreementId: string) => {
-    const agreement = mockDb.getAgreement(agreementId);
-    if (!agreement) throw new Error('Agreement not found');
+    if (!address) throw new Error('Wallet not connected');
 
-    // Update milestones to 'Released'
+    if (isDemo) {
+      const milestones = mockDb.getAgreementMilestones(agreementId);
+      const completed = milestones.find((m: any) => m.status === 'Completed' || m.status === 'Submitted' || m.status === 'Pending');
+      if (completed) {
+        mockDb.updateMilestoneStatus(completed.id, 'Released');
+      }
+      const allMilestones = mockDb.getAgreementMilestones(agreementId);
+      const allReleased = allMilestones.every((m: any) => m.status === 'Released');
+      const status = allReleased ? 'Released' : 'Accepted';
+      const updated = mockDb.updateAgreementStatus(agreementId, status);
+      return updated;
+    }
+
+    const agreementIdNum = parseInt(agreementId);
+    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const clientScVal = new Address(address).toScVal();
+
+    console.log(`Releasing milestone payment on-chain for ID: ${agreementIdNum}...`);
+    const { txHash } = await submitTransaction(
+      address,
+      ESCROW_CONTRACT,
+      'release_payment',
+      [agreementIdScVal, clientScVal]
+    );
+
     const milestones = mockDb.getAgreementMilestones(agreementId);
     const completed = milestones.find((m: any) => m.status === 'Completed' || m.status === 'Submitted' || m.status === 'Pending');
     if (completed) {
       mockDb.updateMilestoneStatus(completed.id, 'Released');
     }
 
-    // Check if all are released
     const allMilestones = mockDb.getAgreementMilestones(agreementId);
     const allReleased = allMilestones.every((m: any) => m.status === 'Released');
     
-    const status = allReleased ? 'Released' : 'Accepted'; // if more milestones remain, go back to Accepted
-    const updated = mockDb.updateAgreementStatus(agreementId, status);
+    const status = allReleased ? 'Released' : 'Accepted';
+    const updated = mockDb.updateAgreementStatus(agreementId, status, txHash);
 
     trackEvent({
-      wallet_address: address || "",
+      wallet_address: address,
       event_type: 'milestone_completed',
-      metadata: { agreement_id: agreementId, all_released: allReleased, current_status: status }
+      metadata: { agreement_id: agreementId, all_released: allReleased, current_status: status, tx_hash: txHash }
     });
 
     return updated;
   };
 
   const raiseDispute = async (agreementId: string) => {
-    return mockDb.updateAgreementStatus(agreementId, 'Disputed');
+    if (!address) throw new Error('Wallet not connected');
+
+    if (isDemo) {
+      return mockDb.updateAgreementStatus(agreementId, 'Disputed');
+    }
+
+    const agreementIdNum = parseInt(agreementId);
+    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const partyScVal = new Address(address).toScVal();
+
+    console.log(`Raising dispute on-chain for ID: ${agreementIdNum}...`);
+    const { txHash } = await submitTransaction(
+      address,
+      ESCROW_CONTRACT,
+      'raise_dispute',
+      [agreementIdScVal, partyScVal]
+    );
+
+    return mockDb.updateAgreementStatus(agreementId, 'Disputed', txHash);
   };
 
   const refundClient = async (agreementId: string) => {
-    return mockDb.updateAgreementStatus(agreementId, 'Cancelled');
+    if (!address) throw new Error('Wallet not connected');
+
+    if (isDemo) {
+      return mockDb.updateAgreementStatus(agreementId, 'Cancelled');
+    }
+
+    const agreementIdNum = parseInt(agreementId);
+    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const authorityScVal = new Address(address).toScVal();
+
+    console.log(`Executing client refund on-chain for ID: ${agreementIdNum}...`);
+    const { txHash } = await submitTransaction(
+      address,
+      ESCROW_CONTRACT,
+      'refund_client',
+      [agreementIdScVal, authorityScVal]
+    );
+
+    return mockDb.updateAgreementStatus(agreementId, 'Cancelled', txHash);
   };
 
   // Reviews
@@ -406,20 +707,54 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const targetAddress = address === agreement.client_address ? agreement.freelancer_address : agreement.client_address;
     if (!targetAddress) throw new Error('No target reviewee address found');
 
+    if (isDemo) {
+      const review = {
+        agreement_id: agreementId,
+        author_address: address,
+        target_address: targetAddress,
+        rating,
+        comment
+      };
+      const newReview = mockDb.addReview(review);
+      return newReview;
+    }
+
+    validateAddress(targetAddress);
+
+    // Arguments for Reputation contract
+    const agreementIdScVal = nativeToScVal(agreementId); // String representation
+    const reviewerScVal = new Address(address).toScVal();
+    const revieweeScVal = new Address(targetAddress).toScVal();
+    const ratingScVal = nativeToScVal(rating); // converts to scvU64/u32 representation
+    const commentScVal = nativeToScVal(comment);
+
+    console.log(`Submitting profile review on Reputation contract for ID: ${agreementId}...`);
+    const { txHash } = await submitTransaction(
+      address,
+      REPUTATION_CONTRACT,
+      'add_review',
+      [agreementIdScVal, reviewerScVal, revieweeScVal, ratingScVal, commentScVal]
+    );
+
     const review = {
       agreement_id: agreementId,
       author_address: address,
       target_address: targetAddress,
       rating,
-      comment
+      comment,
+      tx_hash: txHash
     };
 
     const newReview = mockDb.addReview(review);
 
+    // Refresh trust scores immediately on-chain
+    await refreshProfile(address);
+    await refreshProfile(targetAddress);
+
     trackEvent({
-      wallet_address: address || "",
+      wallet_address: address,
       event_type: 'reputation_updated',
-      metadata: { agreement_id: agreementId, rating, target: targetAddress }
+      metadata: { agreement_id: agreementId, rating, target: targetAddress, tx_hash: txHash }
     });
 
     return newReview;
@@ -429,31 +764,78 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const mintNFT = async (agreementId: string, freelancer: string, projectName: string) => {
     if (!address) throw new Error('Wallet not connected');
 
-    // Store NFT record in localStorage as a virtual NFT asset
+    const projectHash = 'SHA256-' + Math.random().toString(36).substring(2, 15).toUpperCase();
+
+    if (isDemo) {
+      const nftKey = `stellar_trust_nft_${freelancer}`;
+      const existing = localStorage.getItem(nftKey);
+      const nfts = existing ? JSON.parse(existing) : [];
+
+      const nft = {
+        id: nfts.length + 1,
+        agreement_id: agreementId,
+        freelancer,
+        project_name: projectName,
+        project_hash: projectHash,
+        completion_date: new Date().toISOString()
+      };
+
+      nfts.push(nft);
+      localStorage.setItem(nftKey, JSON.stringify(nfts));
+
+      mockDb.addActivityLog(freelancer, 'nft_minted', `Minted completion badge NFT for "${projectName}"`);
+      mockDb.addNotification(freelancer, `Achievement NFT Minted for "${projectName}"! Check your NFT Gallery.`);
+
+      trackEvent({
+        wallet_address: freelancer,
+        event_type: 'nft_minted',
+        metadata: { agreement_id: agreementId, project_name: projectName }
+      });
+
+      return nft;
+    }
+
+    console.log(`Requesting admin NFT minting endpoint for: ${freelancer}...`);
+    const res = await fetch('/api/mint-nft', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        freelancer,
+        agreementId,
+        projectName,
+        projectHash
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || 'NFT minting failed');
+    }
+
     const nftKey = `stellar_trust_nft_${freelancer}`;
     const existing = localStorage.getItem(nftKey);
     const nfts = existing ? JSON.parse(existing) : [];
 
     const nft = {
-      id: nfts.length + 1,
+      id: data.tokenId || (nfts.length + 1),
       agreement_id: agreementId,
       freelancer,
       project_name: projectName,
-      project_hash: 'SHA256-' + Math.random().toString(36).substring(2, 15).toUpperCase(),
-      completion_date: new Date().toISOString()
+      project_hash: projectHash,
+      completion_date: new Date().toISOString(),
+      tx_hash: data.txHash
     };
 
     nfts.push(nft);
     localStorage.setItem(nftKey, JSON.stringify(nfts));
 
-    // Log Activity
-    mockDb.addActivityLog(freelancer, 'nft_minted', `Minted completion badge NFT for "${projectName}"`);
+    mockDb.addActivityLog(freelancer, 'nft_minted', `Minted completion badge NFT for "${projectName}"`, data.txHash);
     mockDb.addNotification(freelancer, `Achievement NFT Minted for "${projectName}"! Check your NFT Gallery.`);
 
     trackEvent({
       wallet_address: freelancer,
       event_type: 'nft_minted',
-      metadata: { agreement_id: agreementId, project_name: projectName }
+      metadata: { agreement_id: agreementId, project_name: projectName, tx_hash: data.txHash }
     });
 
     return nft;
@@ -498,3 +880,4 @@ export const useStellar = () => {
   }
   return context;
 };
+

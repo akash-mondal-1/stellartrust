@@ -8,13 +8,13 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Storage-backed mock database for local development fallback
 class MockDatabase {
-  private getStorage(key: string, defaultValue: any[]): any[] {
+  public getStorage(key: string, defaultValue: any[]): any[] {
     if (typeof window === 'undefined') return defaultValue;
     const item = localStorage.getItem(`stellar_trust_${key}`);
     return item ? JSON.parse(item) : defaultValue;
   }
 
-  private setStorage(key: string, data: any[]): void {
+  public setStorage(key: string, data: any[]): void {
     if (typeof window === 'undefined') return;
     localStorage.setItem(`stellar_trust_${key}`, JSON.stringify(data));
   }
