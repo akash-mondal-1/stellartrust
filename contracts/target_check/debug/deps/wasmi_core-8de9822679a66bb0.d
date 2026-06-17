@@ -1,0 +1,11 @@
+D:\StellarFlow 4\contracts\target_check\debug\deps\wasmi_core-8de9822679a66bb0.d: C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\lib.rs C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\host_error.rs C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\nan_preserving_float.rs C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\trap.rs C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\units.rs C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\untyped.rs C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\value.rs
+
+D:\StellarFlow 4\contracts\target_check\debug\deps\libwasmi_core-8de9822679a66bb0.rmeta: C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\lib.rs C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\host_error.rs C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\nan_preserving_float.rs C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\trap.rs C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\units.rs C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\untyped.rs C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\value.rs
+
+C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\lib.rs:
+C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\host_error.rs:
+C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\nan_preserving_float.rs:
+C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\trap.rs:
+C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\units.rs:
+C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\untyped.rs:
+C:\Users\Asus\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasmi_core-0.13.0\src\value.rs:
