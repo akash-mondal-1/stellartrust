@@ -27,6 +27,6 @@ This document lists the production readiness and classification of every feature
 
 ## 🔍 Brutally Honest Validation Notes
 
-*   **Freighter Signature Popups:** Every write action listed under **REAL TESTNET** pops up the Freighter browser extension, requesting the user's password and approval (and displaying the exact token allowance details during the `fund_escrow` invocation).
-*   **Transaction Hash Source:** All transaction hashes displayed in the client dashboard correspond to valid transaction records mined on the Stellar Testnet ledger and can be immediately checked on `Stellar.Expert`.
-*   **Admin Signature Delegation:** Profile KYC verification and NFT minting call the Next.js API router. The router delegates transaction building and signature generation to the deployed admin address (`GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4`), which is executed securely without exposing secret keys to the browser.
+* **Freighter Signature Popups:** Every write action listed under **REAL TESTNET** pops up the Freighter browser extension, requesting the user's password and approval (and displaying the exact token allowance details during the `fund_escrow` invocation).
+* **Transaction Hash Source:** All transaction hashes displayed in the client dashboard correspond to valid transaction records mined on the Stellar Testnet ledger and can be immediately checked on `Stellar.Expert`.
+* **Admin Signature Delegation:** Profile KYC verification and NFT minting call the Next.js API router. The router delegates transaction building and signature generation to the deployed admin address (`GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4`), which is executed securely without exposing secret keys to the browser.
