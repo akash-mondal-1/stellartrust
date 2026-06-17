@@ -98,7 +98,7 @@ impl IdentityContract {
     }
 
     // Set contract admin
-    pub fn set_admin(env: Env, admin: Address, new_admin: Address) {
+    pub fn set_admin(env: Env, _admin: Address, new_admin: Address) {
         let admin_key = symbol_short!("admin");
         let current_admin: Address = env.storage().instance().get(&admin_key).unwrap_or_else(|| {
             panic!("Contract not initialized");
@@ -112,6 +112,7 @@ impl IdentityContract {
 mod test {
     use super::*;
     use soroban_sdk::{Env, String, Vec, Address};
+    use soroban_sdk::testutils::Address as _;
 
     #[test]
     fn test_register_and_get() {

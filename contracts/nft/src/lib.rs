@@ -82,7 +82,7 @@ impl AchievementNFTContract {
     }
 
     // Set contract admin
-    pub fn set_admin(env: Env, admin: Address, new_admin: Address) {
+    pub fn set_admin(env: Env, _admin: Address, new_admin: Address) {
         let admin_key = symbol_short!("admin");
         let current_admin: Address = env.storage().instance().get(&admin_key).unwrap_or_else(|| {
             panic!("Contract not initialized");
@@ -96,6 +96,7 @@ impl AchievementNFTContract {
 mod test {
     use super::*;
     use soroban_sdk::{Env, String, Address};
+    use soroban_sdk::testutils::Address as _;
 
     #[test]
     fn test_mint_nft() {
