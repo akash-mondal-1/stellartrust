@@ -323,6 +323,11 @@ impl EscrowContract {
         agreement
     }
 
+    // Get agreement details
+    pub fn get_agreement(env: Env, agreement_id: u32) -> Option<Agreement> {
+        env.storage().persistent().get(&agreement_id)
+    }
+
     // Set contract admin
     pub fn set_admin(env: Env, admin: Address, new_admin: Address) {
         let admin_key = symbol_short!("admin");
