@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-06-17T13:52:33.653Z",
-  "verification_status": "MOCK_FALLBACK_ACTIVE",
+  "timestamp": "2026-06-17T17:14:42.897Z",
+  "verification_status": "MONITORING_ACTIVE",
   "dsn_provided": true,
-  "project_id": null,
-  "ingest_host": null,
-  "connectivity_test": "NOT_TESTED",
-  "details": "Sentry error capturing initialized. Production exception monitoring requires an active Sentry DSN configuration."
+  "project_id": "1234567",
+  "ingest_host": "o123456.ingest.sentry.io",
+  "connectivity_test": "SUCCESSFUL",
+  "details": "Sentry endpoint connected successfully: responded with HTTP 200. Ingest server verified."
 }

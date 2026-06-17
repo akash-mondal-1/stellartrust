@@ -25,12 +25,14 @@ class MockDatabase {
   }
 
   getProfile(wallet: string) {
-    return this.getProfiles().find((p: any) => p.id === wallet) || null;
+    if (!wallet || typeof wallet !== 'string') return null;
+    return this.getProfiles().find((p: any) => p.id && p.id.toLowerCase() === wallet.toLowerCase()) || null;
   }
 
   upsertProfile(profile: any) {
+    if (!profile || !profile.id || typeof profile.id !== 'string') return null;
     const profiles = this.getProfiles();
-    const index = profiles.findIndex((p: any) => p.id === profile.id);
+    const index = profiles.findIndex((p: any) => p.id && p.id.toLowerCase() === profile.id.toLowerCase());
     const updated = {
       ...profile,
       rating: profile.rating ?? (profiles[index]?.rating ?? 0.0),
@@ -144,7 +146,13 @@ class MockDatabase {
   }
 
   getAgreementMilestones(agreementId: string) {
-    return this.getMilestones().filter((m: any) => m.agreement_id === agreementId);
+    const list = this.getMilestones().filter((m: any) => m.agreement_id === agreementId);
+    const seen = new Set();
+    return list.filter((m: any) => {
+      if (seen.has(m.id)) return false;
+      seen.add(m.id);
+      return true;
+    });
   }
 
   updateMilestoneStatus(milestoneId: string, status: string) {
@@ -262,7 +270,7 @@ class MockDatabase {
     const events = this.getValidationEvents();
     
     // Retrieve or generate a session ID
-    let sessionId = 'session_mock_default_id';
+    let sessionId = 'sess_active_session';
     if (typeof window !== 'undefined') {
       let stored = sessionStorage.getItem('stellar_trust_session_id');
       if (!stored) {

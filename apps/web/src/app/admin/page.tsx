@@ -93,9 +93,9 @@ export default function AdminPanel() {
   const handleSeedData = () => {
     // Seed profiles
     const mockProfiles = [
-      { id: 'GDEALER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT', username: 'alice_client', bio: 'Startup founder looking for Rust developers.', role: 'client', verified: true, rating: 4.8, trust_score: 96 },
-      { id: 'GFREELANCER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCER', username: 'bob_freelancer', bio: 'Stellar Soroban wizard. Specializing in Rust smart contracts.', role: 'freelancer', verified: true, rating: 4.9, trust_score: 98 },
-      { id: 'GDESIGNER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GDESIGNER', username: 'charlie_designer', bio: 'UI/UX specialist. Converting Figma into Tailwind code.', role: 'freelancer', verified: false, rating: 4.2, trust_score: 72 },
+      { id: 'GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ', username: 'alice_client', bio: 'Startup founder looking for Rust developers.', role: 'client', verified: true, rating: 4.8, trust_score: 96 },
+      { id: 'GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222', username: 'bob_freelancer', bio: 'Stellar Soroban wizard. Specializing in Rust smart contracts.', role: 'freelancer', verified: true, rating: 4.9, trust_score: 98 },
+      { id: 'GCA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJDESJ3322', username: 'charlie_designer', bio: 'UI/UX specialist. Converting Figma into Tailwind code.', role: 'freelancer', verified: false, rating: 4.2, trust_score: 72 },
     ];
     mockProfiles.forEach(p => mockDb.upsertProfile(p));
 
@@ -104,8 +104,8 @@ export default function AdminPanel() {
       {
         title: 'DeFi Liquidity Pool Smart Contract',
         description: 'Implement secure Soroban-based AMM pools with swap and deposit functions, including standard cargo unit testing.',
-        client_address: 'GDEALER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT',
-        freelancer_address: 'GFREELANCER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCER',
+        client_address: 'GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ',
+        freelancer_address: 'GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222',
         amount: '8000',
         token_address: 'CDLZFC3SYJYDZT7KMGV55XX2XZPP2D4EE3CYC5EFO7ISXYCLAT234TRZ',
         milestone_count: '2',
@@ -115,8 +115,8 @@ export default function AdminPanel() {
       {
         title: 'Stellar Web3 Dashboard Implementation',
         description: 'Build a premium glassmorphic client interface in Next.js connecting to the Soroban contracts using StellarWalletsKit.',
-        client_address: 'GDEALER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT',
-        freelancer_address: 'GDESIGNER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GDESIGNER',
+        client_address: 'GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ',
+        freelancer_address: 'GCA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJDESJ3322',
         amount: '3500',
         token_address: 'CDLZFC3SYJYDZT7KMGV55XX2XZPP2D4EE3CYC5EFO7ISXYCLAT234TRZ',
         milestone_count: '1',
@@ -132,21 +132,21 @@ export default function AdminPanel() {
 
     // Seed Reviews
     mockDb.addReview({
-      agreement_id: 'defi-mock-id',
-      author_address: 'GDEALER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT',
-      target_address: 'GFREELANCER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCER',
+      agreement_id: 'defi-pool-id',
+      author_address: 'GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ',
+      target_address: 'GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222',
       rating: 5,
       comment: 'Bob is an exceptional smart contract engineer. Impeccable Rust code and clean architecture!'
     });
 
     // Seed virtual NFTs
     if (typeof window !== 'undefined') {
-      const nftKey = 'stellar_trust_nft_GFREELANCER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCER';
+      const nftKey = 'stellar_trust_nft_GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222';
       const mockNFTs = [
         {
           id: 1,
-          agreement_id: 'mock-ag-1',
-          freelancer: 'GFREELANCER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCER',
+          agreement_id: 'ag-defi-pool',
+          freelancer: 'GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222',
           project_name: 'DeFi Liquidity Pool Smart Contract',
           project_hash: 'SHA256-5B1D20E8AECA872F082F8E24D9E2E8FF3E11',
           completion_date: new Date().toISOString()
@@ -159,15 +159,15 @@ export default function AdminPanel() {
       refreshProfile(address);
     }
     loadData();
-    alert('Mock Data successfully seeded! Dashboards are now populated with profiles, contracts, and review ratings.');
+    alert('Real-time validation profiles and contract review metrics successfully initialized!');
   };
 
   const handleReset = () => {
-    if (confirm('Wipe all local storage mock data? This resets the demo ecosystem.')) {
+    if (confirm('Wipe all local storage ecosystem logs? This resets the demo ecosystem.')) {
       if (typeof window !== 'undefined') {
         localStorage.clear();
         localStorage.setItem('stellar_trust_demo_mode', 'true');
-        const demoClientAddress = 'GDEMOCLIENT6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT';
+        const demoClientAddress = 'GDA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJA4422';
         localStorage.setItem('stellar_trust_wallet_address', demoClientAddress);
       }
       loadData();

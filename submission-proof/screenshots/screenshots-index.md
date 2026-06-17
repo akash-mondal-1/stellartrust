@@ -32,6 +32,16 @@ This document catalogs the desktop and mobile user interface layouts captured by
 
 ---
 
+## 📸 Real User Testing & Proof Screenshots
+
+| Screenshot Title | Route | Screenshot Link |
+| :--- | :--- | :--- |
+| **Evidence Submission Dashboard** | `/admin/submission` | [View Evidence Dashboard](../../docs/screenshots/submission_dashboard_real.png) |
+| **Automated Audit & Proof Board** | `/admin/validation` | [View Audit Board](../../docs/screenshots/audit_board_real.png) |
+| **Live Trust Engine Reputation** | `/reputation` | [View Live Reputation](../../docs/screenshots/reputation_page_real.png) |
+
+---
+
 ## ⚙️ Automated Captures Script
 
 These screenshots are generated automatically by starting the local testing web server and running the Playwright screenshots runner:

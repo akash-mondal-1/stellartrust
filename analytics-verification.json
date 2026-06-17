@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-17T13:52:33.552Z",
+  "timestamp": "2026-06-17T17:14:42.803Z",
   "verification_status": "VERIFIED_TEST_RUN",
   "event_types_checked": [
     "wallet_connected",
@@ -11,14 +11,14 @@
     "nft_minted"
   ],
   "counts": {
-    "wallet_connected": 15,
-    "profile_created": 6,
-    "escrow_created": 3,
-    "escrow_funded": 3,
-    "milestone_completed": 2,
-    "reputation_updated": 2,
-    "nft_minted": 1
+    "wallet_connected": 31,
+    "profile_created": 12,
+    "escrow_created": 7,
+    "escrow_funded": 7,
+    "milestone_completed": 10,
+    "reputation_updated": 8,
+    "nft_minted": 5
   },
-  "total_events": 32,
-  "details": "Verified local session: logged 32 interactions across distinct wallet addresses."
+  "total_events": 80,
+  "details": "Verified local session: logged 80 interactions across distinct wallet addresses."
 }

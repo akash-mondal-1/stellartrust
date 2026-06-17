@@ -174,9 +174,13 @@ Below are the automated screenshots capturing the premium glassmorphic UI pages 
 | :---: | :---: | :---: |
 | ![Reputation](docs/screenshots/reputation_desktop.png) | ![NFT Gallery](docs/screenshots/gallery_desktop.png) | ![Admin Sandbox](docs/screenshots/admin_desktop.png) |
 
-| Analytics Green Belt Validation |
+| Analytics Green Belt Validation | Green Belt Submission Dashboard | Live Trust Engine Reputation |
+| :---: | :---: | :---: |
+| ![Analytics Hub](docs/screenshots/analytics_desktop.png) | ![Submission Dashboard](docs/screenshots/submission_dashboard_real.png) | ![Live Reputation](docs/screenshots/reputation_page_real.png) |
+
+| Automated Audit & Proof Board |
 | :---: |
-| ![Analytics Hub](docs/screenshots/analytics_desktop.png) |
+| ![Audit Board](docs/screenshots/audit_board_real.png) |
 
 ### 📱 Mobile Showcase
 

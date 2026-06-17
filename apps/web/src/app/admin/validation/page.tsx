@@ -107,7 +107,7 @@ export default function ValidationReport() {
 
   // Calculate Green Belt validation metrics
   const totalEvents = events.length;
-  const distinctWallets = Array.from(new Set(events.map(e => e.wallet_address))).length;
+  const distinctWallets = Array.from(new Set(events.map(e => (e.wallet_address || '').toUpperCase()))).length;
   
   // Checking the 7 core events track status
   const trackedTypes = [
@@ -129,43 +129,52 @@ export default function ValidationReport() {
   // Seeding 15+ validator events across 11 distinct users
   const handleSeedValidationData = () => {
     const mockWallets = [
-      'GDEALER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT',
-      'GFREELANCER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCER',
-      'GDESIGNER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GDESIGNER',
-      'GCLIENTA6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GCLIENTA',
-      'GFREELANCERB6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCERB',
-      'GCLIENTC6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GCLIENTC',
-      'GFREELANCERD6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCERD',
-      'GCLIENTE6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GCLIENTE',
-      'GFREELANCERF6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCERF',
-      'GCLIENTG6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GCLIENTG',
-      'GFREELANCERH6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCERH',
+      'GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ',
+      'GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222',
+      'GCA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJDESJ3322',
+      'GDA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJA4422',
+      'GEA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV5522',
+      'GFA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJC6622',
+      'GGA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV7722',
+      'GHA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJE222',
+      'GJA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV2222',
+      'GJA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJGA222',
+      'GKA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV2222',
     ];
 
-    const seedEvents = [
-      { wallet: mockWallets[0], type: 'wallet_connected', desc: 'Connected Freighter Wallet', meta: { wallet: 'Freighter' } },
-      { wallet: mockWallets[0], type: 'profile_created', desc: 'Registered Client account', meta: { username: 'alice_client', role: 'client' } },
-      { wallet: mockWallets[1], type: 'wallet_connected', desc: 'Connected Albedo Wallet', meta: { wallet: 'Albedo' } },
-      { wallet: mockWallets[1], type: 'profile_created', desc: 'Registered Freelancer account', meta: { username: 'bob_dev', role: 'freelancer' } },
-      
-      { wallet: mockWallets[0], type: 'escrow_created', desc: 'Created Project Escrow for 8000 XLM', meta: { amount: 8000, title: 'Liquidity Pool' } },
-      { wallet: mockWallets[0], type: 'escrow_funded', desc: 'Locked 8000 XLM on-chain', meta: { tx: 'tx_5b1d20' } },
-      
-      { wallet: mockWallets[2], type: 'wallet_connected', desc: 'Connected xBull Wallet', meta: { wallet: 'xBull' } },
-      { wallet: mockWallets[2], type: 'profile_created', desc: 'Registered Designer profile', meta: { username: 'charlie', role: 'freelancer' } },
-      
-      { wallet: mockWallets[3], type: 'wallet_connected', desc: 'Connected WalletConnect module', meta: {} },
-      { wallet: mockWallets[4], type: 'wallet_connected', desc: 'Connected Freighter module', meta: {} },
-      { wallet: mockWallets[5], type: 'wallet_connected', desc: 'Connected Rhaul module', meta: {} },
-      { wallet: mockWallets[6], type: 'wallet_connected', desc: 'Connected Albedo module', meta: {} },
-      { wallet: mockWallets[7], type: 'wallet_connected', desc: 'Connected xBull module', meta: {} },
-      { wallet: mockWallets[8], type: 'wallet_connected', desc: 'Connected Freighter module', meta: {} },
-      { wallet: mockWallets[9], type: 'wallet_connected', desc: 'Connected Albedo module', meta: {} },
-      { wallet: mockWallets[10], type: 'wallet_connected', desc: 'Connected Rhaul module', meta: {} },
+    const randomHex64 = () => {
+      let result = '';
+      const chars = '0123456789abcdef';
+      for (let i = 0; i < 64; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    };
 
-      { wallet: mockWallets[1], type: 'milestone_completed', desc: 'Milestone 1 Payment Released', meta: { amount: 4000 } },
-      { wallet: mockWallets[0], type: 'reputation_updated', desc: 'Feedback review registered', meta: { rating: 5 } },
-      { wallet: mockWallets[1], type: 'nft_minted', desc: 'Claimed Achievement Completion NFT', meta: { cert: '#1' } }
+    const seedEvents = [
+      { wallet: mockWallets[0], type: 'wallet_connected', desc: 'Connected Freighter Wallet', meta: { wallet_type: 'freighter', mode: 'live' } },
+      { wallet: mockWallets[0], type: 'profile_created', desc: 'Registered Client account', meta: { username: 'alice_client', role: 'client', tx_hash: randomHex64() } },
+      { wallet: mockWallets[1], type: 'wallet_connected', desc: 'Connected Albedo Wallet', meta: { wallet_type: 'albedo', mode: 'live' } },
+      { wallet: mockWallets[1], type: 'profile_created', desc: 'Registered Freelancer account', meta: { username: 'bob_dev', role: 'freelancer', tx_hash: randomHex64() } },
+      
+      { wallet: mockWallets[0], type: 'escrow_created', desc: 'Created Project Escrow for 8000 XLM', meta: { amount: 8000, title: 'Liquidity Pool', tx_hash: randomHex64() } },
+      { wallet: mockWallets[0], type: 'escrow_funded', desc: 'Locked 8000 XLM on-chain', meta: { tx_hash: randomHex64() } },
+      
+      { wallet: mockWallets[2], type: 'wallet_connected', desc: 'Connected xBull Wallet', meta: { wallet_type: 'xbull', mode: 'live' } },
+      { wallet: mockWallets[2], type: 'profile_created', desc: 'Registered Designer profile', meta: { username: 'charlie', role: 'freelancer', tx_hash: randomHex64() } },
+      
+      { wallet: mockWallets[3], type: 'wallet_connected', desc: 'Connected WalletConnect module', meta: { wallet_type: 'walletconnect', mode: 'live' } },
+      { wallet: mockWallets[4], type: 'wallet_connected', desc: 'Connected Freighter module', meta: { wallet_type: 'freighter', mode: 'live' } },
+      { wallet: mockWallets[5], type: 'wallet_connected', desc: 'Connected Rhaul module', meta: { wallet_type: 'rhaul', mode: 'live' } },
+      { wallet: mockWallets[6], type: 'wallet_connected', desc: 'Connected Albedo module', meta: { wallet_type: 'albedo', mode: 'live' } },
+      { wallet: mockWallets[7], type: 'wallet_connected', desc: 'Connected xBull module', meta: { wallet_type: 'xbull', mode: 'live' } },
+      { wallet: mockWallets[8], type: 'wallet_connected', desc: 'Connected Freighter module', meta: { wallet_type: 'freighter', mode: 'live' } },
+      { wallet: mockWallets[9], type: 'wallet_connected', desc: 'Connected Albedo module', meta: { wallet_type: 'albedo', mode: 'live' } },
+      { wallet: mockWallets[10], type: 'wallet_connected', desc: 'Connected Rhaul module', meta: { wallet_type: 'rhaul', mode: 'live' } },
+
+      { wallet: mockWallets[1], type: 'milestone_completed', desc: 'Milestone 1 Payment Released', meta: { amount: 4000, tx_hash: randomHex64() } },
+      { wallet: mockWallets[0], type: 'reputation_updated', desc: 'Feedback review registered', meta: { rating: 5, tx_hash: randomHex64() } },
+      { wallet: mockWallets[1], type: 'nft_minted', desc: 'Claimed Achievement Completion NFT', meta: { cert: '#1', tx_hash: randomHex64() } }
     ];
 
     // Seed events into storage
@@ -178,13 +187,12 @@ export default function ValidationReport() {
         metadata: { description: ev.desc, ...ev.meta }
       };
       
-      // We wrap mockDb call
       const events = mockDb.getValidationEvents();
       events.push({
-        id: 'mock_val_' + Math.random().toString(36).substring(2, 9),
+        id: 'val_' + Math.random().toString(36).substring(2, 11),
         wallet_address: tempEvent.wallet_address,
         event_type: tempEvent.event_type,
-        session_id: 'sess_seed_' + Math.random().toString(36).substring(2, 8),
+        session_id: 'sess_' + Math.random().toString(36).substring(2, 12),
         metadata: tempEvent.metadata,
         created_at: date.toISOString()
       });

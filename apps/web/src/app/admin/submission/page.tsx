@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { useStellar } from '@/hooks/useStellar';
 import { mockDb } from '@/lib/supabase';
+import { getBlockchainEvents } from '@/lib/stellar';
 import {
   ShieldCheck,
   CheckCircle,
@@ -24,7 +25,7 @@ import {
 } from 'lucide-react';
 
 export default function SubmissionDashboard() {
-  const { isDemo } = useStellar();
+  const { isDemo, connected } = useStellar();
   
   const [events, setEvents] = useState<any[]>([]);
   const [feedbacks, setFeedbacks] = useState<any[]>([]);
@@ -49,6 +50,15 @@ export default function SubmissionDashboard() {
       }
       
       const localEvents = mockDb.getValidationEvents();
+      let chainEvents: any[] = [];
+      if (!isDemo) {
+        try {
+          chainEvents = await getBlockchainEvents();
+        } catch (e) {
+          console.warn("Submission Dashboard getBlockchainEvents warning:", e);
+        }
+      }
+
       const unsynced = localEvents.filter((local: any) => 
         !serverEvents.some((server: any) => server.id === local.id)
       );
@@ -63,12 +73,8 @@ export default function SubmissionDashboard() {
           const data = await postRes.json();
           if (data.success && data.events) {
             mockDb.setStorage('validation_events', data.events);
-            setEvents(data.events);
-          } else {
-            setEvents(mockDb.getValidationEvents());
+            serverEvents = data.events;
           }
-        } else {
-          setEvents(mockDb.getValidationEvents());
         }
       } else {
         let updated = false;
@@ -82,8 +88,18 @@ export default function SubmissionDashboard() {
         if (updated) {
           mockDb.setStorage('validation_events', mergedLocal);
         }
-        setEvents(mockDb.getValidationEvents());
       }
+
+      // Merge and deduplicate by ID with chain events
+      const allEventsMap = new Map<string, any>();
+      serverEvents.forEach((e: any) => allEventsMap.set(e.id, e));
+      mockDb.getValidationEvents().forEach((e: any) => allEventsMap.set(e.id, e));
+      chainEvents.forEach((e: any) => allEventsMap.set(e.id, e));
+
+      const sorted = Array.from(allEventsMap.values()).sort(
+        (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      );
+      setEvents(sorted);
     } catch (e) {
       setEvents(mockDb.getValidationEvents());
     }
@@ -143,7 +159,7 @@ export default function SubmissionDashboard() {
     handleRunDiagnostic();
     const interval = setInterval(loadData, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isDemo, connected]);
 
   const handleRunDiagnostic = async () => {
     setVerificationLoading(true);
@@ -172,7 +188,7 @@ export default function SubmissionDashboard() {
   };
 
   // Metrics calculators
-  const distinctWallets = Array.from(new Set(events.map(e => e.wallet_address))).length;
+  const distinctWallets = Array.from(new Set(events.map(e => (e.wallet_address || '').toUpperCase()))).length;
   
   const countEvents = (type: string) => events.filter(e => e.event_type === type).length;
   

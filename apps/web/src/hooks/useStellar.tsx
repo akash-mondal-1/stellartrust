@@ -331,14 +331,17 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
             const count = chainAg.milestone_count;
             const amt = chainAg.amount / count;
             for (let i = 0; i < count; i++) {
-              milestones.push({
-                id: `chain_m_${chainAg.id}_${i}`,
-                agreement_id: chainAg.id,
-                title: `Milestone ${i + 1}: Progress Review`,
-                amount: parseFloat(amt.toFixed(2)),
-                status: i < chainAg.current_milestone ? 'Released' : 'Pending',
-                created_at: new Date().toISOString()
-              });
+              const mId = `chain_m_${chainAg.id}_${i}`;
+              if (!milestones.some((m: any) => m.id === mId)) {
+                milestones.push({
+                  id: mId,
+                  agreement_id: chainAg.id,
+                  title: `Milestone ${i + 1}: Progress Review`,
+                  amount: parseFloat(amt.toFixed(2)),
+                  status: i < chainAg.current_milestone ? 'Released' : 'Pending',
+                  created_at: new Date().toISOString()
+                });
+              }
             }
             mockDb.setStorage('milestones', milestones);
             updated = true;
@@ -357,8 +360,29 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (isDemo) return;
     try {
       console.log("Discovering on-chain achievement NFTs...");
+      
+      let maxLocalId = 0;
+      if (typeof window !== 'undefined') {
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('stellar_trust_nft_')) {
+            try {
+              const list = JSON.parse(localStorage.getItem(key) || '[]');
+              list.forEach((nft: any) => {
+                const parsed = parseInt(nft.id);
+                if (!isNaN(parsed)) {
+                  maxLocalId = Math.max(maxLocalId, parsed);
+                }
+              });
+            } catch (e) {}
+          }
+        }
+      }
+
+      const checkLimit = Math.max(10, maxLocalId + 5);
       const promises = [];
-      for (let id = 1; id <= 100; id++) {
+      // Query dynamically sized batch instead of spamming 100 parallel calls
+      for (let id = 1; id <= checkLimit; id++) {
         const idScVal = xdr.ScVal.scvU32(id);
         promises.push(
           queryContract(NFT_CONTRACT, 'get_project_certificate', [idScVal])
@@ -497,14 +521,17 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
         const count = chainAg.milestone_count;
         const amt = chainAg.amount / count;
         for (let i = 0; i < count; i++) {
-          milestones.push({
-            id: `chain_m_${agreementId}_${i}`,
-            agreement_id: agreementId,
-            title: `Milestone ${i + 1}: Progress Review`,
-            amount: parseFloat(amt.toFixed(2)),
-            status: i < chainAg.current_milestone ? 'Released' : 'Pending',
-            created_at: new Date().toISOString()
-          });
+          const mId = `chain_m_${agreementId}_${i}`;
+          if (!milestones.some((m: any) => m.id === mId)) {
+            milestones.push({
+              id: mId,
+              agreement_id: agreementId,
+              title: `Milestone ${i + 1}: Progress Review`,
+              amount: parseFloat(amt.toFixed(2)),
+              status: i < chainAg.current_milestone ? 'Released' : 'Pending',
+              created_at: new Date().toISOString()
+            });
+          }
         }
         mockDb.setStorage('milestones', milestones);
         localAg = baseAg;

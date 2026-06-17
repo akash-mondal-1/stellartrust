@@ -46,5 +46,45 @@
     "comment": "Creating agreements was straightforward.",
     "category": "Reputation Scores",
     "created_at": "2026-06-17T13:52:08.724Z"
+  },
+  {
+    "id": "zxzu5bj5s",
+    "user_address": "GC2ZDHQHWY5HIEMEE5LAJLAOGGF4QYIQV5E3DFLNGYFZXIASQOWAC3NX",
+    "rating": 5,
+    "comment": "Funding escrow was quick and easy.",
+    "category": "On-Chain Escrows",
+    "created_at": "2026-06-17T14:05:38.843Z"
+  },
+  {
+    "id": "u7gy5j3ry",
+    "user_address": "GDKAQVDP6ZB2Z26FHZ32TBF72A5TDZD2IV5IRJT6MOCVAWEI6VSBLNRO",
+    "rating": 5,
+    "comment": "Good experience using both client and freelancer flows.",
+    "category": "Vulnerabilities Found",
+    "created_at": "2026-06-17T14:19:01.930Z"
+  },
+  {
+    "id": "qjzgn9pti",
+    "user_address": "GADMWKIK3KRYWWDFL7W3KIRU2CJ3O27ZYEGZ72YIQ4IKFTNWYBIZEAD7",
+    "rating": 5,
+    "comment": "Responsive design works well on mobile.",
+    "category": "UI/UX Usability",
+    "created_at": "2026-06-17T14:27:34.321Z"
+  },
+  {
+    "id": "iymsx285m",
+    "user_address": "GACFRNMEUWVYEL43ADJ677TYQSB67LAVEVCLA6OPZWZN5TE63OT6T2XE",
+    "rating": 4,
+    "comment": "Ui is pretty awesome and app works smoothly",
+    "category": "UI/UX Usability",
+    "created_at": "2026-06-17T14:37:38.947Z"
+  },
+  {
+    "id": "xaegawais",
+    "user_address": "GBAGC6KSFL3VB5P2M52U2BQDEWOAP4PFH73RXWKJAMTPXISLJ44LDTOQ",
+    "rating": 5,
+    "comment": "So far i cant see any issues in the site, great work ",
+    "category": "Vulnerabilities Found",
+    "created_at": "2026-06-17T14:51:01.360Z"
   }
 ]

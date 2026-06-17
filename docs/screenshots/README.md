@@ -30,4 +30,14 @@ This folder contains automatically generated screenshots of the StellarTrust app
 
 ---
 
-*Generated automatically on 17/6/2026 by Playwright screenshots spec.*
+## 📸 Real User Testing & Proof Screenshots
+
+| Screenshot Title | View Route / Location | Image Link |
+| :--- | :--- | :--- |
+| **Evidence Submission Dashboard** | `/admin/submission` | [View Image](submission_dashboard_real.png) |
+| **Automated Audit & Proof Board** | `/admin/validation` | [View Image](audit_board_real.png) |
+| **Live Trust Engine Reputation** | `/reputation` | [View Image](reputation_page_real.png) |
+
+---
+
+*Generated automatically on 17/6/2026 by Playwright screenshots spec and manual verification.*

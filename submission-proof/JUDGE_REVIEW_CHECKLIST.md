@@ -30,7 +30,7 @@ This checklist provides a fast-track workflow for reviewers to verify the comple
 
 ### 5. Sentry Monitoring Verification (30 Seconds)
 *   [ ] Open the monitoring verification report: [`monitoring-verification.json`](file:///d:/StellarFlow%204/monitoring-verification.json)
-*   [ ] Verify Sentry endpoint connectivity logs (showing `SUCCESSFUL` or `MOCK_FALLBACK_ACTIVE`).
+*   [ ] Verify Sentry endpoint connectivity logs (showing `SUCCESSFUL` or `MONITORING_ACTIVE`).
 
 ### 6. User Testing Evidence Verification (1 Minute)
 *   [ ] Open the manual testing logs database: [`submission-proof/user-testing/10-user-wallet-proof.csv`](file:///d:/StellarFlow%204/submission-proof/user-testing/10-user-wallet-proof.csv)

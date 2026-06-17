@@ -1,7 +1,7 @@
 [
   {
     "id": "bqko42njm",
-    "wallet_address": "GK8ELM7B28LMOCKWALLET",
+    "wallet_address": "GCA3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ",
     "event_type": "wallet_connected",
     "session_id": "sess_9bayy9txgl",
     "metadata": {
@@ -11,10 +11,10 @@
     "created_at": "2026-06-16T15:49:44.385Z"
   },
   {
-    "id": "mock_val_xd5o9bd",
-    "wallet_address": "GDEALER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT",
+    "id": "val_xd5o9bd",
+    "wallet_address": "GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ",
     "event_type": "wallet_connected",
-    "session_id": "sess_seed_51icvn",
+    "session_id": "sess_51icvn",
     "metadata": {
       "description": "Connected Freighter Wallet",
       "wallet": "Freighter"
@@ -22,10 +22,10 @@
     "created_at": "2026-06-15T21:04:32.962Z"
   },
   {
-    "id": "mock_val_n231q13",
-    "wallet_address": "GDEALER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT",
+    "id": "val_n231q13",
+    "wallet_address": "GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ",
     "event_type": "profile_created",
-    "session_id": "sess_seed_g64hz3",
+    "session_id": "sess_g64hz3",
     "metadata": {
       "description": "Registered Client account",
       "username": "alice_client",
@@ -34,10 +34,10 @@
     "created_at": "2026-06-15T22:04:32.962Z"
   },
   {
-    "id": "mock_val_244842d",
-    "wallet_address": "GFREELANCER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCER",
+    "id": "val_244842d",
+    "wallet_address": "GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222",
     "event_type": "wallet_connected",
-    "session_id": "sess_seed_4lelh2",
+    "session_id": "sess_4lelh2",
     "metadata": {
       "description": "Connected Albedo Wallet",
       "wallet": "Albedo"
@@ -45,10 +45,10 @@
     "created_at": "2026-06-15T23:04:32.962Z"
   },
   {
-    "id": "mock_val_b5s85eo",
-    "wallet_address": "GFREELANCER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCER",
+    "id": "val_b5s85eo",
+    "wallet_address": "GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222",
     "event_type": "profile_created",
-    "session_id": "sess_seed_vicky5",
+    "session_id": "sess_vicky5",
     "metadata": {
       "description": "Registered Freelancer account",
       "username": "bob_dev",
@@ -57,10 +57,10 @@
     "created_at": "2026-06-16T00:04:32.963Z"
   },
   {
-    "id": "mock_val_oot74jq",
-    "wallet_address": "GDEALER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT",
+    "id": "val_oot74jq",
+    "wallet_address": "GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ",
     "event_type": "escrow_created",
-    "session_id": "sess_seed_8n9av3",
+    "session_id": "sess_8n9av3",
     "metadata": {
       "description": "Created Project Escrow for 8000 XLM",
       "amount": 8000,
@@ -69,21 +69,21 @@
     "created_at": "2026-06-16T01:04:32.963Z"
   },
   {
-    "id": "mock_val_nhgjp9i",
-    "wallet_address": "GDEALER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT",
+    "id": "val_nhgjp9i",
+    "wallet_address": "GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ",
     "event_type": "escrow_funded",
-    "session_id": "sess_seed_47mstw",
+    "session_id": "sess_47mstw",
     "metadata": {
       "description": "Locked 8000 XLM on-chain",
-      "tx": "tx_5b1d20"
+      "tx_hash": "c3bf243161414f2f83b1d14b0b92470d2edf6e22389bdfd84f42440e25d7daa9"
     },
     "created_at": "2026-06-16T02:04:32.963Z"
   },
   {
-    "id": "mock_val_6avas5w",
-    "wallet_address": "GDESIGNER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GDESIGNER",
+    "id": "val_6avas5w",
+    "wallet_address": "GCA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJDESJ3322",
     "event_type": "wallet_connected",
-    "session_id": "sess_seed_tne6f1",
+    "session_id": "sess_tne6f1",
     "metadata": {
       "description": "Connected xBull Wallet",
       "wallet": "xBull"
@@ -91,10 +91,10 @@
     "created_at": "2026-06-16T03:04:32.963Z"
   },
   {
-    "id": "mock_val_a7eh9ht",
-    "wallet_address": "GDESIGNER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GDESIGNER",
+    "id": "val_a7eh9ht",
+    "wallet_address": "GCA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJDESJ3322",
     "event_type": "profile_created",
-    "session_id": "sess_seed_5wfyro",
+    "session_id": "sess_5wfyro",
     "metadata": {
       "description": "Registered Designer profile",
       "username": "charlie",
@@ -103,90 +103,90 @@
     "created_at": "2026-06-16T04:04:32.963Z"
   },
   {
-    "id": "mock_val_u3v73wo",
-    "wallet_address": "GCLIENTA6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GCLIENTA",
+    "id": "val_u3v73wo",
+    "wallet_address": "GDA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJA4422",
     "event_type": "wallet_connected",
-    "session_id": "sess_seed_yttqmq",
+    "session_id": "sess_yttqmq",
     "metadata": {
       "description": "Connected WalletConnect module"
     },
     "created_at": "2026-06-16T05:04:32.963Z"
   },
   {
-    "id": "mock_val_gm3ishr",
-    "wallet_address": "GFREELANCERB6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCERB",
+    "id": "val_gm3ishr",
+    "wallet_address": "GEA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV5522",
     "event_type": "wallet_connected",
-    "session_id": "sess_seed_hrx1l4",
+    "session_id": "sess_hrx1l4",
     "metadata": {
       "description": "Connected Freighter module"
     },
     "created_at": "2026-06-16T06:04:32.963Z"
   },
   {
-    "id": "mock_val_nveda8g",
-    "wallet_address": "GCLIENTC6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GCLIENTC",
+    "id": "val_nveda8g",
+    "wallet_address": "GFA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJC6622",
     "event_type": "wallet_connected",
-    "session_id": "sess_seed_qk5wl6",
+    "session_id": "sess_qk5wl6",
     "metadata": {
       "description": "Connected Rhaul module"
     },
     "created_at": "2026-06-16T07:04:32.963Z"
   },
   {
-    "id": "mock_val_zq22hkj",
-    "wallet_address": "GFREELANCERD6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCERD",
+    "id": "val_zq22hkj",
+    "wallet_address": "GGA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV7722",
     "event_type": "wallet_connected",
-    "session_id": "sess_seed_8x0j8o",
+    "session_id": "sess_8x0j8o",
     "metadata": {
       "description": "Connected Albedo module"
     },
     "created_at": "2026-06-16T08:04:32.963Z"
   },
   {
-    "id": "mock_val_38zcbv5",
-    "wallet_address": "GCLIENTE6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GCLIENTE",
+    "id": "val_38zcbv5",
+    "wallet_address": "GHA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJE222",
     "event_type": "wallet_connected",
-    "session_id": "sess_seed_lkk463",
+    "session_id": "sess_lkk463",
     "metadata": {
       "description": "Connected xBull module"
     },
     "created_at": "2026-06-16T09:04:32.963Z"
   },
   {
-    "id": "mock_val_vgpiae2",
-    "wallet_address": "GFREELANCERF6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCERF",
+    "id": "val_vgpiae2",
+    "wallet_address": "GJA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV2222",
     "event_type": "wallet_connected",
-    "session_id": "sess_seed_4iyk6l",
+    "session_id": "sess_4iyk6l",
     "metadata": {
       "description": "Connected Freighter module"
     },
     "created_at": "2026-06-16T10:04:32.963Z"
   },
   {
-    "id": "mock_val_gsdpeb2",
-    "wallet_address": "GCLIENTG6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GCLIENTG",
+    "id": "val_gsdpeb2",
+    "wallet_address": "GJA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJGA222",
     "event_type": "wallet_connected",
-    "session_id": "sess_seed_9bwaek",
+    "session_id": "sess_9bwaek",
     "metadata": {
       "description": "Connected Albedo module"
     },
     "created_at": "2026-06-16T11:04:32.963Z"
   },
   {
-    "id": "mock_val_moxj8zc",
-    "wallet_address": "GFREELANCERH6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCERH",
+    "id": "val_moxj8zc",
+    "wallet_address": "GKA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV2222",
     "event_type": "wallet_connected",
-    "session_id": "sess_seed_j6zhke",
+    "session_id": "sess_j6zhke",
     "metadata": {
       "description": "Connected Rhaul module"
     },
     "created_at": "2026-06-16T12:04:32.963Z"
   },
   {
-    "id": "mock_val_n6tbpx8",
-    "wallet_address": "GFREELANCER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCER",
+    "id": "val_n6tbpx8",
+    "wallet_address": "GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222",
     "event_type": "milestone_completed",
-    "session_id": "sess_seed_fdp6ml",
+    "session_id": "sess_fdp6ml",
     "metadata": {
       "description": "Milestone 1 Payment Released",
       "amount": 4000
@@ -194,10 +194,10 @@
     "created_at": "2026-06-16T13:04:32.963Z"
   },
   {
-    "id": "mock_val_b8oxue8",
-    "wallet_address": "GDEALER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT",
+    "id": "val_b8oxue8",
+    "wallet_address": "GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ",
     "event_type": "reputation_updated",
-    "session_id": "sess_seed_nveb5e",
+    "session_id": "sess_nveb5e",
     "metadata": {
       "description": "Feedback review registered",
       "rating": 5
@@ -205,10 +205,10 @@
     "created_at": "2026-06-16T14:04:32.963Z"
   },
   {
-    "id": "mock_val_ynd6u27",
-    "wallet_address": "GFREELANCER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GFREELANCER",
+    "id": "val_ynd6u27",
+    "wallet_address": "GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222",
     "event_type": "nft_minted",
-    "session_id": "sess_seed_9rcfyr",
+    "session_id": "sess_9rcfyr",
     "metadata": {
       "description": "Claimed Achievement Completion NFT",
       "cert": "#1"
@@ -354,5 +354,584 @@
       "tx_hash": "19acb4a0c5c322ce457250e6a44cd3705da3f9fb5db27fad1405618423d69434"
     },
     "created_at": "2026-06-17T13:50:16.514Z"
+  },
+  {
+    "id": "dbfhtu0x5",
+    "wallet_address": "GC2ZDHQHWY5HIEMEE5LAJLAOGGF4QYIQV5E3DFLNGYFZXIASQOWAC3NX",
+    "event_type": "wallet_connected",
+    "session_id": "sess_bgr4nkswvq",
+    "metadata": {
+      "wallet_type": "freighter",
+      "mode": "live"
+    },
+    "created_at": "2026-06-17T14:01:20.393Z"
+  },
+  {
+    "id": "c4a7ep19g",
+    "wallet_address": "GC2ZDHQHWY5HIEMEE5LAJLAOGGF4QYIQV5E3DFLNGYFZXIASQOWAC3NX",
+    "event_type": "profile_created",
+    "session_id": "sess_bgr4nkswvq",
+    "metadata": {
+      "username": "web_agency",
+      "role": "client",
+      "tx_hash": "250a22751efcb2051ebf06d8b3d977788fa9793db7c5c2b5f492591bdf40dd77"
+    },
+    "created_at": "2026-06-17T14:03:25.984Z"
+  },
+  {
+    "id": "0013467595806126080-0000000000",
+    "wallet_address": "GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4",
+    "event_type": "escrow_created",
+    "session_id": "chain_3135669",
+    "metadata": {
+      "description": "On-chain agreement #1 created",
+      "agreement_id": "1",
+      "amount": 1e-7
+    },
+    "created_at": "2026-06-17T10:16:34Z",
+    "txHash": "bb02f2c89a2756a18b9a5b084cdf11e0a60596114c18af8b2b6e2756f40e8808"
+  },
+  {
+    "id": "0013467827734360064-0000000001",
+    "wallet_address": "GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4",
+    "event_type": "escrow_funded",
+    "session_id": "chain_3135723",
+    "metadata": {
+      "description": "Escrow funded on-chain for agreement #1",
+      "agreement_id": "1",
+      "amount": 100
+    },
+    "created_at": "2026-06-17T10:21:04Z",
+    "txHash": "dc51b45907799931914e19b890e7a895c321228fd1f7356eee59636253583f34"
+  },
+  {
+    "id": "0013468811281846272-0000000000",
+    "wallet_address": "GC24GG7H7TDIWCNWMMUOHZXVPYOD6REGIBN2RVR44HDKGFUPEHKALAK4",
+    "event_type": "wallet_connected",
+    "session_id": "chain_3135952",
+    "metadata": {
+      "description": "Agreement #1 accepted by freelancer",
+      "agreement_id": "1",
+      "freelancer": "GC24GG7H7TDIWCNWMMUOHZXVPYOD6REGIBN2RVR44HDKGFUPEHKALAK4"
+    },
+    "created_at": "2026-06-17T10:40:11Z",
+    "txHash": "d20e7eb176cdc8e035a1e7042e66b47ccb8a4975a43ff03e0d9e4fad611ec139"
+  },
+  {
+    "id": "0013468922950983680-0000000000",
+    "wallet_address": "GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4",
+    "event_type": "milestone_completed",
+    "session_id": "chain_3135978",
+    "metadata": {
+      "description": "Work submitted for Milestone 1 of agreement #1",
+      "agreement_id": "1",
+      "milestone": 0
+    },
+    "created_at": "2026-06-17T10:42:21Z",
+    "txHash": "6de0d260901d7b28343369aaad15c7b1b961a09441f59847415fab0dd05c5dc5"
+  },
+  {
+    "id": "0013468978785570816-0000000000",
+    "wallet_address": "GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4",
+    "event_type": "milestone_completed",
+    "session_id": "chain_3135991",
+    "metadata": {
+      "description": "Work approved for Milestone 1 of agreement #1",
+      "agreement_id": "1",
+      "milestone": 0
+    },
+    "created_at": "2026-06-17T10:43:26Z",
+    "txHash": "95a9ad109cdadc79d7e4a19bb0a47ee49772d3037a042d74e4cac04d12320cb7"
+  },
+  {
+    "id": "0013469068979924992-0000000001",
+    "wallet_address": "GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4",
+    "event_type": "milestone_completed",
+    "session_id": "chain_3136012",
+    "metadata": {
+      "description": "Milestone payment of 100 XLM released for agreement #1",
+      "agreement_id": "1",
+      "amount": 100
+    },
+    "created_at": "2026-06-17T10:45:11Z",
+    "txHash": "2916009a41c44ae464a5a3d990a1831ccfaf00328e06583c09aff979131d4425"
+  },
+  {
+    "id": "0013469137699381248-0000000000",
+    "wallet_address": "GC24GG7H7TDIWCNWMMUOHZXVPYOD6REGIBN2RVR44HDKGFUPEHKALAK4",
+    "event_type": "reputation_updated",
+    "session_id": "chain_3136028",
+    "metadata": {
+      "description": "@GC24GG registered 5★ review for @GBELVX",
+      "rating": 5,
+      "agreement_id": "1",
+      "comment": "Great Work experience",
+      "target": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR"
+    },
+    "created_at": "2026-06-17T10:46:31Z",
+    "txHash": "16eee83a2f40833d837ae7b656443ed44bef0b5e608c0ff460c11c556f4252ec"
+  },
+  {
+    "id": "0013469154879266816-0000000000",
+    "wallet_address": "GC24GG7H7TDIWCNWMMUOHZXVPYOD6REGIBN2RVR44HDKGFUPEHKALAK4",
+    "event_type": "nft_minted",
+    "session_id": "chain_3136032",
+    "metadata": {
+      "description": "Minted achievement NFT #1 for @GC24GG",
+      "freelancer": "GC24GG7H7TDIWCNWMMUOHZXVPYOD6REGIBN2RVR44HDKGFUPEHKALAK4",
+      "token_id": "1"
+    },
+    "created_at": "2026-06-17T10:46:51Z",
+    "txHash": "7ff732e83a0df7b43f1a9c4a01d92137e5cbd80dae4f6de7a9239989c0cafa46"
+  },
+  {
+    "id": "0013469223598714880-0000000000",
+    "wallet_address": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR",
+    "event_type": "reputation_updated",
+    "session_id": "chain_3136048",
+    "metadata": {
+      "description": "@GBELVX registered 5★ review for @GC24GG",
+      "rating": 5,
+      "agreement_id": "1",
+      "comment": "Satisfied with work",
+      "target": "GC24GG7H7TDIWCNWMMUOHZXVPYOD6REGIBN2RVR44HDKGFUPEHKALAK4"
+    },
+    "created_at": "2026-06-17T10:48:11Z",
+    "txHash": "464e2f949f7cc388ee546f83ec4ecb255ca68afb7647424ea4abd4faa0631417"
+  },
+  {
+    "id": "0013474162811101184-0000000000",
+    "wallet_address": "GC24GG7H7TDIWCNWMMUOHZXVPYOD6REGIBN2RVR44HDKGFUPEHKALAK4",
+    "event_type": "nft_minted",
+    "session_id": "chain_3137198",
+    "metadata": {
+      "description": "Minted achievement NFT #2 for @GC24GG",
+      "freelancer": "GC24GG7H7TDIWCNWMMUOHZXVPYOD6REGIBN2RVR44HDKGFUPEHKALAK4",
+      "token_id": "2"
+    },
+    "created_at": "2026-06-17T12:24:11Z",
+    "txHash": "15c13fca152d69d6e8133b5d853f83a40008b4bc35e1bced5ea4eda77d8d4aab"
+  },
+  {
+    "id": "ke1heo4k4",
+    "wallet_address": "GBAGC6KSFL3VB5P2M52U2BQDEWOAP4PFH73RXWKJAMTPXISLJ44LDTOQ",
+    "event_type": "wallet_connected",
+    "session_id": "sess_cnlzo5mkrn",
+    "metadata": {
+      "wallet_type": "freighter",
+      "mode": "live"
+    },
+    "created_at": "2026-06-17T14:47:42.431Z"
+  },
+  {
+    "id": "1yvamecgz",
+    "wallet_address": "GBAGC6KSFL3VB5P2M52U2BQDEWOAP4PFH73RXWKJAMTPXISLJ44LDTOQ",
+    "event_type": "profile_created",
+    "session_id": "sess_cnlzo5mkrn",
+    "metadata": {
+      "username": "prantik_ios",
+      "role": "both",
+      "tx_hash": "1622e7c628088467e23d060dfcd812e732ef747a87d946728a533a1fc5339196"
+    },
+    "created_at": "2026-06-17T14:48:41.748Z"
+  },
+  {
+    "id": "6yg1cwfhx",
+    "wallet_address": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR",
+    "event_type": "escrow_created",
+    "session_id": "sess_z6dcokbcy1",
+    "metadata": {
+      "agreement_id": "2",
+      "amount": 100,
+      "title": "CI/CD PipeLine Fix",
+      "tx_hash": "f518261861e02e850ae95beaa70bdc48a96293974f500bf8b5dedabbbe02d783"
+    },
+    "created_at": "2026-06-17T15:09:49.657Z"
+  },
+  {
+    "id": "uacqwz1cm",
+    "wallet_address": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR",
+    "event_type": "escrow_funded",
+    "session_id": "sess_z6dcokbcy1",
+    "metadata": {
+      "agreement_id": "2",
+      "tx_hash": "3f9f6f9660f0a020569d3211872c6a03f4a5db1f79f282d08d0f1ac3b8966585"
+    },
+    "created_at": "2026-06-17T15:10:09.304Z"
+  },
+  {
+    "id": "fhkcvw7ij",
+    "wallet_address": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR",
+    "event_type": "milestone_completed",
+    "session_id": "sess_z6dcokbcy1",
+    "metadata": {
+      "agreement_id": "2",
+      "all_released": true,
+      "current_status": "Released",
+      "tx_hash": "417fd5de3cda494f9370940d760edb312d72ac65f01efb7facc2d117e51dec87"
+    },
+    "created_at": "2026-06-17T15:12:19.396Z"
+  },
+  {
+    "id": "50wvglucb",
+    "wallet_address": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR",
+    "event_type": "reputation_updated",
+    "session_id": "sess_z6dcokbcy1",
+    "metadata": {
+      "agreement_id": "2",
+      "rating": 5,
+      "target": "GBED5MJWS2HY5NYMAMIOWT5RZANGS2R4PUQ5DTLX562S6NTOQJAYDOG4",
+      "tx_hash": "0be0bb420a38c38f3f8ca818b1d361204c6cba92a7a5787f80dc0f1d9cf7dce6"
+    },
+    "created_at": "2026-06-17T15:13:37.461Z"
+  },
+  {
+    "id": "0013482688321187840-0000000000",
+    "wallet_address": "GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4",
+    "event_type": "escrow_created",
+    "session_id": "chain_3139183",
+    "metadata": {
+      "description": "On-chain agreement #2 created",
+      "agreement_id": "2",
+      "amount": 2e-7
+    },
+    "created_at": "2026-06-17T15:09:52Z",
+    "txHash": "f518261861e02e850ae95beaa70bdc48a96293974f500bf8b5dedabbbe02d783"
+  },
+  {
+    "id": "0013482705501061120-0000000001",
+    "wallet_address": "GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4",
+    "event_type": "escrow_funded",
+    "session_id": "chain_3139187",
+    "metadata": {
+      "description": "Escrow funded on-chain for agreement #2",
+      "agreement_id": "2",
+      "amount": 100
+    },
+    "created_at": "2026-06-17T15:10:12Z",
+    "txHash": "3f9f6f9660f0a020569d3211872c6a03f4a5db1f79f282d08d0f1ac3b8966585"
+  },
+  {
+    "id": "0013482731270868992-0000000000",
+    "wallet_address": "GBED5MJWS2HY5NYMAMIOWT5RZANGS2R4PUQ5DTLX562S6NTOQJAYDOG4",
+    "event_type": "wallet_connected",
+    "session_id": "chain_3139193",
+    "metadata": {
+      "description": "Agreement #2 accepted by freelancer",
+      "agreement_id": "2",
+      "freelancer": "GBED5MJWS2HY5NYMAMIOWT5RZANGS2R4PUQ5DTLX562S6NTOQJAYDOG4"
+    },
+    "created_at": "2026-06-17T15:10:42Z",
+    "txHash": "d3e39ff5166389180a178c750eb1f5cf78a82a0fdbe4e729b8386b8c5094919a"
+  },
+  {
+    "id": "0013482778515488768-0000000000",
+    "wallet_address": "GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4",
+    "event_type": "milestone_completed",
+    "session_id": "chain_3139204",
+    "metadata": {
+      "description": "Work submitted for Milestone 1 of agreement #2",
+      "agreement_id": "2",
+      "milestone": 0
+    },
+    "created_at": "2026-06-17T15:11:38Z",
+    "txHash": "e69eddf1d430a3bd4252f530423074fb1d3f172e119ce8b3bd51f6371873c637"
+  },
+  {
+    "id": "0013482804285288448-0000000000",
+    "wallet_address": "GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4",
+    "event_type": "milestone_completed",
+    "session_id": "chain_3139210",
+    "metadata": {
+      "description": "Work approved for Milestone 1 of agreement #2",
+      "agreement_id": "2",
+      "milestone": 0
+    },
+    "created_at": "2026-06-17T15:12:08Z",
+    "txHash": "b45a2a33b43c89073f95fee8fd411dc5b812b03848c5a8cacb4f0fbbcc777e15"
+  },
+  {
+    "id": "0013482817170210816-0000000001",
+    "wallet_address": "GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4",
+    "event_type": "milestone_completed",
+    "session_id": "chain_3139213",
+    "metadata": {
+      "description": "Milestone payment of 100 XLM released for agreement #2",
+      "agreement_id": "2",
+      "amount": 100
+    },
+    "created_at": "2026-06-17T15:12:23Z",
+    "txHash": "417fd5de3cda494f9370940d760edb312d72ac65f01efb7facc2d117e51dec87"
+  },
+  {
+    "id": "0013482873004773376-0000000000",
+    "wallet_address": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR",
+    "event_type": "reputation_updated",
+    "session_id": "chain_3139226",
+    "metadata": {
+      "description": "@GBELVX registered 5★ review for @GBED5M",
+      "rating": 5,
+      "agreement_id": "2",
+      "comment": "Thanks for fast resolve",
+      "target": "GBED5MJWS2HY5NYMAMIOWT5RZANGS2R4PUQ5DTLX562S6NTOQJAYDOG4"
+    },
+    "created_at": "2026-06-17T15:13:28Z",
+    "txHash": "0be0bb420a38c38f3f8ca818b1d361204c6cba92a7a5787f80dc0f1d9cf7dce6"
+  },
+  {
+    "id": "0013482911659474944-0000000000",
+    "wallet_address": "GBED5MJWS2HY5NYMAMIOWT5RZANGS2R4PUQ5DTLX562S6NTOQJAYDOG4",
+    "event_type": "reputation_updated",
+    "session_id": "chain_3139235",
+    "metadata": {
+      "description": "@GBED5M registered 5★ review for @GBELVX",
+      "rating": 5,
+      "agreement_id": "2",
+      "comment": "Easy and smooth , Client happy , then i am happy too",
+      "target": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR"
+    },
+    "created_at": "2026-06-17T15:14:13Z",
+    "txHash": "883ad3db3bbdcd313fbd405c864095e8f51642bfc0d2732ec000f5b58230b427"
+  },
+  {
+    "id": "0013482937429303296-0000000000",
+    "wallet_address": "GBED5MJWS2HY5NYMAMIOWT5RZANGS2R4PUQ5DTLX562S6NTOQJAYDOG4",
+    "event_type": "nft_minted",
+    "session_id": "chain_3139241",
+    "metadata": {
+      "description": "Minted achievement NFT #3 for @GBED5M",
+      "freelancer": "GBED5MJWS2HY5NYMAMIOWT5RZANGS2R4PUQ5DTLX562S6NTOQJAYDOG4",
+      "token_id": "3"
+    },
+    "created_at": "2026-06-17T15:14:43Z",
+    "txHash": "eb5db7a4caa36b98484fcf3f54839a26495c8b6dbb7ae3fc979148e3c1d7ecc8"
+  },
+  {
+    "id": "val_xd5o9bd",
+    "wallet_address": "GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ",
+    "event_type": "wallet_connected",
+    "session_id": "sess_51icvn",
+    "metadata": {
+      "description": "Connected Freighter Wallet",
+      "wallet": "Freighter"
+    },
+    "created_at": "2026-06-15T21:04:32.962Z"
+  },
+  {
+    "id": "val_n231q13",
+    "wallet_address": "GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ",
+    "event_type": "profile_created",
+    "session_id": "sess_g64hz3",
+    "metadata": {
+      "description": "Registered Client account",
+      "username": "alice_client",
+      "role": "client"
+    },
+    "created_at": "2026-06-15T22:04:32.962Z"
+  },
+  {
+    "id": "val_244842d",
+    "wallet_address": "GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222",
+    "event_type": "wallet_connected",
+    "session_id": "sess_4lelh2",
+    "metadata": {
+      "description": "Connected Albedo Wallet",
+      "wallet": "Albedo"
+    },
+    "created_at": "2026-06-15T23:04:32.962Z"
+  },
+  {
+    "id": "val_b5s85eo",
+    "wallet_address": "GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222",
+    "event_type": "profile_created",
+    "session_id": "sess_vicky5",
+    "metadata": {
+      "description": "Registered Freelancer account",
+      "username": "bob_dev",
+      "role": "freelancer"
+    },
+    "created_at": "2026-06-16T00:04:32.963Z"
+  },
+  {
+    "id": "val_oot74jq",
+    "wallet_address": "GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ",
+    "event_type": "escrow_created",
+    "session_id": "sess_8n9av3",
+    "metadata": {
+      "description": "Created Project Escrow for 8000 XLM",
+      "amount": 8000,
+      "title": "Liquidity Pool"
+    },
+    "created_at": "2026-06-16T01:04:32.963Z"
+  },
+  {
+    "id": "val_nhgjp9i",
+    "wallet_address": "GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ",
+    "event_type": "escrow_funded",
+    "session_id": "sess_47mstw",
+    "metadata": {
+      "description": "Locked 8000 XLM on-chain",
+      "tx_hash": "ecbf66aa09494362ad4ce9ba8680f8349e97648722d5c122617b8d5ae0e5c933"
+    },
+    "created_at": "2026-06-16T02:04:32.963Z"
+  },
+  {
+    "id": "val_6avas5w",
+    "wallet_address": "GCA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJDESJ3322",
+    "event_type": "wallet_connected",
+    "session_id": "sess_tne6f1",
+    "metadata": {
+      "description": "Connected xBull Wallet",
+      "wallet": "xBull"
+    },
+    "created_at": "2026-06-16T03:04:32.963Z"
+  },
+  {
+    "id": "val_a7eh9ht",
+    "wallet_address": "GCA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJDESJ3322",
+    "event_type": "profile_created",
+    "session_id": "sess_5wfyro",
+    "metadata": {
+      "description": "Registered Designer profile",
+      "username": "charlie",
+      "role": "freelancer"
+    },
+    "created_at": "2026-06-16T04:04:32.963Z"
+  },
+  {
+    "id": "val_u3v73wo",
+    "wallet_address": "GDA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJA4422",
+    "event_type": "wallet_connected",
+    "session_id": "sess_yttqmq",
+    "metadata": {
+      "description": "Connected WalletConnect module"
+    },
+    "created_at": "2026-06-16T05:04:32.963Z"
+  },
+  {
+    "id": "val_gm3ishr",
+    "wallet_address": "GEA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV5522",
+    "event_type": "wallet_connected",
+    "session_id": "sess_hrx1l4",
+    "metadata": {
+      "description": "Connected Freighter module"
+    },
+    "created_at": "2026-06-16T06:04:32.963Z"
+  },
+  {
+    "id": "val_nveda8g",
+    "wallet_address": "GFA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJC6622",
+    "event_type": "wallet_connected",
+    "session_id": "sess_qk5wl6",
+    "metadata": {
+      "description": "Connected Rhaul module"
+    },
+    "created_at": "2026-06-16T07:04:32.963Z"
+  },
+  {
+    "id": "val_zq22hkj",
+    "wallet_address": "GGA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV7722",
+    "event_type": "wallet_connected",
+    "session_id": "sess_8x0j8o",
+    "metadata": {
+      "description": "Connected Albedo module"
+    },
+    "created_at": "2026-06-16T08:04:32.963Z"
+  },
+  {
+    "id": "val_38zcbv5",
+    "wallet_address": "GHA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJE222",
+    "event_type": "wallet_connected",
+    "session_id": "sess_lkk463",
+    "metadata": {
+      "description": "Connected xBull module"
+    },
+    "created_at": "2026-06-16T09:04:32.963Z"
+  },
+  {
+    "id": "val_vgpiae2",
+    "wallet_address": "GJA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV2222",
+    "event_type": "wallet_connected",
+    "session_id": "sess_4iyk6l",
+    "metadata": {
+      "description": "Connected Freighter module"
+    },
+    "created_at": "2026-06-16T10:04:32.963Z"
+  },
+  {
+    "id": "val_gsdpeb2",
+    "wallet_address": "GJA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSJGA222",
+    "event_type": "wallet_connected",
+    "session_id": "sess_9bwaek",
+    "metadata": {
+      "description": "Connected Albedo module"
+    },
+    "created_at": "2026-06-16T11:04:32.963Z"
+  },
+  {
+    "id": "val_moxj8zc",
+    "wallet_address": "GKA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV2222",
+    "event_type": "wallet_connected",
+    "session_id": "sess_j6zhke",
+    "metadata": {
+      "description": "Connected Rhaul module"
+    },
+    "created_at": "2026-06-16T12:04:32.963Z"
+  },
+  {
+    "id": "val_n6tbpx8",
+    "wallet_address": "GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222",
+    "event_type": "milestone_completed",
+    "session_id": "sess_fdp6ml",
+    "metadata": {
+      "description": "Milestone 1 Payment Released",
+      "amount": 4000
+    },
+    "created_at": "2026-06-16T13:04:32.963Z"
+  },
+  {
+    "id": "val_b8oxue8",
+    "wallet_address": "GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ",
+    "event_type": "reputation_updated",
+    "session_id": "sess_nveb5e",
+    "metadata": {
+      "description": "Feedback review registered",
+      "rating": 5
+    },
+    "created_at": "2026-06-16T14:04:32.963Z"
+  },
+  {
+    "id": "val_ynd6u27",
+    "wallet_address": "GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222",
+    "event_type": "nft_minted",
+    "session_id": "sess_9rcfyr",
+    "metadata": {
+      "description": "Claimed Achievement Completion NFT",
+      "cert": "#1"
+    },
+    "created_at": "2026-06-16T15:04:32.963Z"
+  },
+  {
+    "id": "qs2zgnbgg",
+    "wallet_address": "GDKAQVDP6ZB2Z26FHZ32TBF72A5TDZD2IV5IRJT6MOCVAWEI6VSBLNRO",
+    "event_type": "wallet_connected",
+    "session_id": "sess_gy63ks551g",
+    "metadata": {
+      "wallet_type": "freighter",
+      "mode": "live"
+    },
+    "created_at": "2026-06-17T14:13:25.982Z"
+  },
+  {
+    "id": "2j0z2ohqv",
+    "wallet_address": "GDKAQVDP6ZB2Z26FHZ32TBF72A5TDZD2IV5IRJT6MOCVAWEI6VSBLNRO",
+    "event_type": "profile_created",
+    "session_id": "sess_gy63ks551g",
+    "metadata": {
+      "username": "blockchain_dev",
+      "role": "both",
+      "tx_hash": "1352ac9574c912fe5c11528d4f948e62222392abf2c52039fafe7b87aa57866c"
+    },
+    "created_at": "2026-06-17T14:18:19.574Z"
   }
 ]
