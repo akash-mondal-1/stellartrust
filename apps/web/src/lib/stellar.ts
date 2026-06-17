@@ -225,7 +225,7 @@ export async function getBlockchainEvents(limit = 100): Promise<any[]> {
   try {
     const latestLedgerRes = await server.getLatestLedger();
     const sequence = latestLedgerRes.sequence;
-    const startLedger = Math.max(1, sequence - 50000);
+    const startLedger = Math.max(1, sequence - 9000);
     
     console.log(`Fetching blockchain events from ledger ${startLedger} to ${sequence}...`);
     
@@ -354,7 +354,7 @@ export async function getBlockchainEvents(limit = 100): Promise<any[]> {
         session_id: `chain_${ev.ledger}`,
         metadata,
         created_at: ev.ledgerClosedAt || new Date().toISOString(),
-        txHash: (ev as any).transactionHash || null
+        txHash: ev.txHash || null
       };
     });
   } catch (err) {

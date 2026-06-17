@@ -40,9 +40,55 @@ export default function SubmissionDashboard() {
     nft: process.env.NEXT_PUBLIC_NFT_CONTRACT || 'CDOBVROTIXHQWRZBFYTBJICIZ2BITWPFTN5RTXO3J7NUBX3TUPX33FWU',
   };
 
-  const loadData = () => {
+  const loadData = async () => {
     setEvents(mockDb.getValidationEvents());
-    setFeedbacks(mockDb.getFeedback());
+    try {
+      const res = await fetch('/api/export-feedback');
+      if (res.ok) {
+        const serverFeedbacks = await res.json();
+        const localFeedbacks = mockDb.getFeedback();
+        
+        // Find if we have local feedbacks NOT present on the server
+        const unsynced = localFeedbacks.filter((local: any) => 
+          !serverFeedbacks.some((server: any) => server.id === local.id)
+        );
+
+        if (unsynced.length > 0) {
+          console.log(`Syncing ${unsynced.length} unsynced local feedbacks to server...`);
+          const postRes = await fetch('/api/export-feedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ feedbacks: localFeedbacks })
+          });
+          if (postRes.ok) {
+            const data = await postRes.json();
+            if (data.success && data.feedbacks) {
+              mockDb.setStorage('feedback', data.feedbacks);
+              setFeedbacks(data.feedbacks);
+              return;
+            }
+          }
+        }
+
+        // Sync server feedbacks down to local storage
+        let updated = false;
+        const mergedFeedbacks = [...localFeedbacks];
+        serverFeedbacks.forEach((fb: any) => {
+          if (!mergedFeedbacks.some((local: any) => local.id === fb.id)) {
+            mergedFeedbacks.push(fb);
+            updated = true;
+          }
+        });
+        if (updated) {
+          mockDb.setStorage('feedback', mergedFeedbacks);
+        }
+        setFeedbacks(mergedFeedbacks);
+      } else {
+        setFeedbacks(mockDb.getFeedback());
+      }
+    } catch (e) {
+      setFeedbacks(mockDb.getFeedback());
+    }
   };
 
   useEffect(() => {

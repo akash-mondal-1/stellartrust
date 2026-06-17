@@ -362,6 +362,15 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const activeCerts = results.filter(c => c !== null);
       
       console.log(`Discovered ${activeCerts.length} active NFTs on-chain.`);
+
+      // Query events to discover transaction hashes for minted NFTs
+      let nftEvents: any[] = [];
+      try {
+        const events = await getBlockchainEvents(100);
+        nftEvents = events.filter((e: any) => e.event_type === 'nft_minted');
+      } catch (err) {
+        console.warn("Failed to fetch events for NFT tx hashes:", err);
+      }
       
       // Group by freelancer and save
       const certificatesByFreelancer: Record<string, any[]> = {};
@@ -370,6 +379,13 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
         if (!certificatesByFreelancer[freelancer]) {
           certificatesByFreelancer[freelancer] = [];
         }
+        
+        // Find matching event to extract real txHash
+        const matchingEvent = nftEvents.find(
+          (ev) => ev.metadata.token_id?.toString() === cert.token_id?.toString()
+        );
+        const txHash = matchingEvent?.txHash || null;
+
         const exists = certificatesByFreelancer[freelancer].some(c => c.agreement_id === cert.agreement_id);
         if (!exists) {
           certificatesByFreelancer[freelancer].push({
@@ -378,7 +394,8 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
             freelancer: cert.freelancer,
             project_name: cert.project_name,
             project_hash: cert.project_hash,
-            completion_date: new Date(Number(cert.completion_date) * 1000).toISOString()
+            completion_date: new Date(Number(cert.completion_date) * 1000).toISOString(),
+            tx_hash: txHash
           });
         }
       }
@@ -387,8 +404,12 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
         const existing = JSON.parse(localStorage.getItem(`stellar_trust_nft_${freelancer}`) || '[]');
         const merged = [...existing];
         for (const cert of certs) {
-          if (!merged.some((m: any) => m.agreement_id === cert.agreement_id)) {
+          const index = merged.findIndex((m: any) => m.agreement_id === cert.agreement_id);
+          if (index === -1) {
             merged.push(cert);
+          } else {
+            // Update NFT info with any new fields (like tx_hash)
+            merged[index] = { ...merged[index], ...cert };
           }
         }
         localStorage.setItem(`stellar_trust_nft_${freelancer}`, JSON.stringify(merged));

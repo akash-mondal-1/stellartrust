@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useStellar } from '@/hooks/useStellar';
 import { mockDb } from '@/lib/supabase';
+import { NFT_CONTRACT } from '@/lib/stellar';
 import { 
   Award, 
   FileCheck, 
@@ -19,7 +20,7 @@ import {
 } from 'lucide-react';
 
 export default function Gallery() {
-  const { address, connected, mintNFT } = useStellar();
+  const { address, connected, mintNFT, discoverAndSyncNFTs } = useStellar();
   const [nfts, setNfts] = useState<any[]>([]);
   const [agreements, setAgreements] = useState<any[]>([]);
   const [claimingNftId, setClaimingNftId] = useState<string | null>(null);
@@ -42,7 +43,26 @@ export default function Gallery() {
 
   useEffect(() => {
     loadNftsAndAgreements();
-  }, [address]);
+
+    if (address && connected) {
+      if (discoverAndSyncNFTs) {
+        discoverAndSyncNFTs().then(() => {
+          loadNftsAndAgreements();
+        });
+      }
+
+      // Periodically polling to fetch newly minted NFTs
+      const interval = setInterval(async () => {
+        if (discoverAndSyncNFTs) {
+          try {
+            await discoverAndSyncNFTs();
+          } catch (e) {}
+        }
+        loadNftsAndAgreements();
+      }, 7000);
+      return () => clearInterval(interval);
+    }
+  }, [address, connected]);
 
   // Filter completed freelance agreements that do not have a minted NFT yet
   const eligibleProjects = agreements.filter(a => 
@@ -282,7 +302,7 @@ export default function Gallery() {
 
                       {/* Action button */}
                       <a 
-                        href={`https://stellar.expert/explorer/testnet/tx/${nft.project_hash}`}
+                        href={nft.tx_hash ? `https://stellar.expert/explorer/testnet/tx/${nft.tx_hash}` : `https://stellar.expert/explorer/testnet/contract/${NFT_CONTRACT}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full py-2 bg-slate-900 border border-white/10 text-slate-300 font-bold text-xs rounded-xl flex items-center justify-center space-x-1 hover:bg-slate-800/80 transition-colors"

@@ -32,8 +32,55 @@ export default function AdminPanel() {
   const [logs, setLogs] = useState<any[]>([]);
   const [faucetLoading, setFaucetLoading] = useState(false);
 
-  const loadData = () => {
-    setFeedbacks(mockDb.getFeedback());
+  const loadData = async () => {
+    try {
+      const res = await fetch('/api/export-feedback');
+      if (res.ok) {
+        const serverFeedbacks = await res.json();
+        const localFeedbacks = mockDb.getFeedback();
+        
+        // Find if we have local feedbacks NOT present on the server
+        const unsynced = localFeedbacks.filter((local: any) => 
+          !serverFeedbacks.some((server: any) => server.id === local.id)
+        );
+
+        if (unsynced.length > 0) {
+          console.log(`Syncing ${unsynced.length} unsynced local feedbacks to server...`);
+          const postRes = await fetch('/api/export-feedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ feedbacks: localFeedbacks })
+          });
+          if (postRes.ok) {
+            const data = await postRes.json();
+            if (data.success && data.feedbacks) {
+              mockDb.setStorage('feedback', data.feedbacks);
+              setFeedbacks(data.feedbacks);
+              setLogs(mockDb.getActivityLogs());
+              return;
+            }
+          }
+        }
+
+        // Sync server feedbacks down to local storage
+        let updated = false;
+        const mergedFeedbacks = [...localFeedbacks];
+        serverFeedbacks.forEach((fb: any) => {
+          if (!mergedFeedbacks.some((local: any) => local.id === fb.id)) {
+            mergedFeedbacks.push(fb);
+            updated = true;
+          }
+        });
+        if (updated) {
+          mockDb.setStorage('feedback', mergedFeedbacks);
+        }
+        setFeedbacks(mergedFeedbacks);
+      } else {
+        setFeedbacks(mockDb.getFeedback());
+      }
+    } catch (e) {
+      setFeedbacks(mockDb.getFeedback());
+    }
     setLogs(mockDb.getActivityLogs());
   };
 
@@ -170,9 +217,8 @@ export default function AdminPanel() {
 
     setFeedbackText('');
     setFeedbackMessage('Feedback successfully submitted. Thank you for validating StellarTrust!');
-    loadData();
 
-    // Automate feedback-summary.md sync on disk
+    // Automate feedback-summary.md sync on disk and merge on server
     const currentFeedbacks = mockDb.getFeedback();
     fetch('/api/export-feedback', {
       method: 'POST',
@@ -183,10 +229,17 @@ export default function AdminPanel() {
     })
     .then(res => res.json())
     .then(data => {
+      if (data.success && data.feedbacks) {
+        mockDb.setStorage('feedback', data.feedbacks);
+        setFeedbacks(data.feedbacks);
+      } else {
+        loadData();
+      }
       console.log('✓ Feedback summary markdown synced to disk:', data);
     })
     .catch(err => {
       console.error('❌ Failed to sync feedback summary to disk:', err);
+      loadData();
     });
   };
 

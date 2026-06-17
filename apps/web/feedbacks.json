@@ -1,0 +1,26 @@
+[
+  {
+    "id": "682l66st6",
+    "user_address": "GC24GG7H7TDIWCNWMMUOHZXVPYOD6REGIBN2RVR44HDKGFUPEHKALAK4",
+    "rating": 5,
+    "comment": "works fine, great ",
+    "category": "NFT Certificates",
+    "created_at": "2026-06-17T11:42:48.057Z"
+  },
+  {
+    "id": "0b79uhbat",
+    "user_address": "GDEMOCLIENT6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT",
+    "rating": 5,
+    "comment": "Test 1",
+    "category": "UI/UX Usability",
+    "created_at": "2026-06-16T16:05:10.148Z"
+  },
+  {
+    "id": "s8hq1x47h",
+    "user_address": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR",
+    "rating": 5,
+    "comment": "Loved the app",
+    "category": "UI/UX Usability",
+    "created_at": "2026-06-16T18:25:23.023Z"
+  }
+]

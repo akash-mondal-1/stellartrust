@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-06-17T06:33:28.227Z",
+  "timestamp": "2026-06-17T11:44:57.072Z",
   "verification_status": "MOCK_FALLBACK_ACTIVE",
   "dsn_provided": true,
   "project_id": null,
   "ingest_host": null,
   "connectivity_test": "NOT_TESTED",
-  "details": "Sentry error capturing is fully implemented in src/lib/sentry.ts and initialized client-side. Real reporting requires active Sentry DSN configuration."
+  "details": "Sentry error capturing initialized. Production exception monitoring requires an active Sentry DSN configuration."
 }
