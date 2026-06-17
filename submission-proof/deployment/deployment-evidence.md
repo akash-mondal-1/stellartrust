@@ -12,7 +12,7 @@ Soroban contract code can be verified on-chain by comparing the SHA256 of the co
 You can inspect the deployed contract details via Stellar CLI or Stellar.Expert to find the `wasm_hash` bound to the contracts:
 ```bash
 # Example query to output contract metadata
-stellar contract id spec --id CBQX65GOQO2AH3GI7DJSGM6EBBHE3VSFISFH6WRRET2WRCNWVBBQ4IKR --network testnet
+stellar contract id spec --id CBAJHSDO3F6LIQPB7OTT4HPYJIE3EPH2ZKTSVBS3QB7IQ7CONI644REP --network testnet
 ```
 
 ### 2. Generate Local WASM Hashes

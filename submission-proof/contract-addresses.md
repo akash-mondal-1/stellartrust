@@ -8,10 +8,10 @@ The following Stellar Soroban smart contracts are actively deployed on the **Ste
 
 | Contract Component | Deployed Contract ID | Explorer Lookup Link |
 | :--- | :--- | :--- |
-| **Identity Registry** | `CBQX65GOQO2AH3GI7DJSGM6EBBHE3VSFISFH6WRRET2WRCNWVBBQ4IKR` | [Stellar.Expert Profile](https://stellar.expert/explorer/testnet/contract/CBQX65GOQO2AH3GI7DJSGM6EBBHE3VSFISFH6WRRET2WRCNWVBBQ4IKR) |
-| **Escrow Manager** | `CCG6O2K7ZV6HDGAVEOTDCIFMIQIUFMRWGABGW2J7QXJKVGHFEIEAU4BU` | [Stellar.Expert Profile](https://stellar.expert/explorer/testnet/contract/CCG6O2K7ZV6HDGAVEOTDCIFMIQIUFMRWGABGW2J7QXJKVGHFEIEAU4BU) |
-| **Reputation Engine** | `CBCJUI7GX2RDG6KHBEEFDIHJTW4EQ2XQHCOPL655C6ICOZSDQVAZFLXD` | [Stellar.Expert Profile](https://stellar.expert/explorer/testnet/contract/CBCJUI7GX2RDG6KHBEEFDIHJTW4EQ2XQHCOPL655C6ICOZSDQVAZFLXD) |
-| **Achievement NFT Certs** | `CD5ZTDUAGSHYXFOPRQAWFRS2D3CAPCX7J23UXNLLOU5FU34WHKAFZOBK` | [Stellar.Expert Profile](https://stellar.expert/explorer/testnet/contract/CD5ZTDUAGSHYXFOPRQAWFRS2D3CAPCX7J23UXNLLOU5FU34WHKAFZOBK) |
+| **Identity Registry** | `CBAJHSDO3F6LIQPB7OTT4HPYJIE3EPH2ZKTSVBS3QB7IQ7CONI644REP` | [Stellar.Expert Profile](https://stellar.expert/explorer/testnet/contract/CBAJHSDO3F6LIQPB7OTT4HPYJIE3EPH2ZKTSVBS3QB7IQ7CONI644REP) |
+| **Escrow Manager** | `CC5IPJJYJTHSANTIX2RR6BZZ4OY7RDCZLPLMZIVEMIBTYAUYGVCSHIJJ` | [Stellar.Expert Profile](https://stellar.expert/explorer/testnet/contract/CC5IPJJYJTHSANTIX2RR6BZZ4OY7RDCZLPLMZIVEMIBTYAUYGVCSHIJJ) |
+| **Reputation Engine** | `CBGEGODHEMTZTIOVO7L66RRTAKEMAGYCXEM37BVZFT4ZCUGQYHEOZFD6` | [Stellar.Expert Profile](https://stellar.expert/explorer/testnet/contract/CBGEGODHEMTZTIOVO7L66RRTAKEMAGYCXEM37BVZFT4ZCUGQYHEOZFD6) |
+| **Achievement NFT Certs** | `CDOBVROTIXHQWRZBFYTBJICIZ2BITWPFTN5RTXO3J7NUBX3TUPX33FWU` | [Stellar.Expert Profile](https://stellar.expert/explorer/testnet/contract/CDOBVROTIXHQWRZBFYTBJICIZ2BITWPFTN5RTXO3J7NUBX3TUPX33FWU) |
 
 ---
 
@@ -20,14 +20,14 @@ You can verify the active status and methods exposed by these contract instances
 
 ```bash
 # Verify Identity Registry
-stellar contract id spec --id CBQX65GOQO2AH3GI7DJSGM6EBBHE3VSFISFH6WRRET2WRCNWVBBQ4IKR --network testnet
+stellar contract id spec --id CBAJHSDO3F6LIQPB7OTT4HPYJIE3EPH2ZKTSVBS3QB7IQ7CONI644REP --network testnet
 
 # Verify Escrow Manager
-stellar contract id spec --id CCG6O2K7ZV6HDGAVEOTDCIFMIQIUFMRWGABGW2J7QXJKVGHFEIEAU4BU --network testnet
+stellar contract id spec --id CC5IPJJYJTHSANTIX2RR6BZZ4OY7RDCZLPLMZIVEMIBTYAUYGVCSHIJJ --network testnet
 
 # Verify Reputation Engine
-stellar contract id spec --id CBCJUI7GX2RDG6KHBEEFDIHJTW4EQ2XQHCOPL655C6ICOZSDQVAZFLXD --network testnet
+stellar contract id spec --id CBGEGODHEMTZTIOVO7L66RRTAKEMAGYCXEM37BVZFT4ZCUGQYHEOZFD6 --network testnet
 
 # Verify Achievement NFT Certs
-stellar contract id spec --id CD5ZTDUAGSHYXFOPRQAWFRS2D3CAPCX7J23UXNLLOU5FU34WHKAFZOBK --network testnet
+stellar contract id spec --id CDOBVROTIXHQWRZBFYTBJICIZ2BITWPFTN5RTXO3J7NUBX3TUPX33FWU --network testnet
 ```

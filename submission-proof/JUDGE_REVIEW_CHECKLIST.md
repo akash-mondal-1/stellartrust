@@ -11,13 +11,13 @@ This checklist provides a fast-track workflow for reviewers to verify the comple
 *   [ ] Click any of the block explorer links to verify the contract status and active transaction counts on the Stellar Testnet.
 *   [ ] Run the following command to print the contract specification schema:
     ```bash
-    stellar contract id spec --id CBQX65GOQO2AH3GI7DJSGM6EBBHE3VSFISFH6WRRET2WRCNWVBBQ4IKR --network testnet
+    stellar contract id spec --id CBAJHSDO3F6LIQPB7OTT4HPYJIE3EPH2ZKTSVBS3QB7IQ7CONI644REP --network testnet
     ```
 
 ### 2. Frontend Build Verification (1 Minute)
 *   [ ] Open the GitHub Action config file: [`.github/workflows/ci-cd.yml`](file:///d:/StellarFlow%204/.github/workflows/ci-cd.yml)
 *   [ ] Confirm the active pipeline steps compiling contracts and executing Next.js production builds.
-*   [ ] Alternatively, confirm that the locally cached builds succeed by checking the route configurations catalog in the walkthrough: [`walkthrough.md`](file:///C:/Users/Asus/.gemini/antigravity-ide/brain/8ecd34f3-1158-496a-a548-1d7791db45bb/walkthrough.md#L47-L62).
+*   [ ] Alternatively, confirm that the locally cached builds succeed by checking the route configurations catalog in the walkthrough: [`walkthrough.md`](file:///d:/StellarFlow%204/walkthrough.md).
 
 ### 3. User Interface Screenshots Verification (30 Seconds)
 *   [ ] Open the screenshots catalog directory: [`docs/screenshots/`](file:///d:/StellarFlow%204/docs/screenshots/)

@@ -18,8 +18,8 @@ This walkthrough describes the implementation of missing UI options on the Reput
 
 ### 3. Smart Contract Integration Audit
 
-- **Audit Reports**: Completed an exhaustive audit of all user actions. Created [CONTRACT_INTEGRATION_AUDIT.md](file:///d:/StellarFlow%204/CONTRACT_INTEGRATION_AUDIT.md) (and [audit_report.md](file:///C:/Users/Asus/.gemini/antigravity-ide/brain/8ecd34f3-1158-496a-a548-1d7791db45bb/audit_report.md) in artifacts) listing the mock/real status of all operations.
-- **Reality Check**: Generated [GREENBELT_REALITY_CHECK.md](file:///d:/StellarFlow%204/GREENBELT_REALITY_CHECK.md) (and [greenbelt_evaluation_report.md](file:///C:/Users/Asus/.gemini/antigravity-ide/brain/8ecd34f3-1158-496a-a548-1d7791db45bb/greenbelt_evaluation_report.md) in artifacts) for judges, classifying each feature's status (ON-CHAIN for Wallet Connection, LOCAL STORAGE for everything else).
+- **Audit Reports**: Completed an exhaustive audit of all user actions. Created [CONTRACT_INTEGRATION_AUDIT.md](file:///d:/StellarFlow%204/CONTRACT_INTEGRATION_AUDIT.md) (and [audit_report.md](file:///C:/Users/Asus/.gemini/antigravity-ide/brain/9181892f-cd84-4637-a730-1766881fd78c/audit_report.md) in artifacts) listing the mock/real status of all operations.
+- **Reality Check**: Generated [GREENBELT_REALITY_CHECK.md](file:///d:/StellarFlow%204/GREENBELT_REALITY_CHECK.md) (and [greenbelt_evaluation_report.md](file:///C:/Users/Asus/.gemini/antigravity-ide/brain/9181892f-cd84-4637-a730-1766881fd78c/greenbelt_evaluation_report.md) in artifacts) for judges, classifying each feature's status (ON-CHAIN for Wallet Connection, LOCAL STORAGE for everything else).
 
 ---
 

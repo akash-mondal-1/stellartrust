@@ -14,10 +14,10 @@ StellarTrust is a decentralized freelance escrow and reputation protocol designe
 ### 2. Contract Addresses (Stellar Testnet)
 The core business logic is split across 4 hardened Rust smart contracts deployed to Testnet:
 *   **Addresses Directory**: [`submission-proof/contract-addresses.md`](file:///d:/StellarFlow%204/submission-proof/contract-addresses.md)
-*   **Identity Registry**: `CBQX65GOQO2AH3GI7DJSGM6EBBHE3VSFISFH6WRRET2WRCNWVBBQ4IKR`
-*   **Escrow Manager**: `CCG6O2K7ZV6HDGAVEOTDCIFMIQIUFMRWGABGW2J7QXJKVGHFEIEAU4BU`
-*   **Reputation Engine**: `CBCJUI7GX2RDG6KHBEEFDIHJTW4EQ2XQHCOPL655C6ICOZSDQVAZFLXD`
-*   **Achievement NFT Certs**: `CD5ZTDUAGSHYXFOPRQAWFRS2D3CAPCX7J23UXNLLOU5FU34WHKAFZOBK`
+*   **Identity Registry**: `CBAJHSDO3F6LIQPB7OTT4HPYJIE3EPH2ZKTSVBS3QB7IQ7CONI644REP`
+*   **Escrow Manager**: `CC5IPJJYJTHSANTIX2RR6BZZ4OY7RDCZLPLMZIVEMIBTYAUYGVCSHIJJ`
+*   **Reputation Engine**: `CBGEGODHEMTZTIOVO7L66RRTAKEMAGYCXEM37BVZFT4ZCUGQYHEOZFD6`
+*   **Achievement NFT Certs**: `CDOBVROTIXHQWRZBFYTBJICIZ2BITWPFTN5RTXO3J7NUBX3TUPX33FWU`
 
 ### 3. Deployment Evidence
 Verify compile hashes and deployment configurations:

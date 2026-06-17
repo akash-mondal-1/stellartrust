@@ -20,24 +20,24 @@ All contracts were compiled to optimized WebAssembly WASM targets and uploaded u
 To inspect deployment transactions, query Stellar.Expert or the Stellar Laboratory with the following contract IDs and transaction hashes:
 
 ### 1. Identity Registry Contract
-*   **Contract ID**: `CBQX65GOQO2AH3GI7DJSGM6EBBHE3VSFISFH6WRRET2WRCNWVBBQ4IKR`
+*   **Contract ID**: `CBAJHSDO3F6LIQPB7OTT4HPYJIE3EPH2ZKTSVBS3QB7IQ7CONI644REP`
 *   **Instantiation Tx Hash (Placeholder)**: `[Run verify-deploy script or inspect deployer address transactions on explorer]`
-*   **Explorer Link**: [Identity Contract Profile](https://stellar.expert/explorer/testnet/contract/CBQX65GOQO2AH3GI7DJSGM6EBBHE3VSFISFH6WRRET2WRCNWVBBQ4IKR)
+*   **Explorer Link**: [Identity Contract Profile](https://stellar.expert/explorer/testnet/contract/CBAJHSDO3F6LIQPB7OTT4HPYJIE3EPH2ZKTSVBS3QB7IQ7CONI644REP)
 
 ### 2. Escrow Manager Contract
-*   **Contract ID**: `CCG6O2K7ZV6HDGAVEOTDCIFMIQIUFMRWGABGW2J7QXJKVGHFEIEAU4BU`
+*   **Contract ID**: `CC5IPJJYJTHSANTIX2RR6BZZ4OY7RDCZLPLMZIVEMIBTYAUYGVCSHIJJ`
 *   **Instantiation Tx Hash (Placeholder)**: `[Run verify-deploy script or inspect deployer address transactions on explorer]`
-*   **Explorer Link**: [Escrow Contract Profile](https://stellar.expert/explorer/testnet/contract/CCG6O2K7ZV6HDGAVEOTDCIFMIQIUFMRWGABGW2J7QXJKVGHFEIEAU4BU)
+*   **Explorer Link**: [Escrow Contract Profile](https://stellar.expert/explorer/testnet/contract/CC5IPJJYJTHSANTIX2RR6BZZ4OY7RDCZLPLMZIVEMIBTYAUYGVCSHIJJ)
 
 ### 3. Reputation Engine Contract
-*   **Contract ID**: `CBCJUI7GX2RDG6KHBEEFDIHJTW4EQ2XQHCOPL655C6ICOZSDQVAZFLXD`
+*   **Contract ID**: `CBGEGODHEMTZTIOVO7L66RRTAKEMAGYCXEM37BVZFT4ZCUGQYHEOZFD6`
 *   **Instantiation Tx Hash (Placeholder)**: `[Run verify-deploy script or inspect deployer address transactions on explorer]`
-*   **Explorer Link**: [Reputation Contract Profile](https://stellar.expert/explorer/testnet/contract/CBCJUI7GX2RDG6KHBEEFDIHJTW4EQ2XQHCOPL655C6ICOZSDQVAZFLXD)
+*   **Explorer Link**: [Reputation Contract Profile](https://stellar.expert/explorer/testnet/contract/CBGEGODHEMTZTIOVO7L66RRTAKEMAGYCXEM37BVZFT4ZCUGQYHEOZFD6)
 
 ### 4. Achievement NFT Certs Contract
-*   **Contract ID**: `CD5ZTDUAGSHYXFOPRQAWFRS2D3CAPCX7J23UXNLLOU5FU34WHKAFZOBK`
+*   **Contract ID**: `CDOBVROTIXHQWRZBFYTBJICIZ2BITWPFTN5RTXO3J7NUBX3TUPX33FWU`
 *   **Instantiation Tx Hash (Placeholder)**: `[Run verify-deploy script or inspect deployer address transactions on explorer]`
-*   **Explorer Link**: [NFT Contract Profile](https://stellar.expert/explorer/testnet/contract/CD5ZTDUAGSHYXFOPRQAWFRS2D3CAPCX7J23UXNLLOU5FU34WHKAFZOBK)
+*   **Explorer Link**: [NFT Contract Profile](https://stellar.expert/explorer/testnet/contract/CDOBVROTIXHQWRZBFYTBJICIZ2BITWPFTN5RTXO3J7NUBX3TUPX33FWU)
 
 ---
 
