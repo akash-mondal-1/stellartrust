@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { mockDb } from '@/lib/supabase';
+import { useStellar } from '@/hooks/useStellar';
+import { getBlockchainEvents } from '@/lib/stellar';
 import { 
   ShieldCheck, 
   Download, 
@@ -20,18 +22,39 @@ import {
 export default function ValidationReport() {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { isDemo, connected } = useStellar();
 
-  const loadEvents = () => {
-    setLoading(true);
-    setEvents(mockDb.getValidationEvents());
-    setLoading(false);
+  const loadEvents = async () => {
+    try {
+      const localEvents = mockDb.getValidationEvents();
+      let chainEvents: any[] = [];
+      if (!isDemo) {
+        chainEvents = await getBlockchainEvents();
+      }
+
+      // Merge and deduplicate by ID
+      const allEventsMap = new Map<string, any>();
+      localEvents.forEach(e => allEventsMap.set(e.id, e));
+      chainEvents.forEach(e => allEventsMap.set(e.id, e));
+
+      const sorted = Array.from(allEventsMap.values()).sort(
+        (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      );
+      setEvents(sorted);
+    } catch (err) {
+      console.error("Failed to load merged validation events:", err);
+      setEvents(mockDb.getValidationEvents());
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
+    setLoading(true);
     loadEvents();
-    const interval = setInterval(loadEvents, 4000);
+    const interval = setInterval(loadEvents, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isDemo, connected]);
 
   // Calculate Green Belt validation metrics
   const totalEvents = events.length;
@@ -186,13 +209,19 @@ export default function ValidationReport() {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <button
-              onClick={handleSeedValidationData}
-              className="px-4 py-2.5 bg-slate-900 border border-cyan-500/20 text-cyan-400 hover:bg-slate-800/50 hover:border-cyan-500/60 font-bold text-xs rounded-xl flex items-center space-x-1.5 transition-all active:scale-95"
-            >
-              <Zap className="h-4 w-4" />
-              <span>Simulate 10+ Users Flow</span>
-            </button>
+            {isDemo ? (
+              <button
+                onClick={handleSeedValidationData}
+                className="px-4 py-2.5 bg-slate-900 border border-cyan-500/20 text-cyan-400 hover:bg-slate-800/50 hover:border-cyan-500/60 font-bold text-xs rounded-xl flex items-center space-x-1.5 transition-all active:scale-95"
+              >
+                <Zap className="h-4 w-4" />
+                <span>Simulate 10+ Users Flow</span>
+              </button>
+            ) : (
+              <div className="text-[11px] bg-yellow-950/20 border border-yellow-800/30 text-yellow-500 px-3.5 py-2 rounded-xl max-w-xs flex items-center">
+                <span>⚠️ Seeding disabled in Live Mode to protect audit authenticity.</span>
+              </div>
+            )}
             
             <button
               onClick={handleExportCSV}

@@ -36,7 +36,7 @@ export default function Gallery() {
         setNfts([]);
       }
       // Load agreements where the user is the freelancer
-      setAgreements(mockDb.getAgreements().filter(a => a.freelancer_address === address));
+      setAgreements(mockDb.getAgreements().filter(a => a.freelancer_address?.toLowerCase() === address.toLowerCase()));
     }
   };
 

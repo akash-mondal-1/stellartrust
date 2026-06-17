@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 export default function AdminPanel() {
-  const { address, connected, refreshProfile } = useStellar();
+  const { address, connected, isDemo, refreshProfile } = useStellar();
 
   const [feedbackRating, setFeedbackRating] = useState(5);
   const [feedbackText, setFeedbackText] = useState('');
@@ -30,6 +30,7 @@ export default function AdminPanel() {
 
   const [feedbacks, setFeedbacks] = useState<any[]>([]);
   const [logs, setLogs] = useState<any[]>([]);
+  const [faucetLoading, setFaucetLoading] = useState(false);
 
   const loadData = () => {
     setFeedbacks(mockDb.getFeedback());
@@ -127,6 +128,32 @@ export default function AdminPanel() {
     }
   };
 
+  const handleFaucet = async () => {
+    if (!address) {
+      alert("Please connect your wallet first.");
+      return;
+    }
+    if (isDemo) {
+      alert('Simulated Faucet: Added 10,000 XLM into mock wallet balance!');
+      return;
+    }
+
+    setFaucetLoading(true);
+    try {
+      const res = await fetch(`https://friendbot.stellar.org/?addr=${address}`);
+      if (res.ok) {
+        alert(`✓ Real Stellar Friendbot funded address ${address} successfully with 10,000 Testnet XLM! Check your Freighter wallet.`);
+      } else {
+        const text = await res.text();
+        alert(`Friendbot call failed: ${text || res.statusText}`);
+      }
+    } catch (err: any) {
+      alert(`Error calling Stellar Friendbot: ${err.message || err}`);
+    } finally {
+      setFaucetLoading(false);
+    }
+  };
+
   const handleFeedbackSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!feedbackText.trim()) return;
@@ -203,12 +230,18 @@ export default function AdminPanel() {
                 Instantly populate profiles, agreements, milestones, and ratings. Ideal for demonstrating flows.
               </p>
             </div>
-            <button
-              onClick={handleSeedData}
-              className="py-2 px-4 bg-cyan-500 hover:opacity-90 text-white text-xs font-bold rounded-xl transition-all"
-            >
-              Populate Mock Database
-            </button>
+            {isDemo ? (
+              <button
+                onClick={handleSeedData}
+                className="py-2 px-4 bg-cyan-500 hover:opacity-90 text-white text-xs font-bold rounded-xl transition-all"
+              >
+                Populate Mock Database
+              </button>
+            ) : (
+              <div className="text-[11px] text-yellow-500 bg-yellow-950/20 border border-yellow-800/30 p-2.5 rounded-xl text-center font-medium">
+                ⚠️ Disabled in Live Testnet Mode
+              </div>
+            )}
           </div>
 
           <div className="glass-panel border border-white/5 rounded-2xl p-6 flex flex-col justify-between space-y-4">
@@ -230,16 +263,19 @@ export default function AdminPanel() {
           <div className="glass-panel border border-white/5 rounded-2xl p-6 flex flex-col justify-between space-y-4">
             <div className="space-y-2">
               <Droplet className="h-6 w-6 text-purple-400" />
-              <h3 className="text-base font-bold text-slate-200">Faucet Simulated XLM</h3>
+              <h3 className="text-base font-bold text-slate-200">{isDemo ? "Faucet Simulated XLM" : "Real Testnet Faucet"}</h3>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Fund your current connected test address with mock XLM (only available in Demo Mode).
+                {isDemo 
+                  ? "Fund your current connected test address with mock XLM (only available in Demo Mode)."
+                  : "Fund your real Freighter wallet address with 10,000 real Testnet XLM via Stellar Friendbot."}
               </p>
             </div>
             <button
-              onClick={() => alert('Simulated Faucet: Added 10,000 XLM into mock wallet balance!')}
-              className="py-2 px-4 bg-purple-600 hover:opacity-90 text-white text-xs font-bold rounded-xl transition-all"
+              onClick={handleFaucet}
+              disabled={faucetLoading}
+              className="py-2 px-4 bg-purple-600 hover:opacity-90 text-white text-xs font-bold rounded-xl transition-all disabled:opacity-50"
             >
-              Simulate Faucet +10K XLM
+              {faucetLoading ? "Funding address..." : isDemo ? "Simulate Faucet +10K XLM" : "Fund +10K Testnet XLM"}
             </button>
           </div>
         </div>

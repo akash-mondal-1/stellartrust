@@ -33,8 +33,8 @@ export default function Reputation() {
 
   const reloadData = () => {
     if (address) {
-      setReviews(mockDb.getReviews().filter(r => r.target_address === address));
-      setAgreements(mockDb.getAgreements().filter(a => a.client_address === address || a.freelancer_address === address));
+      setReviews(mockDb.getReviews().filter(r => r.target_address?.toLowerCase() === address.toLowerCase()));
+      setAgreements(mockDb.getAgreements().filter(a => a.client_address?.toLowerCase() === address.toLowerCase() || a.freelancer_address?.toLowerCase() === address.toLowerCase()));
     }
   };
 
@@ -49,7 +49,7 @@ export default function Reputation() {
   
   const allReviews = mockDb.getReviews();
   const userHasReviewed = (agreementId: string) => {
-    return allReviews.some((r: any) => r.agreement_id === agreementId && r.author_address === address);
+    return allReviews.some((r: any) => r.agreement_id === agreementId && r.author_address?.toLowerCase() === address?.toLowerCase());
   };
 
   const eligibleAgreements = agreements.filter(a => 
@@ -243,7 +243,7 @@ export default function Reputation() {
                           <option value="">-- Choose project --</option>
                           {eligibleAgreements.map(a => (
                             <option key={a.id} value={a.id}>
-                              {a.title} ({a.amount} XLM) - Partner: {address === a.client_address ? 'Freelancer' : 'Client'}
+                              {a.title} ({a.amount} XLM) - Partner: {address?.toLowerCase() === a.client_address?.toLowerCase() ? 'Freelancer' : 'Client'}
                             </option>
                           ))}
                         </select>
@@ -301,7 +301,7 @@ export default function Reputation() {
                           <div className="flex space-x-2 text-slate-500">
                             <span>Status: <strong className="text-yellow-500/80">{a.status}</strong></span>
                             <span>•</span>
-                            <span>Role: <strong>{address === a.client_address ? 'Client' : 'Freelancer'}</strong></span>
+                            <span>Role: <strong>{address?.toLowerCase() === a.client_address?.toLowerCase() ? 'Client' : 'Freelancer'}</strong></span>
                           </div>
                         </div>
                         <Link 

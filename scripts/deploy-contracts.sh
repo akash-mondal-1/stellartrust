@@ -37,8 +37,8 @@ echo "Checking balance and requesting Friendbot test funds..."
 curl -s "https://friendbot.stellar.org?addr=$DEPLOYER_ADDR" > /dev/null || true
 
 # 4. Compile Contracts to WebAssembly (WASM)
-echo "Compiling smart contracts..."
-cargo build --target wasm32-unknown-unknown --release --manifest-path contracts/Cargo.toml
+echo "Compiling smart contracts (Manually built, skipping to avoid locks)..."
+# cargo build --target wasm32-unknown-unknown --release --manifest-path contracts/Cargo.toml
 
 # WASM build output paths
 WASM_DIR="contracts/target/wasm32-unknown-unknown/release"

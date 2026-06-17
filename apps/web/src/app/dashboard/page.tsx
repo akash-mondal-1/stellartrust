@@ -28,8 +28,9 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   // Stats calculation
-  const clientAgreements = agreements.filter(a => a.client_address === address);
-  const freelancerAgreements = agreements.filter(a => a.freelancer_address === address);
+  // Stats calculation
+  const clientAgreements = agreements.filter(a => a.client_address?.toLowerCase() === address?.toLowerCase());
+  const freelancerAgreements = agreements.filter(a => a.freelancer_address?.toLowerCase() === address?.toLowerCase());
 
   const activeClientAgreements = clientAgreements.filter(a => !['Released', 'Cancelled'].includes(a.status));
   const activeFreelancerAgreements = freelancerAgreements.filter(a => !['Released', 'Cancelled'].includes(a.status));
@@ -76,10 +77,27 @@ export default function Dashboard() {
     ? clientAgreements.some(a => a.status === 'Released') 
     : freelancerAgreements.some(a => a.status === 'Released');
 
-  const nftKey = address ? `stellar_trust_nft_${address}` : '';
-  const hasNFT = address && typeof window !== 'undefined' 
-    ? (JSON.parse(localStorage.getItem(nftKey) || '[]').length > 0)
-    : false;
+  // Check if user has minted an NFT or has had an NFT minted for their client agreements
+  let hasNFT = false;
+  if (address && typeof window !== 'undefined') {
+    const userNftKey = `stellar_trust_nft_${address}`;
+    const myNfts = JSON.parse(localStorage.getItem(userNftKey) || '[]');
+    if (myNfts.length > 0) {
+      hasNFT = true;
+    } else {
+      const clientAgreementIds = clientAgreements.map(a => a.id);
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('stellar_trust_nft_')) {
+          const nfts = JSON.parse(localStorage.getItem(key) || '[]');
+          if (nfts.some((nft: any) => clientAgreementIds.includes(nft.agreement_id))) {
+            hasNFT = true;
+            break;
+          }
+        }
+      }
+    }
+  }
 
   const onboardingSteps = [
     { label: 'Connect Wallet', done: connected, link: '/' },

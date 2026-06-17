@@ -16,7 +16,9 @@ import {
   ESCROW_CONTRACT,
   REPUTATION_CONTRACT,
   NFT_CONTRACT,
-  XLM_TOKEN_CONTRACT
+  XLM_TOKEN_CONTRACT,
+  getAgreement,
+  getBlockchainEvents
 } from '@/lib/stellar';
 
 export enum WalletNetwork {
@@ -64,6 +66,7 @@ interface StellarContextType {
   refundClient: (agreementId: string) => Promise<any>;
   submitReview: (agreementId: string, rating: number, comment: string) => Promise<any>;
   mintNFT: (agreementId: string, freelancer: string, projectName: string) => Promise<any>;
+  syncAgreement: (agreementId: string) => Promise<any>;
 }
 
 const StellarContext = createContext<StellarContextType | null>(null);
@@ -196,6 +199,21 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       }
 
       setUserProfile(updatedProfile);
+
+      // 3. Sync all user agreements with on-chain states in live mode
+      if (!isDemo) {
+        try {
+          const userAgs = mockDb.getAgreements().filter(
+            a => a.client_address?.toLowerCase() === walletAddr.toLowerCase() ||
+                 a.freelancer_address?.toLowerCase() === walletAddr.toLowerCase()
+          );
+          for (const ag of userAgs) {
+            await syncAgreement(ag.id);
+          }
+        } catch (syncErr) {
+          console.warn("Failed to sync agreements on profile refresh:", syncErr);
+        }
+      }
     } catch (e) {
       console.error('Failed to refresh profile from blockchain:', e);
       const fallback = mockDb.getProfile(walletAddr);
@@ -204,6 +222,82 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       } else {
         setUserProfile({ address: walletAddr });
       }
+    }
+  };
+
+  const syncAgreement = async (agreementId: string) => {
+    if (isDemo) return mockDb.getAgreement(agreementId);
+    try {
+      console.log(`Syncing agreement ${agreementId} status with on-chain contract...`);
+      const chainAg = await getAgreement(agreementId);
+      if (!chainAg) return mockDb.getAgreement(agreementId);
+
+      let localAg = mockDb.getAgreement(agreementId);
+      if (!localAg) {
+        console.log(`Agreement ${agreementId} not found in local cache. Fetching from chain...`);
+        const agreements = mockDb.getAgreements();
+        const baseAg = {
+          id: agreementId,
+          title: `On-Chain Agreement #${agreementId}`,
+          description: `Work agreement dynamically synchronized from the Soroban escrow contract.`,
+          client_address: chainAg.client_address,
+          freelancer_address: chainAg.freelancer_address,
+          amount: chainAg.amount,
+          token_address: chainAg.token_address,
+          milestone_count: chainAg.milestone_count,
+          deadline: chainAg.deadline,
+          status: chainAg.status,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+        agreements.push(baseAg);
+        mockDb.setStorage('agreements', agreements);
+
+        // Populate milestones
+        const milestones = mockDb.getMilestones();
+        const count = chainAg.milestone_count;
+        const amt = chainAg.amount / count;
+        for (let i = 0; i < count; i++) {
+          milestones.push({
+            id: `chain_m_${agreementId}_${i}`,
+            agreement_id: agreementId,
+            title: `Milestone ${i + 1}: Progress Review`,
+            amount: parseFloat(amt.toFixed(2)),
+            status: i < chainAg.current_milestone ? 'Released' : 'Pending',
+            created_at: new Date().toISOString()
+          });
+        }
+        mockDb.setStorage('milestones', milestones);
+        localAg = baseAg;
+      }
+
+      // Sync status
+      if (localAg.status !== chainAg.status) {
+        mockDb.updateAgreementStatus(agreementId, chainAg.status);
+      }
+
+      // Sync milestones
+      const milestones = mockDb.getAgreementMilestones(agreementId);
+      milestones.forEach((m: any, idx: number) => {
+        let newStatus = 'Pending';
+        if (idx < chainAg.current_milestone) {
+          newStatus = 'Released';
+        } else if (idx === chainAg.current_milestone) {
+          if (chainAg.status === 'Submitted') {
+            newStatus = 'Submitted';
+          } else if (chainAg.status === 'Approved') {
+            newStatus = 'Completed';
+          }
+        }
+        if (m.status !== newStatus) {
+          mockDb.updateMilestoneStatus(m.id, newStatus);
+        }
+      });
+
+      return mockDb.getAgreement(agreementId);
+    } catch (err) {
+      console.error(`Failed to sync agreement ${agreementId}:`, err);
+      return mockDb.getAgreement(agreementId);
     }
   };
 
@@ -866,6 +960,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
         refundClient,
         submitReview,
         mintNFT,
+        syncAgreement,
       }}
     >
       {children}

@@ -166,5 +166,200 @@ export async function submitTransaction(
   }
 }
 
+/**
+ * Fetch agreement details directly from Escrow smart contract state.
+ */
+export async function getAgreement(agreementId: string): Promise<any> {
+  const agreementIdNum = parseInt(agreementId);
+  if (isNaN(agreementIdNum)) {
+    return null;
+  }
+  try {
+    const idScVal = nativeToScVal(agreementIdNum);
+    const result = await queryContract(ESCROW_CONTRACT, 'get_agreement', [idScVal]);
+    if (!result) return null;
+    
+    // Map status index to string
+    const statusMap = ['Created', 'Funded', 'Accepted', 'Submitted', 'Approved', 'Released', 'Disputed', 'Cancelled'];
+    const statusStr = statusMap[result.status] || 'Created';
+
+    return {
+      id: result.id.toString(),
+      client_address: result.client,
+      freelancer_address: result.freelancer,
+      amount: Number(result.amount) / 10000000, // Stroops to XLM
+      token_address: result.token,
+      deadline: new Date(Number(result.deadline) * 1000).toISOString(),
+      status: statusStr,
+      milestone_count: Number(result.milestone_count),
+      current_milestone: Number(result.current_milestone),
+      funded_amount: Number(result.funded_amount) / 10000000
+    };
+  } catch (err) {
+    console.error(`Failed to query agreement ${agreementId} on-chain:`, err);
+    return null;
+  }
+}
+
+/**
+ * Decodes a base64 XDR ScVal string or parsed ScVal object.
+ */
+export function decodeScVal(val: any): any {
+  if (!val) return null;
+  try {
+    if (typeof val === 'string') {
+      return scValToNative(xdr.ScVal.fromXDR(val, 'base64'));
+    }
+    return scValToNative(val);
+  } catch (err) {
+    console.error("Failed to decode ScVal:", err);
+    return null;
+  }
+}
+
+/**
+ * Query live contract events from Stellar Testnet RPC.
+ */
+export async function getBlockchainEvents(limit = 100): Promise<any[]> {
+  try {
+    const latestLedgerRes = await server.getLatestLedger();
+    const sequence = latestLedgerRes.sequence;
+    const startLedger = Math.max(1, sequence - 50000);
+    
+    console.log(`Fetching blockchain events from ledger ${startLedger} to ${sequence}...`);
+    
+    const response = await server.getEvents({
+      startLedger,
+      filters: [
+        {
+          type: 'contract',
+          contractIds: [ESCROW_CONTRACT, REPUTATION_CONTRACT, NFT_CONTRACT]
+        }
+      ],
+      limit
+    });
+
+    if (!response || !response.events) {
+      return [];
+    }
+
+    return response.events.map(ev => {
+      const decodedTopics = ev.topic.map(t => decodeScVal(t));
+      const decodedValue = decodeScVal(ev.value);
+      
+      let eventType = 'wallet_connected';
+      let walletAddress = 'GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4'; // fallback admin
+      let metadata: any = { description: `On-chain event registered` };
+      
+      const primaryTopic = decodedTopics[0];
+      
+      if (ev.contractId === ESCROW_CONTRACT) {
+        const agreementIdStr = decodedTopics[1]?.toString() || '';
+        if (primaryTopic === 'created') {
+          eventType = 'escrow_created';
+          metadata = {
+            description: `On-chain agreement #${agreementIdStr} created`,
+            agreement_id: agreementIdStr,
+            amount: decodedValue ? parseFloat(decodedValue.toString()) / 10000000 : 0
+          };
+        } else if (primaryTopic === 'funded') {
+          eventType = 'escrow_funded';
+          metadata = {
+            description: `Escrow funded on-chain for agreement #${agreementIdStr}`,
+            agreement_id: agreementIdStr,
+            amount: decodedValue ? parseFloat(decodedValue.toString()) / 10000000 : 0
+          };
+        } else if (primaryTopic === 'accepted') {
+          eventType = 'wallet_connected';
+          walletAddress = decodedValue?.toString() || '';
+          metadata = {
+            description: `Agreement #${agreementIdStr} accepted by freelancer`,
+            agreement_id: agreementIdStr,
+            freelancer: walletAddress
+          };
+        } else if (primaryTopic === 'submitted') {
+          eventType = 'milestone_completed';
+          metadata = {
+            description: `Work submitted for Milestone ${Number(decodedValue) + 1} of agreement #${agreementIdStr}`,
+            agreement_id: agreementIdStr,
+            milestone: decodedValue
+          };
+        } else if (primaryTopic === 'approved') {
+          eventType = 'milestone_completed';
+          metadata = {
+            description: `Work approved for Milestone ${Number(decodedValue) + 1} of agreement #${agreementIdStr}`,
+            agreement_id: agreementIdStr,
+            milestone: decodedValue
+          };
+        } else if (primaryTopic === 'released') {
+          eventType = 'milestone_completed';
+          metadata = {
+            description: `Milestone payment of ${decodedValue ? parseFloat(decodedValue.toString()) / 10000000 : 0} XLM released for agreement #${agreementIdStr}`,
+            agreement_id: agreementIdStr,
+            amount: decodedValue ? parseFloat(decodedValue.toString()) / 10000000 : 0
+          };
+        } else if (primaryTopic === 'disputed') {
+          eventType = 'milestone_completed';
+          walletAddress = decodedValue?.toString() || '';
+          metadata = {
+            description: `Dispute raised on agreement #${agreementIdStr}`,
+            agreement_id: agreementIdStr,
+            by: walletAddress
+          };
+        } else if (primaryTopic === 'refunded') {
+          eventType = 'milestone_completed';
+          metadata = {
+            description: `Agreement #${agreementIdStr} refunded to client`,
+            agreement_id: agreementIdStr,
+            amount: decodedValue ? parseFloat(decodedValue.toString()) / 10000000 : 0
+          };
+        }
+      } else if (ev.contractId === REPUTATION_CONTRACT) {
+        if (primaryTopic === 'review') {
+          eventType = 'reputation_updated';
+          const reviewee = decodedTopics[1]?.toString() || '';
+          const reviewer = decodedTopics[2]?.toString() || '';
+          walletAddress = reviewer;
+          const rating = decodedValue[0];
+          const agreementIdStr = decodedValue[1]?.toString() || '';
+          const comment = decodedValue[2]?.toString() || '';
+          
+          metadata = {
+            description: `@${reviewer.substring(0,6)} registered ${rating}★ review for @${reviewee.substring(0,6)}`,
+            rating,
+            agreement_id: agreementIdStr,
+            comment,
+            target: reviewee
+          };
+        }
+      } else if (ev.contractId === NFT_CONTRACT) {
+        if (primaryTopic === 'nft_mint') {
+          eventType = 'nft_minted';
+          const freelancer = decodedTopics[1]?.toString() || '';
+          const tokenId = decodedTopics[2]?.toString() || '';
+          walletAddress = freelancer;
+          metadata = {
+            description: `Minted achievement NFT #${tokenId} for @${freelancer.substring(0,6)}`,
+            freelancer,
+            token_id: tokenId
+          };
+        }
+      }
+
+      return {
+        id: ev.id,
+        wallet_address: walletAddress,
+        event_type: eventType,
+        session_id: `chain_${ev.ledger}`,
+        metadata,
+        created_at: ev.ledgerClosedAt || new Date().toISOString()
+      };
+    });
+  } catch (err) {
+    console.error("Failed to query live contract events from Stellar RPC:", err);
+    return [];
+  }
+}
+
 // Re-export SDK helpers for use in components
 export { nativeToScVal, scValToNative, ScInt, Address };

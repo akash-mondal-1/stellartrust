@@ -31,6 +31,7 @@ function EscrowContent() {
   const { 
     address, 
     connected, 
+    isDemo,
     createAgreement, 
     fundEscrow, 
     acceptAgreement, 
@@ -40,7 +41,8 @@ function EscrowContent() {
     raiseDispute, 
     refundClient,
     submitReview,
-    mintNFT
+    mintNFT,
+    syncAgreement
   } = useStellar();
 
   // Creation form states
@@ -67,9 +69,12 @@ function EscrowContent() {
   const [nftMinted, setNftMinted] = useState(false);
 
   // Load details
-  const loadAgreementDetails = () => {
+  const loadAgreementDetails = async () => {
     if (id) {
       setLoading(true);
+      if (!isDemo && connected) {
+        await syncAgreement(id);
+      }
       const ag = mockDb.getAgreement(id);
       if (ag) {
         setAgreement(ag);
@@ -84,16 +89,19 @@ function EscrowContent() {
 
     if (id) {
       // Poll details
-      const interval = setInterval(() => {
+      const interval = setInterval(async () => {
+        if (!isDemo && connected) {
+          await syncAgreement(id);
+        }
         const ag = mockDb.getAgreement(id);
         if (ag) {
           setAgreement(ag);
           setMilestones(mockDb.getAgreementMilestones(id));
         }
-      }, 3000);
+      }, 4000);
       return () => clearInterval(interval);
     }
-  }, [id]);
+  }, [id, connected]);
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -116,7 +124,7 @@ function EscrowContent() {
     setActionLoading(true);
     try {
       await actionFn();
-      loadAgreementDetails();
+      await loadAgreementDetails();
     } catch (err) {
       console.error(err);
     } finally {
@@ -151,8 +159,8 @@ function EscrowContent() {
     }
   };
 
-  const isClient = agreement?.client_address === address;
-  const isFreelancer = agreement?.freelancer_address === address;
+  const isClient = agreement?.client_address?.toLowerCase() === address?.toLowerCase();
+  const isFreelancer = agreement?.freelancer_address?.toLowerCase() === address?.toLowerCase();
 
   const currentMilestoneIndex = milestones.findIndex(m => m.status !== 'Released');
 
@@ -394,78 +402,156 @@ function EscrowContent() {
                   <h4 className="text-xs font-bold text-slate-300 uppercase tracking-widest">Available Actions</h4>
                   
                   {/* Client actions */}
-                  {isClient && agreement.status === 'Created' && (
-                    <button
-                      onClick={() => handleAction(() => fundEscrow(agreement.id))}
-                      disabled={actionLoading}
-                      className="w-full py-3 bg-cyan-500 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all"
-                    >
-                      Fund Escrow Payouts
-                    </button>
-                  )}
+                  {isClient && (
+                    <div className="space-y-3">
+                      {agreement.status === 'Created' && (
+                        <>
+                          <button
+                            onClick={() => handleAction(() => fundEscrow(agreement.id))}
+                            disabled={actionLoading}
+                            className="w-full py-3 bg-cyan-500 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all"
+                          >
+                            Fund Escrow Payouts
+                          </button>
+                          <button
+                            onClick={() => handleAction(() => refundClient(agreement.id))}
+                            disabled={actionLoading}
+                            className="w-full py-2.5 bg-slate-900 border border-slate-700 text-slate-350 hover:bg-slate-800/60 font-bold text-xs rounded-xl transition-all"
+                          >
+                            Cancel & Refund Escrow
+                          </button>
+                        </>
+                      )}
 
-                  {isClient && agreement.status === 'Submitted' && (
-                    <button
-                      onClick={() => handleAction(() => approveWork(agreement.id))}
-                      disabled={actionLoading}
-                      className="w-full py-3 bg-emerald-600 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all"
-                    >
-                      Approve Deliverables
-                    </button>
-                  )}
+                      {agreement.status === 'Funded' && (
+                        <div className="space-y-3">
+                          <div className="p-3 bg-blue-950/30 border border-blue-800/40 text-blue-400 text-xs rounded-xl text-center font-medium">
+                            Waiting for Freelancer to accept project agreement...
+                          </div>
+                          <button
+                            onClick={() => handleAction(() => refundClient(agreement.id))}
+                            disabled={actionLoading}
+                            className="w-full py-2.5 bg-slate-900 border border-rose-800/30 text-rose-400 hover:bg-rose-950/20 font-bold text-xs rounded-xl transition-all"
+                          >
+                            Cancel & Refund Escrow
+                          </button>
+                        </div>
+                      )}
 
-                  {isClient && agreement.status === 'Approved' && (
-                    <button
-                      onClick={() => handleAction(() => releasePayment(agreement.id))}
-                      disabled={actionLoading}
-                      className="w-full py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all"
-                    >
-                      Release Milestone Payment
-                    </button>
+                      {agreement.status === 'Accepted' && (
+                        <div className="p-3 bg-indigo-950/30 border border-indigo-800/40 text-indigo-400 text-xs rounded-xl text-center font-medium">
+                          Freelancer is working on the project milestone...
+                        </div>
+                      )}
+
+                      {agreement.status === 'Submitted' && (
+                        <button
+                          onClick={() => handleAction(() => approveWork(agreement.id))}
+                          disabled={actionLoading}
+                          className="w-full py-3 bg-emerald-600 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all"
+                        >
+                          Approve Deliverables
+                        </button>
+                      )}
+
+                      {agreement.status === 'Approved' && (
+                        <button
+                          onClick={() => handleAction(() => releasePayment(agreement.id))}
+                          disabled={actionLoading}
+                          className="w-full py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all"
+                        >
+                          Release Milestone Payment
+                        </button>
+                      )}
+
+                      {agreement.status === 'Released' && (
+                        <div className="p-3 bg-emerald-950/30 border border-emerald-800/40 text-emerald-400 text-xs rounded-xl text-center font-bold">
+                          ✓ All milestone payments released. Project completed!
+                        </div>
+                      )}
+
+                      {agreement.status === 'Cancelled' && (
+                        <div className="p-3 bg-slate-900/60 border border-white/5 text-slate-500 text-xs rounded-xl text-center">
+                          Project cancelled. Escrow funds refunded.
+                        </div>
+                      )}
+                    </div>
                   )}
 
                   {/* Freelancer actions */}
-                  {isFreelancer && agreement.status === 'Funded' && (
-                    <button
-                      onClick={() => handleAction(() => acceptAgreement(agreement.id))}
-                      disabled={actionLoading}
-                      className="w-full py-3 bg-indigo-600 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all"
-                    >
-                      Accept Project Agreement
-                    </button>
+                  {isFreelancer && (
+                    <div className="space-y-3">
+                      {agreement.status === 'Created' && (
+                        <div className="p-3 bg-yellow-950/30 border border-yellow-800/40 text-yellow-500 text-xs rounded-xl text-center font-medium">
+                          Waiting for Client to fund the escrow...
+                        </div>
+                      )}
+
+                      {agreement.status === 'Funded' && (
+                        <button
+                          onClick={() => handleAction(() => acceptAgreement(agreement.id))}
+                          disabled={actionLoading}
+                          className="w-full py-3 bg-indigo-600 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all"
+                        >
+                          Accept Project Agreement
+                        </button>
+                      )}
+
+                      {['Accepted', 'Approved'].includes(agreement.status) && currentMilestoneIndex >= 0 && (
+                        <button
+                          onClick={() => handleAction(() => submitWork(agreement.id))}
+                          disabled={actionLoading}
+                          className="w-full py-3 bg-purple-600 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all"
+                        >
+                          Submit Milestone Work
+                        </button>
+                      )}
+
+                      {agreement.status === 'Submitted' && (
+                        <div className="p-3 bg-purple-950/30 border border-purple-800/40 text-purple-400 text-xs rounded-xl text-center font-medium">
+                          Work submitted. Waiting for Client approval...
+                        </div>
+                      )}
+
+                      {agreement.status === 'Approved' && (
+                        <div className="p-3 bg-emerald-950/30 border border-emerald-800/40 text-emerald-400 text-xs rounded-xl text-center font-medium">
+                          Work approved! Waiting for Client to release payment...
+                        </div>
+                      )}
+
+                      {agreement.status === 'Released' && (
+                        <div className="space-y-3">
+                          <div className="p-3 bg-emerald-950/30 border border-emerald-800/40 text-emerald-400 text-xs rounded-xl text-center font-bold">
+                            ✓ Project completed. All payments received!
+                          </div>
+                          {nftMinted ? (
+                            <div className="p-3 bg-slate-900 border border-cyan-800/30 text-cyan-400 rounded-xl text-center text-xs font-bold flex items-center justify-center space-x-1.5">
+                              <Award className="h-4.5 w-4.5 fill-cyan-400" />
+                              <span>NFT Certificate Claimed!</span>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={handleMintNFT}
+                              disabled={actionLoading}
+                              className="w-full py-3 bg-gradient-to-r from-cyan-500 to-purple-600 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-lg flex items-center justify-center space-x-1.5"
+                            >
+                              <Award className="h-4.5 w-4.5" />
+                              <span>Claim Achievement NFT</span>
+                            </button>
+                          )}
+                        </div>
+                      )}
+
+                      {agreement.status === 'Cancelled' && (
+                        <div className="p-3 bg-slate-900/60 border border-white/5 text-slate-500 text-xs rounded-xl text-center">
+                          Project cancelled. Escrow funds refunded.
+                        </div>
+                      )}
+                    </div>
                   )}
 
-                  {isFreelancer && ['Accepted', 'Approved'].includes(agreement.status) && currentMilestoneIndex >= 0 && (
-                    <button
-                      onClick={() => handleAction(() => submitWork(agreement.id))}
-                      disabled={actionLoading}
-                      className="w-full py-3 bg-purple-600 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all"
-                    >
-                      Submit Milestone Work
-                    </button>
-                  )}
-
-                  {/* NFT Minting */}
-                  {isFreelancer && agreement.status === 'Released' && (
-                    nftMinted ? (
-                      <div className="p-3 bg-slate-900 border border-cyan-800/30 text-cyan-400 rounded-xl text-center text-xs font-bold flex items-center justify-center space-x-1.5">
-                        <Award className="h-4.5 w-4.5 fill-cyan-400" />
-                        <span>NFT Certificate Claimed!</span>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={handleMintNFT}
-                        disabled={actionLoading}
-                        className="w-full py-3 bg-gradient-to-r from-cyan-500 to-purple-600 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-lg flex items-center justify-center space-x-1.5"
-                      >
-                        <Award className="h-4.5 w-4.5" />
-                        <span>Claim Achievement NFT</span>
-                      </button>
-                    )
-                  )}
-
-                  {/* Dispute & refund button */}
-                  {['Accepted', 'Submitted', 'Approved'].includes(agreement.status) && (
+                  {/* Dispute option for active projects */}
+                  {['Accepted', 'Submitted', 'Approved'].includes(agreement.status) && (isClient || isFreelancer) && (
                     <button
                       onClick={() => handleAction(() => raiseDispute(agreement.id))}
                       disabled={actionLoading}
@@ -475,13 +561,13 @@ function EscrowContent() {
                     </button>
                   )}
 
-                  {agreement.status === 'Disputed' && (
+                  {agreement.status === 'Disputed' && (isClient || isFreelancer) && (
                     <button
                       onClick={() => handleAction(() => refundClient(agreement.id))}
                       disabled={actionLoading}
-                      className="w-full py-2.5 bg-slate-900 border border-slate-700 text-slate-300 font-bold text-xs rounded-xl"
+                      className="w-full py-2.5 bg-slate-900 border border-slate-700 text-slate-300 font-bold text-xs rounded-xl hover:bg-slate-800/50"
                     >
-                      Authorize Refund (Referee Release)
+                      Authorize Refund (Resolve Dispute)
                     </button>
                   )}
 
