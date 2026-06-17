@@ -253,7 +253,7 @@ export async function getBlockchainEvents(limit = 100): Promise<any[]> {
       
       const primaryTopic = decodedTopics[0];
       
-      if (ev.contractId === ESCROW_CONTRACT) {
+      if (ev.contractId?.toString() === ESCROW_CONTRACT) {
         const agreementIdStr = decodedTopics[1]?.toString() || '';
         if (primaryTopic === 'created') {
           eventType = 'escrow_created';
@@ -314,7 +314,7 @@ export async function getBlockchainEvents(limit = 100): Promise<any[]> {
             amount: decodedValue ? parseFloat(decodedValue.toString()) / 10000000 : 0
           };
         }
-      } else if (ev.contractId === REPUTATION_CONTRACT) {
+      } else if (ev.contractId?.toString() === REPUTATION_CONTRACT) {
         if (primaryTopic === 'review') {
           eventType = 'reputation_updated';
           const reviewee = decodedTopics[1]?.toString() || '';
@@ -332,7 +332,7 @@ export async function getBlockchainEvents(limit = 100): Promise<any[]> {
             target: reviewee
           };
         }
-      } else if (ev.contractId === NFT_CONTRACT) {
+      } else if (ev.contractId?.toString() === NFT_CONTRACT) {
         if (primaryTopic === 'nft_mint') {
           eventType = 'nft_minted';
           const freelancer = decodedTopics[1]?.toString() || '';
