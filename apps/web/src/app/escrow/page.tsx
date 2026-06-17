@@ -21,7 +21,8 @@ import {
   Award,
   Sparkles,
   DollarSign,
-  Plus
+  Plus,
+  ExternalLink
 } from 'lucide-react';
 
 function EscrowContent() {
@@ -46,7 +47,8 @@ function EscrowContent() {
     syncAgreement,
     modifyAgreement,
     discoverAndSyncAgreements,
-    discoverAndSyncNFTs
+    discoverAndSyncNFTs,
+    discoverAndSyncReviews
   } = useStellar();
 
   // Creation form states
@@ -68,9 +70,11 @@ function EscrowContent() {
   const [rating, setRating] = useState(5);
   const [reviewComment, setReviewComment] = useState('');
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
+  const [existingReview, setExistingReview] = useState<any | null>(null);
 
   // NFT state
   const [nftMinted, setNftMinted] = useState(false);
+  const [mintedNftId, setMintedNftId] = useState<number | null>(null);
 
   // Modify states
   const [modifyModalOpen, setModifyModalOpen] = useState(false);
@@ -119,7 +123,19 @@ function EscrowContent() {
     if (id) {
       setLoading(true);
       if (!isDemo && connected) {
-        await syncAgreement(id);
+        try {
+          await syncAgreement(id);
+        } catch (e) {}
+        if (discoverAndSyncReviews) {
+          try {
+            await discoverAndSyncReviews();
+          } catch (e) {}
+        }
+        if (discoverAndSyncNFTs) {
+          try {
+            await discoverAndSyncNFTs();
+          } catch (e) {}
+        }
       }
       const ag = mockDb.getAgreement(id);
       if (ag) {
@@ -137,7 +153,19 @@ function EscrowContent() {
       // Poll details
       const interval = setInterval(async () => {
         if (!isDemo && connected) {
-          await syncAgreement(id);
+          try {
+            await syncAgreement(id);
+          } catch (e) {}
+          if (discoverAndSyncReviews) {
+            try {
+              await discoverAndSyncReviews();
+            } catch (e) {}
+          }
+          if (discoverAndSyncNFTs) {
+            try {
+              await discoverAndSyncNFTs();
+            } catch (e) {}
+          }
         }
         const ag = mockDb.getAgreement(id);
         if (ag) {
@@ -148,6 +176,40 @@ function EscrowContent() {
       return () => clearInterval(interval);
     }
   }, [id, connected]);
+
+  useEffect(() => {
+    if (agreement && address) {
+      // Check existing review
+      const rev = mockDb.getReviews().find(r => 
+        String(r.agreement_id) === String(agreement.id) &&
+        r.author_address?.toLowerCase() === address.toLowerCase()
+      );
+      setExistingReview(rev || null);
+
+      // Check existing NFT
+      const freelancerWallet = agreement.freelancer_address || address;
+      const nftKey = `stellar_trust_nft_${freelancerWallet}`;
+      const saved = localStorage.getItem(nftKey);
+      if (saved) {
+        try {
+          const nfts = JSON.parse(saved);
+          const foundNft = nfts.find((nft: any) => String(nft.agreement_id) === String(agreement.id));
+          if (foundNft) {
+            setNftMinted(true);
+            setMintedNftId(foundNft.id);
+          } else {
+            setNftMinted(false);
+            setMintedNftId(null);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      } else {
+        setNftMinted(false);
+        setMintedNftId(null);
+      }
+    }
+  }, [agreement, address, reviewSubmitted, nftMinted]);
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -196,8 +258,11 @@ function EscrowContent() {
     if (!agreement) return;
     setActionLoading(true);
     try {
-      await mintNFT(agreement.id, agreement.freelancer_address, agreement.title);
+      const minted = await mintNFT(agreement.id, agreement.freelancer_address, agreement.title);
       setNftMinted(true);
+      if (minted && minted.id) {
+        setMintedNftId(minted.id);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -497,7 +562,50 @@ function EscrowContent() {
                     <span>On-Chain Feedback & Review Registry</span>
                   </h3>
                   
-                  {reviewSubmitted ? (
+                  {existingReview ? (
+                    <div className="p-4 bg-slate-900/60 border border-white/5 rounded-xl space-y-3">
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center space-x-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <span 
+                              key={star} 
+                              className={`text-sm ${
+                                star <= existingReview.rating ? 'text-amber-400' : 'text-slate-600'
+                              }`}
+                            >
+                              ★
+                            </span>
+                          ))}
+                          <span className="text-xs font-bold text-slate-350 ml-1.5">
+                            ({existingReview.rating} Stars Registered)
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-emerald-400 font-bold bg-emerald-950/45 px-2.5 py-1 border border-emerald-800/40 rounded-full uppercase tracking-wider">
+                          Feedback Registered
+                        </span>
+                      </div>
+                      
+                      {existingReview.comment && (
+                        <p className="text-xs italic text-slate-300 bg-slate-950/40 p-3 rounded-lg border border-white/5 leading-relaxed">
+                          "{existingReview.comment}"
+                        </p>
+                      )}
+
+                      {existingReview.tx_hash && (
+                        <div className="flex justify-end pt-1">
+                          <Link
+                            href={`https://stellar.expert/explorer/testnet/tx/${existingReview.tx_hash}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[10px] text-cyan-400 hover:text-cyan-300 font-semibold flex items-center space-x-1"
+                          >
+                            <span>Verify Review on Stellar.Expert</span>
+                            <ExternalLink className="h-3 w-3" />
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                  ) : reviewSubmitted ? (
                     <div className="p-3.5 bg-emerald-950/20 border border-emerald-800/30 text-emerald-400 rounded-xl text-xs font-bold">
                       Thank you! Your feedback has been registered on-chain and added to their trust rating score.
                     </div>
@@ -674,9 +782,18 @@ function EscrowContent() {
                             ✓ Project completed. All payments received!
                           </div>
                           {nftMinted ? (
-                            <div className="p-3 bg-slate-900 border border-cyan-800/30 text-cyan-400 rounded-xl text-center text-xs font-bold flex items-center justify-center space-x-1.5">
-                              <Award className="h-4.5 w-4.5 fill-cyan-400" />
-                              <span>NFT Certificate Claimed!</span>
+                            <div className="p-3 bg-slate-900 border border-cyan-850/30 text-cyan-400 rounded-xl text-center text-xs font-bold flex flex-col items-center justify-center space-y-1.5">
+                              <div className="flex items-center space-x-1.5">
+                                <Award className="h-4.5 w-4.5 fill-cyan-400 text-cyan-400" />
+                                <span>Certificate Claimed {mintedNftId ? `(Token #${mintedNftId})` : ''}</span>
+                              </div>
+                              <Link
+                                href="/gallery"
+                                className="text-[10px] text-purple-400 hover:text-purple-300 font-semibold flex items-center space-x-0.5 transition-colors"
+                              >
+                                <span>View in NFT Gallery</span>
+                                <ArrowRight className="h-3 w-3" />
+                              </Link>
                             </div>
                           ) : (
                             <button
