@@ -353,7 +353,8 @@ export async function getBlockchainEvents(limit = 100): Promise<any[]> {
         event_type: eventType,
         session_id: `chain_${ev.ledger}`,
         metadata,
-        created_at: ev.ledgerClosedAt || new Date().toISOString()
+        created_at: ev.ledgerClosedAt || new Date().toISOString(),
+        txHash: (ev as any).transactionHash || null
       };
     });
   } catch (err) {

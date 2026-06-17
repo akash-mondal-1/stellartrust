@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 
 export default function Reputation() {
-  const { address, connected, userProfile, submitReview } = useStellar();
+  const { address, connected, userProfile, isDemo, submitReview, discoverAndSyncReviews } = useStellar();
   const [reviews, setReviews] = useState<any[]>([]);
   const [agreements, setAgreements] = useState<any[]>([]);
 
@@ -40,7 +40,26 @@ export default function Reputation() {
 
   useEffect(() => {
     reloadData();
-  }, [address]);
+
+    if (address && connected) {
+      // Periodically sync reviews on-chain
+      if (!isDemo && discoverAndSyncReviews) {
+        discoverAndSyncReviews().then(() => {
+          reloadData();
+        });
+      }
+
+      const interval = setInterval(async () => {
+        if (!isDemo && discoverAndSyncReviews) {
+          try {
+            await discoverAndSyncReviews();
+          } catch (e) {}
+        }
+        reloadData();
+      }, 6000);
+      return () => clearInterval(interval);
+    }
+  }, [address, connected, isDemo]);
 
   // Calculations
   const trustScore = userProfile?.trust_score ?? 50;
@@ -157,6 +176,17 @@ export default function Reputation() {
                 ) : (
                   <span>Standard Initial Account. Complete first agreements to increment rating metrics.</span>
                 )}
+              </div>
+
+              <div className="w-full border-t border-white/5 pt-4 space-y-2 text-xs">
+                <div className="flex justify-between items-center text-slate-400">
+                  <span>Reviews Received</span>
+                  <span className="font-bold text-slate-200">{completedCount}</span>
+                </div>
+                <div className="flex justify-between items-center text-slate-400">
+                  <span>Average Rating</span>
+                  <span className="font-bold text-slate-200">{rating.toFixed(2)} / 5.0</span>
+                </div>
               </div>
             </div>
 
@@ -327,22 +357,44 @@ export default function Reputation() {
                 ) : (
                   <div className="space-y-4">
                     {reviews.map((r) => (
-                      <div key={r.id} className="glass-panel border border-white/5 rounded-2xl p-5 space-y-3 hover:border-cyan-500/10 transition-all">
-                        <div className="flex justify-between items-center text-xs">
-                          <div className="flex items-center space-x-1.5 text-slate-350">
-                            <User className="h-4 w-4 text-cyan-400" />
-                            <span className="font-mono">{r.author_address.substring(0, 8)}...{r.author_address.substring(r.author_address.length - 8)}</span>
+                      <div key={r.id} className="glass-panel border border-white/5 rounded-2xl p-5 space-y-4 hover:border-cyan-500/10 transition-all">
+                        <div className="flex flex-col sm:flex-row justify-between sm:items-start text-xs gap-4">
+                          <div className="space-y-1">
+                            <span className="text-slate-500 block text-[10px] font-semibold uppercase tracking-wider">Reviewer Address</span>
+                            <div className="flex items-center space-x-1.5 text-slate-200">
+                              <User className="h-3.5 w-3.5 text-cyan-400" />
+                              <span className="font-mono select-all break-all">{r.author_address}</span>
+                            </div>
                           </div>
-                          <div>
+                          <div className="flex flex-col sm:items-end gap-1.5">
                             {getRatingStars(r.rating)}
+                            <span className="text-[10px] text-slate-500 block">
+                              Registered: {new Date(r.created_at).toLocaleDateString()}
+                            </span>
                           </div>
                         </div>
-                        <p className="text-xs text-slate-300 italic">
-                          "{r.comment || 'No comment provided.'}"
-                        </p>
-                        <span className="text-[10px] text-slate-500 block text-right">
-                          Registered: {new Date(r.created_at).toLocaleDateString()}
-                        </span>
+                        
+                        <div className="bg-slate-950/45 border border-white/5 rounded-xl p-3">
+                          <p className="text-xs text-slate-300 italic">
+                            "{r.comment || 'No comment provided.'}"
+                          </p>
+                        </div>
+                        
+                        <div className="flex justify-between items-center text-[10px] border-t border-white/5 pt-2 text-slate-500">
+                          <span>Agreement Ref: #{r.agreement_id}</span>
+                          {r.tx_hash ? (
+                            <a 
+                              href={`https://stellar.expert/explorer/testnet/tx/${r.tx_hash}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-cyan-400 hover:text-cyan-300 font-mono flex items-center space-x-1 hover:underline"
+                            >
+                              <span>Tx: {r.tx_hash.substring(0, 8)}...{r.tx_hash.substring(r.tx_hash.length - 8)}</span>
+                            </a>
+                          ) : (
+                            <span className="font-mono text-slate-600">Tx: Local Consensus</span>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>

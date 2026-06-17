@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 export default function Dashboard() {
-  const { address, connected, userProfile, isDemo, acceptAgreement, discoverAndSyncAgreements } = useStellar();
+  const { address, connected, userProfile, isDemo, acceptAgreement, discoverAndSyncAgreements, discoverAndSyncNFTs } = useStellar();
   
   const [activeRole, setActiveRole] = useState<'client' | 'freelancer'>('client');
   const [agreements, setAgreements] = useState<any[]>([]);
@@ -58,16 +58,26 @@ export default function Dashboard() {
       setAgreements(all);
       setLoading(false);
 
-      // Poll database for updates every 4 seconds
-      const interval = setInterval(() => {
+      // Poll database and sync on-chain updates
+      const interval = setInterval(async () => {
+        if (!isDemo && discoverAndSyncAgreements) {
+          try {
+            await discoverAndSyncAgreements(address);
+            if (discoverAndSyncNFTs) {
+              await discoverAndSyncNFTs();
+            }
+          } catch (e) {
+            console.warn("Polling sync warning:", e);
+          }
+        }
         setAgreements(mockDb.getAgreements());
-      }, 4000);
+      }, 6000);
       return () => clearInterval(interval);
     } else {
       setAgreements([]);
       setLoading(false);
     }
-  }, [address]);
+  }, [address, isDemo]);
 
   // Set default board role from user profile role settings or fallback to existing agreements role
   useEffect(() => {
@@ -91,7 +101,13 @@ export default function Dashboard() {
     if (address && !isDemo && discoverAndSyncAgreements) {
       console.log("Triggering on-chain auto-discovery on dashboard mount/wallet connect...");
       discoverAndSyncAgreements(address).then(() => {
-        setAgreements(mockDb.getAgreements());
+        if (discoverAndSyncNFTs) {
+          discoverAndSyncNFTs().then(() => {
+            setAgreements(mockDb.getAgreements());
+          });
+        } else {
+          setAgreements(mockDb.getAgreements());
+        }
       });
     }
   }, [address, isDemo]);

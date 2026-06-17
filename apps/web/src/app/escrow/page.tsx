@@ -45,7 +45,8 @@ function EscrowContent() {
     mintNFT,
     syncAgreement,
     modifyAgreement,
-    discoverAndSyncAgreements
+    discoverAndSyncAgreements,
+    discoverAndSyncNFTs
   } = useStellar();
 
   // Creation form states
@@ -86,13 +87,29 @@ function EscrowContent() {
       
       if (!isDemo && discoverAndSyncAgreements) {
         discoverAndSyncAgreements(address).then(() => {
-          setAllAgreements(mockDb.getAgreements());
+          if (discoverAndSyncNFTs) {
+            discoverAndSyncNFTs().then(() => {
+              setAllAgreements(mockDb.getAgreements());
+            });
+          } else {
+            setAllAgreements(mockDb.getAgreements());
+          }
         });
       }
       
-      const interval = setInterval(() => {
+      const interval = setInterval(async () => {
+        if (!isDemo && discoverAndSyncAgreements) {
+          try {
+            await discoverAndSyncAgreements(address);
+            if (discoverAndSyncNFTs) {
+              await discoverAndSyncNFTs();
+            }
+          } catch (e) {
+            console.warn("Escrow list polling sync warning:", e);
+          }
+        }
         setAllAgreements(mockDb.getAgreements());
-      }, 4000);
+      }, 6000);
       return () => clearInterval(interval);
     }
   }, [id, address, isDemo]);

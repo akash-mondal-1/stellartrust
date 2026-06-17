@@ -71,6 +71,8 @@ interface StellarContextType {
   syncAgreement: (agreementId: string) => Promise<any>;
   modifyAgreement: (agreementId: string, extendDays: number, details: string) => Promise<any>;
   discoverAndSyncAgreements: (userAddress: string) => Promise<void>;
+  discoverAndSyncReviews: () => Promise<void>;
+  discoverAndSyncNFTs: () => Promise<void>;
 }
 
 const StellarContext = createContext<StellarContextType | null>(null);
@@ -257,9 +259,11 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
       setUserProfile(updatedProfile);
 
-      // 3. Sync all user agreements with on-chain states in live mode
+      // 3. Sync all user agreements, reviews, and NFTs with on-chain states in live mode
       if (!isDemo) {
         await discoverAndSyncAgreements(walletAddr);
+        await discoverAndSyncReviews();
+        await discoverAndSyncNFTs();
       }
     } catch (e) {
       console.error('Failed to refresh profile from blockchain:', e);
@@ -340,6 +344,96 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       }
     } catch (err) {
       console.warn("Failed to auto-discover on-chain agreements:", err);
+    }
+  };
+
+  const discoverAndSyncNFTs = async () => {
+    if (isDemo) return;
+    try {
+      console.log("Discovering on-chain achievement NFTs...");
+      const promises = [];
+      for (let id = 1; id <= 100; id++) {
+        const idScVal = xdr.ScVal.scvU32(id);
+        promises.push(
+          queryContract(NFT_CONTRACT, 'get_project_certificate', [idScVal])
+        );
+      }
+      const results = await Promise.all(promises);
+      const activeCerts = results.filter(c => c !== null);
+      
+      console.log(`Discovered ${activeCerts.length} active NFTs on-chain.`);
+      
+      // Group by freelancer and save
+      const certificatesByFreelancer: Record<string, any[]> = {};
+      for (const cert of activeCerts) {
+        const freelancer = cert.freelancer;
+        if (!certificatesByFreelancer[freelancer]) {
+          certificatesByFreelancer[freelancer] = [];
+        }
+        const exists = certificatesByFreelancer[freelancer].some(c => c.agreement_id === cert.agreement_id);
+        if (!exists) {
+          certificatesByFreelancer[freelancer].push({
+            id: cert.token_id,
+            agreement_id: cert.agreement_id,
+            freelancer: cert.freelancer,
+            project_name: cert.project_name,
+            project_hash: cert.project_hash,
+            completion_date: new Date(Number(cert.completion_date) * 1000).toISOString()
+          });
+        }
+      }
+      
+      for (const [freelancer, certs] of Object.entries(certificatesByFreelancer)) {
+        const existing = JSON.parse(localStorage.getItem(`stellar_trust_nft_${freelancer}`) || '[]');
+        const merged = [...existing];
+        for (const cert of certs) {
+          if (!merged.some((m: any) => m.agreement_id === cert.agreement_id)) {
+            merged.push(cert);
+          }
+        }
+        localStorage.setItem(`stellar_trust_nft_${freelancer}`, JSON.stringify(merged));
+      }
+    } catch (err) {
+      console.warn("Failed to auto-discover on-chain NFTs:", err);
+    }
+  };
+
+  const discoverAndSyncReviews = async () => {
+    if (isDemo) return;
+    try {
+      console.log("Discovering on-chain reputation reviews...");
+      const events = await getBlockchainEvents(100);
+      const reviewEvents = events.filter((e: any) => e.event_type === 'reputation_updated');
+      
+      const localReviews = mockDb.getReviews();
+      let updated = false;
+      
+      for (const ev of reviewEvents) {
+        const agreementId = ev.metadata.agreement_id;
+        const targetAddress = ev.metadata.target;
+        
+        const exists = localReviews.some((r: any) => r.agreement_id === agreementId && r.author_address?.toLowerCase() === ev.wallet_address?.toLowerCase());
+        if (!exists) {
+          console.log(`Discovered new review for agreement #${agreementId} on-chain. Adding to cache...`);
+          localReviews.push({
+            id: ev.id,
+            agreement_id: agreementId,
+            author_address: ev.wallet_address,
+            target_address: targetAddress,
+            rating: Number(ev.metadata.rating),
+            comment: ev.metadata.comment,
+            tx_hash: ev.txHash || null,
+            created_at: ev.created_at
+          });
+          updated = true;
+        }
+      }
+      
+      if (updated) {
+        mockDb.setStorage('reviews', localReviews);
+      }
+    } catch (err) {
+      console.warn("Failed to discover and sync reviews:", err);
     }
   };
 
@@ -1111,6 +1205,8 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
         syncAgreement,
         modifyAgreement,
         discoverAndSyncAgreements,
+        discoverAndSyncReviews,
+        discoverAndSyncNFTs,
       }}
     >
       {children}
