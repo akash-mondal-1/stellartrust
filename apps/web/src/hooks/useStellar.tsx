@@ -83,6 +83,16 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   // Auto-load connected address or demo address
   useEffect(() => {
     const checkWalletsAndInit = async () => {
+      // Initialize the Stellar Wallets Kit static class client-side
+      try {
+        const { StellarWalletsKit, Networks } = require('@creit.tech/stellar-wallets-kit');
+        StellarWalletsKit.init({
+          network: Networks.TESTNET
+        });
+      } catch (err) {
+        console.warn("Failed to initialize StellarWalletsKit:", err);
+      }
+
       let freighterActive = false;
       try {
         const freighterApi = require('@stellar/freighter-api');
@@ -309,46 +319,17 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     localStorage.removeItem('stellar_trust_wallet_address');
     localStorage.removeItem('stellar_trust_demo_mode');
     try {
-      console.log("STEP 1: Checking Freighter extension presence");
-      const { isConnected, requestAccess, getAddress } = require('@stellar/freighter-api');
-
-      const connStatus = await isConnected();
-      console.log("STEP 1: isConnected result =", connStatus);
-
-      const extensionInstalled = typeof window !== 'undefined' && !!(window as any).freighter;
-      console.log("STEP 1: window.freighter present =", extensionInstalled);
-
-      if (!extensionInstalled && !connStatus?.isConnected) {
-        throw new Error(
-          "Freighter extension not detected. Please install Freighter from freighter.app and refresh."
-        );
-      }
-
-      console.log("STEP 2: Calling requestAccess() — popup will appear now");
-      const accessResult = await requestAccess();
-      console.log("STEP 2: requestAccess result =", accessResult);
-
-      if (accessResult?.error) {
-        throw new Error(`Access denied: ${accessResult.error}`);
-      }
-
-      let walletAddress: string = accessResult?.address || '';
+      const { StellarWalletsKit } = require('@creit.tech/stellar-wallets-kit');
+      console.log("Opening Stellar Wallets Kit Auth Modal...");
+      
+      const result = await StellarWalletsKit.authModal();
+      const walletAddress = result?.address || '';
 
       if (!walletAddress) {
-        console.log("STEP 3: requestAccess returned no address, calling getAddress()");
-        const addrResult = await getAddress();
-        console.log("STEP 3: getAddress result =", addrResult);
-        if (addrResult?.error) {
-          throw new Error(`Failed to get address: ${addrResult.error}`);
-        }
-        walletAddress = addrResult?.address || '';
+        throw new Error("No address returned. User may have closed the connection request.");
       }
 
-      if (!walletAddress) {
-        throw new Error("No address returned. User may have rejected the connection request.");
-      }
-
-      console.log("STEP 4: Connection successful. Address =", walletAddress);
+      console.log("Connection successful. Address =", walletAddress);
       setIsDemo(false);
       setAddress(walletAddress);
       setConnected(true);
