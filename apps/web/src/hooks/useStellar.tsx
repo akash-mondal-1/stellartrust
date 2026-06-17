@@ -12,6 +12,7 @@ import {
   scValToNative, 
   ScInt, 
   Address,
+  xdr,
   IDENTITY_CONTRACT,
   ESCROW_CONTRACT,
   REPUTATION_CONTRACT,
@@ -41,6 +42,7 @@ export interface UserSession {
   rating?: number;
   trust_score?: number;
   verified?: boolean;
+  verification_tx?: string | null;
 }
 
 interface StellarContextType {
@@ -209,12 +211,23 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       let updatedProfile: UserSession = { address: walletAddr };
 
       if (profileData) {
+        // Retrieve local profile first to preserve local state fields like role
+        const localProf = mockDb.getProfile(walletAddr);
+        const existingRole = localProf?.role || 'both';
+
+        // Retrieve transaction hash from the verify activity log
+        const logs = mockDb.getActivityLogs().filter((l: any) => l.user_address?.toLowerCase() === walletAddr.toLowerCase());
+        const verifyLog = logs.find((l: any) => l.action_type === 'verify_profile');
+        const verificationTx = verifyLog ? verifyLog.tx_hash : (localProf?.verification_tx || null);
+
         updatedProfile = {
           address: walletAddr,
           username: profileData.username,
           bio: profileData.bio,
           skills: profileData.skills,
+          role: existingRole,
           verified: profileData.verified,
+          verification_tx: verificationTx,
           trust_score: reputationData ? reputationData.trust_score : 50,
           rating: reputationData && reputationData.rating_count > 0 
             ? Number((reputationData.rating_sum / reputationData.rating_count).toFixed(2)) 
@@ -227,8 +240,9 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
           username: updatedProfile.username || '',
           bio: updatedProfile.bio || '',
           skills: updatedProfile.skills || [],
-          role: 'both',
+          role: existingRole,
           verified: updatedProfile.verified || false,
+          verification_tx: verificationTx,
           trust_score: updatedProfile.trust_score || 50,
           rating: updatedProfile.rating || 0.0
         });
@@ -416,12 +430,24 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   ) => {
     if (!address) throw new Error('Wallet not connected');
     
+    // Save role and metadata locally first since contract doesn't store role
+    const localProf = mockDb.getProfile(address);
+    mockDb.upsertProfile({
+      id: address,
+      username,
+      bio,
+      skills,
+      role,
+      verified: localProf?.verified || false,
+      verification_tx: localProf?.verification_tx || null,
+      trust_score: localProf?.trust_score || 50,
+      rating: localProf?.rating || 0.0
+    });
+
     if (isDemo) {
-      const profile = { id: address, username, bio, skills, role, verified: false };
-      mockDb.upsertProfile(profile);
       await refreshProfile(address);
       mockDb.addActivityLog(address, 'register_profile', `Registered user profile for @${username}`);
-      return profile;
+      return mockDb.getProfile(address);
     }
 
     const walletScVal = new Address(address).toScVal();
@@ -530,9 +556,9 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const deadlineDate = new Date();
     deadlineDate.setDate(deadlineDate.getDate() + deadlineDays);
     const deadlineSeconds = BigInt(Math.floor(deadlineDate.getTime() / 1000));
-    const deadlineScVal = nativeToScVal(deadlineSeconds);
+    const deadlineScVal = xdr.ScVal.scvU64(new xdr.Uint64(deadlineSeconds));
     
-    const milestoneCountScVal = nativeToScVal(milestoneCount); // converts to scvU64/u32 representation
+    const milestoneCountScVal = xdr.ScVal.scvU32(milestoneCount);
 
     console.log("Creating escrow agreement on-chain...");
     const { txHash, result: agreementId } = await submitTransaction(
@@ -606,7 +632,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return agreement;
     }
 
-    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const agreementIdScVal = xdr.ScVal.scvU32(agreementIdNum);
     const clientScVal = new Address(address).toScVal();
 
     console.log(`Funding escrow on-chain for agreement ID: ${agreementIdNum}...`);
@@ -636,7 +662,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return mockDb.updateAgreementStatus(agreementId, 'Accepted');
     }
 
-    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const agreementIdScVal = xdr.ScVal.scvU32(agreementIdNum);
     const freelancerScVal = new Address(address).toScVal();
 
     console.log(`Accepting agreement on-chain for ID: ${agreementIdNum}...`);
@@ -664,7 +690,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return updated;
     }
 
-    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const agreementIdScVal = xdr.ScVal.scvU32(agreementIdNum);
     const freelancerScVal = new Address(address).toScVal();
 
     console.log(`Submitting milestone work on-chain for ID: ${agreementIdNum}...`);
@@ -700,7 +726,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return updated;
     }
 
-    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const agreementIdScVal = xdr.ScVal.scvU32(agreementIdNum);
     const clientScVal = new Address(address).toScVal();
 
     console.log(`Approving milestone work on-chain for ID: ${agreementIdNum}...`);
@@ -739,7 +765,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return updated;
     }
 
-    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const agreementIdScVal = xdr.ScVal.scvU32(agreementIdNum);
     const clientScVal = new Address(address).toScVal();
 
     console.log(`Releasing milestone payment on-chain for ID: ${agreementIdNum}...`);
@@ -779,7 +805,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return mockDb.updateAgreementStatus(agreementId, 'Disputed');
     }
 
-    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const agreementIdScVal = xdr.ScVal.scvU32(agreementIdNum);
     const partyScVal = new Address(address).toScVal();
 
     console.log(`Raising dispute on-chain for ID: ${agreementIdNum}...`);
@@ -801,7 +827,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return mockDb.updateAgreementStatus(agreementId, 'Cancelled');
     }
 
-    const agreementIdScVal = nativeToScVal(agreementIdNum);
+    const agreementIdScVal = xdr.ScVal.scvU32(agreementIdNum);
     const authorityScVal = new Address(address).toScVal();
 
     console.log(`Executing client refund on-chain for ID: ${agreementIdNum}...`);
@@ -842,7 +868,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const agreementIdScVal = nativeToScVal(agreementId); // String representation
     const reviewerScVal = new Address(address).toScVal();
     const revieweeScVal = new Address(targetAddress).toScVal();
-    const ratingScVal = nativeToScVal(rating); // converts to scvU64/u32 representation
+    const ratingScVal = xdr.ScVal.scvU32(rating);
     const commentScVal = nativeToScVal(comment);
 
     console.log(`Submitting profile review on Reputation contract for ID: ${agreementId}...`);

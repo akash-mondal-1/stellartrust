@@ -69,8 +69,16 @@ export default function Settings() {
   const handleVerify = async () => {
     if (!address) return;
     try {
-      await verifyProfile(address);
-      setMessage({ type: 'success', text: 'Profile identity verified successfully by contract oracle!' });
+      const res = await verifyProfile(address);
+      const txHash = res?.txHash || (res && typeof res === 'object' ? res.txHash : null);
+      if (txHash) {
+        setMessage({ 
+          type: 'success', 
+          text: `Profile identity verified successfully by contract oracle! Tx Hash: ${txHash}` 
+        });
+      } else {
+        setMessage({ type: 'success', text: 'Profile identity verified successfully!' });
+      }
     } catch (err: any) {
       setMessage({ type: 'error', text: err.message || 'Verification failed' });
     }
@@ -216,16 +224,35 @@ export default function Settings() {
                 <p className="text-xs text-slate-400 leading-relaxed">
                   Verify your account cryptographically on-chain to earn a validation checkmark. This boosts your Trust Score by 10 points and qualifies you for high-tier escrows.
                 </p>
-                <div className="flex items-center space-x-2 pt-2 text-xs">
-                  <span className="text-slate-500 font-semibold uppercase tracking-wider">Status:</span>
-                  {userProfile?.verified ? (
-                    <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 text-[10px] font-bold">
-                      Verified Account
-                    </span>
-                  ) : (
-                    <span className="px-2 py-0.5 rounded bg-yellow-950 text-yellow-400 border border-yellow-800 text-[10px] font-bold">
-                      Unverified
-                    </span>
+                <div className="flex flex-col space-y-2 pt-2 text-xs">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-slate-500 font-semibold uppercase tracking-wider">Status:</span>
+                    {userProfile?.verified ? (
+                      <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 text-[10px] font-bold">
+                        Verified Account
+                      </span>
+                    ) : (
+                      <span className="px-2 py-0.5 rounded bg-yellow-950 text-yellow-400 border border-yellow-800 text-[10px] font-bold">
+                        Unverified
+                      </span>
+                    )}
+                  </div>
+                  {userProfile?.verified && (
+                    <div className="text-[10px] text-slate-400 font-mono mt-1 break-all leading-relaxed">
+                      <span className="text-slate-500 font-semibold uppercase tracking-wider block mb-1">Tx Hash:</span>
+                      {userProfile.verification_tx ? (
+                        <a
+                          href={`https://stellar.expert/explorer/testnet/tx/${userProfile.verification_tx}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors"
+                        >
+                          {userProfile.verification_tx}
+                        </a>
+                      ) : (
+                        <span className="text-slate-500">Verified via Local Database</span>
+                      )}
+                    </div>
                   )}
                 </div>
               </div>

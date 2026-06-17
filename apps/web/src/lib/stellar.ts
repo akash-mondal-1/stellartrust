@@ -175,7 +175,7 @@ export async function getAgreement(agreementId: string): Promise<any> {
     return null;
   }
   try {
-    const idScVal = nativeToScVal(agreementIdNum);
+    const idScVal = xdr.ScVal.scvU32(agreementIdNum);
     const result = await queryContract(ESCROW_CONTRACT, 'get_agreement', [idScVal]);
     if (!result) return null;
     
@@ -362,4 +362,4 @@ export async function getBlockchainEvents(limit = 100): Promise<any[]> {
 }
 
 // Re-export SDK helpers for use in components
-export { nativeToScVal, scValToNative, ScInt, Address };
+export { nativeToScVal, scValToNative, ScInt, Address, xdr };
