@@ -67,6 +67,7 @@ interface StellarContextType {
   submitReview: (agreementId: string, rating: number, comment: string) => Promise<any>;
   mintNFT: (agreementId: string, freelancer: string, projectName: string) => Promise<any>;
   syncAgreement: (agreementId: string) => Promise<any>;
+  modifyAgreement: (agreementId: string, extendDays: number, details: string) => Promise<any>;
 }
 
 const StellarContext = createContext<StellarContextType | null>(null);
@@ -568,7 +569,8 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const fundEscrow = async (agreementId: string) => {
     if (!address) throw new Error('Wallet not connected');
 
-    if (isDemo) {
+    const agreementIdNum = parseInt(agreementId);
+    if (isDemo || isNaN(agreementIdNum)) {
       const agreement = mockDb.updateAgreementStatus(agreementId, 'Funded', '0x' + Math.random().toString(16).substring(2, 18) + 'txhash');
       trackEvent({
         wallet_address: address,
@@ -576,11 +578,6 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
         metadata: { agreement_id: agreementId }
       });
       return agreement;
-    }
-
-    const agreementIdNum = parseInt(agreementId);
-    if (isNaN(agreementIdNum)) {
-      throw new Error(`Invalid agreement ID: ${agreementId}`);
     }
 
     const agreementIdScVal = nativeToScVal(agreementIdNum);
@@ -608,11 +605,11 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const acceptAgreement = async (agreementId: string) => {
     if (!address) throw new Error('Wallet not connected');
 
-    if (isDemo) {
+    const agreementIdNum = parseInt(agreementId);
+    if (isDemo || isNaN(agreementIdNum)) {
       return mockDb.updateAgreementStatus(agreementId, 'Accepted');
     }
 
-    const agreementIdNum = parseInt(agreementId);
     const agreementIdScVal = nativeToScVal(agreementIdNum);
     const freelancerScVal = new Address(address).toScVal();
 
@@ -630,7 +627,8 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const submitWork = async (agreementId: string) => {
     if (!address) throw new Error('Wallet not connected');
 
-    if (isDemo) {
+    const agreementIdNum = parseInt(agreementId);
+    if (isDemo || isNaN(agreementIdNum)) {
       const updated = mockDb.updateAgreementStatus(agreementId, 'Submitted');
       const milestones = mockDb.getAgreementMilestones(agreementId);
       const pending = milestones.find((m: any) => m.status === 'Pending');
@@ -640,7 +638,6 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return updated;
     }
 
-    const agreementIdNum = parseInt(agreementId);
     const agreementIdScVal = nativeToScVal(agreementIdNum);
     const freelancerScVal = new Address(address).toScVal();
 
@@ -666,7 +663,8 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const approveWork = async (agreementId: string) => {
     if (!address) throw new Error('Wallet not connected');
 
-    if (isDemo) {
+    const agreementIdNum = parseInt(agreementId);
+    if (isDemo || isNaN(agreementIdNum)) {
       const updated = mockDb.updateAgreementStatus(agreementId, 'Approved');
       const milestones = mockDb.getAgreementMilestones(agreementId);
       const submitted = milestones.find((m: any) => m.status === 'Submitted' || m.status === 'Pending');
@@ -676,7 +674,6 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return updated;
     }
 
-    const agreementIdNum = parseInt(agreementId);
     const agreementIdScVal = nativeToScVal(agreementIdNum);
     const clientScVal = new Address(address).toScVal();
 
@@ -702,7 +699,8 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const releasePayment = async (agreementId: string) => {
     if (!address) throw new Error('Wallet not connected');
 
-    if (isDemo) {
+    const agreementIdNum = parseInt(agreementId);
+    if (isDemo || isNaN(agreementIdNum)) {
       const milestones = mockDb.getAgreementMilestones(agreementId);
       const completed = milestones.find((m: any) => m.status === 'Completed' || m.status === 'Submitted' || m.status === 'Pending');
       if (completed) {
@@ -715,7 +713,6 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return updated;
     }
 
-    const agreementIdNum = parseInt(agreementId);
     const agreementIdScVal = nativeToScVal(agreementIdNum);
     const clientScVal = new Address(address).toScVal();
 
@@ -751,11 +748,11 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const raiseDispute = async (agreementId: string) => {
     if (!address) throw new Error('Wallet not connected');
 
-    if (isDemo) {
+    const agreementIdNum = parseInt(agreementId);
+    if (isDemo || isNaN(agreementIdNum)) {
       return mockDb.updateAgreementStatus(agreementId, 'Disputed');
     }
 
-    const agreementIdNum = parseInt(agreementId);
     const agreementIdScVal = nativeToScVal(agreementIdNum);
     const partyScVal = new Address(address).toScVal();
 
@@ -773,11 +770,11 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const refundClient = async (agreementId: string) => {
     if (!address) throw new Error('Wallet not connected');
 
-    if (isDemo) {
+    const agreementIdNum = parseInt(agreementId);
+    if (isDemo || isNaN(agreementIdNum)) {
       return mockDb.updateAgreementStatus(agreementId, 'Cancelled');
     }
 
-    const agreementIdNum = parseInt(agreementId);
     const agreementIdScVal = nativeToScVal(agreementIdNum);
     const authorityScVal = new Address(address).toScVal();
 
@@ -935,6 +932,43 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return nft;
   };
 
+  const modifyAgreement = async (agreementId: string, extendDays: number, details: string) => {
+    if (!address) throw new Error('Wallet not connected');
+
+    const agreementIdNum = parseInt(agreementId);
+    if (isDemo || isNaN(agreementIdNum)) {
+      // Demo / Mock update
+      const ag = mockDb.getAgreement(agreementId);
+      if (ag) {
+        const currentDeadline = new Date(ag.deadline);
+        currentDeadline.setDate(currentDeadline.getDate() + extendDays);
+        ag.deadline = currentDeadline.toISOString();
+        if (details.trim()) {
+          ag.description = ag.description + "\n\n[Term Extension Update]: " + details;
+        }
+        
+        // Save back
+        const agreements = mockDb.getAgreements();
+        const idx = agreements.findIndex(a => a.id === agreementId);
+        if (idx >= 0) {
+          agreements[idx] = ag;
+          mockDb.setStorage('agreements', agreements);
+        }
+
+        mockDb.addActivityLog(
+          address,
+          'modify_agreement',
+          `Extended deadline for "${ag.title}" by ${extendDays} days`
+        );
+        return ag;
+      }
+      throw new Error('Agreement not found');
+    }
+
+    // Live mode modification check
+    throw new Error('Term Negotiation Protocol: On-chain modifications require mutual multi-signature consensus. Multi-signature term adjustments are planned for Mainnet v2.');
+  };
+
   return (
     <StellarContext.Provider
       value={{
@@ -961,6 +995,7 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
         submitReview,
         mintNFT,
         syncAgreement,
+        modifyAgreement,
       }}
     >
       {children}

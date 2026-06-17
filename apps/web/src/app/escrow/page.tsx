@@ -42,7 +42,8 @@ function EscrowContent() {
     refundClient,
     submitReview,
     mintNFT,
-    syncAgreement
+    syncAgreement,
+    modifyAgreement
   } = useStellar();
 
   // Creation form states
@@ -67,6 +68,12 @@ function EscrowContent() {
 
   // NFT state
   const [nftMinted, setNftMinted] = useState(false);
+
+  // Modify states
+  const [modifyModalOpen, setModifyModalOpen] = useState(false);
+  const [modifyDeadlineExtend, setModifyDeadlineExtend] = useState(7);
+  const [modifyDesc, setModifyDesc] = useState('');
+  const [modifyWarning, setModifyWarning] = useState<string | null>(null);
 
   // Load details
   const loadAgreementDetails = async () => {
@@ -550,6 +557,21 @@ function EscrowContent() {
                     </div>
                   )}
 
+                  {/* Modify Agreement option for active projects */}
+                  {['Created', 'Funded', 'Accepted', 'Submitted', 'Approved'].includes(agreement.status) && (isClient || isFreelancer) && (
+                    <button
+                      onClick={() => {
+                        setModifyWarning(null);
+                        setModifyDesc('');
+                        setModifyDeadlineExtend(7);
+                        setModifyModalOpen(true);
+                      }}
+                      className="w-full py-2 bg-slate-900 border border-slate-700 hover:bg-slate-800/50 text-slate-300 font-bold text-xs rounded-xl transition-all"
+                    >
+                      Modify Agreement Terms
+                    </button>
+                  )}
+
                   {/* Dispute option for active projects */}
                   {['Accepted', 'Submitted', 'Approved'].includes(agreement.status) && (isClient || isFreelancer) && (
                     <button
@@ -583,6 +605,85 @@ function EscrowContent() {
             </div>
           </div>
         )
+      )}
+      {/* Modify Agreement Modal */}
+      {modifyModalOpen && agreement && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in">
+          <div className="glass-panel border border-white/10 rounded-2xl p-6 max-w-md w-full space-y-4 shadow-2xl relative">
+            <h3 className="text-lg font-bold text-slate-100 flex items-center space-x-2">
+              <Sparkles className="h-5 w-5 text-cyan-400" />
+              <span>Modify Agreement Terms</span>
+            </h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Propose adjustments to the project deadlines or details. Term updates will be saved immediately to the local cache.
+            </p>
+
+            <div className="space-y-3 pt-2">
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-slate-400 uppercase">Extend Deadline</label>
+                <select
+                  value={modifyDeadlineExtend}
+                  onChange={(e) => setModifyDeadlineExtend(Number(e.target.value))}
+                  className="w-full bg-slate-900 border border-white/10 rounded-xl py-2 px-3 text-xs text-slate-300 focus:outline-none focus:border-cyan-500"
+                >
+                  <option value={3}>Extend by 3 Days</option>
+                  <option value={7}>Extend by 1 Week (7 Days)</option>
+                  <option value={14}>Extend by 2 Weeks (14 Days)</option>
+                  <option value={30}>Extend by 30 Days</option>
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-slate-400 uppercase">Adjustment Reason / Notes</label>
+                <textarea
+                  rows={3}
+                  value={modifyDesc}
+                  onChange={(e) => setModifyDesc(e.target.value)}
+                  placeholder="We agreed to extend the deadline to accommodate a change in the AMM pool specification."
+                  className="w-full bg-slate-900 border border-white/10 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+                />
+              </div>
+
+              {modifyWarning && (
+                <div className="p-3 bg-amber-950/20 border border-amber-800/40 text-amber-400 text-[11px] rounded-xl leading-relaxed">
+                  <strong>⚠️ Term Negotiation Protocol:</strong> To maintain decentralized security, on-chain alterations require mutually signed consensus from both client and freelancer keys. The multi-signature term negotiation protocol is scheduled for the next mainnet upgrade.
+                </div>
+              )}
+            </div>
+
+            <div className="flex space-x-3 pt-2">
+              <button
+                onClick={() => setModifyModalOpen(false)}
+                className="flex-1 py-2.5 bg-slate-900 hover:bg-slate-800/60 border border-white/5 text-slate-300 font-bold text-xs rounded-xl"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async () => {
+                  // Check if it's a real contract in Live Mode
+                  const isRealContract = !isDemo && !isNaN(parseInt(agreement.id));
+                  if (isRealContract) {
+                    setModifyWarning("show");
+                  } else {
+                    try {
+                      setActionLoading(true);
+                      await modifyAgreement(agreement.id, modifyDeadlineExtend, modifyDesc);
+                      setModifyModalOpen(false);
+                      await loadAgreementDetails();
+                    } catch (err: any) {
+                      alert(err.message || err);
+                    } finally {
+                      setActionLoading(false);
+                    }
+                  }
+                }}
+                className="flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-purple-600 hover:opacity-90 text-white font-bold text-xs rounded-xl shadow-lg"
+              >
+                Apply Changes
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </main>
   );
