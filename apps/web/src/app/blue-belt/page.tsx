@@ -199,7 +199,7 @@ export default function BlueBeltEvidenceCenter() {
       case 'tracking':
         return (
           <span className="px-2 py-0.5 bg-cyan-950/60 border border-cyan-800 text-cyan-400 text-[10px] font-bold rounded-full uppercase tracking-wider shrink-0">
-            TRACKING ENABLED
+            TRACKING
           </span>
         );
       case 'projected':
