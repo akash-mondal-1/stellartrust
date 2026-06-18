@@ -17,6 +17,29 @@ StellarTrust is a decentralized freelance payment and trust protocol designed to
 
 ---
 
+## 🎥 Demo Video
+
+Watch the complete Green Belt Level 4 demonstration:
+
+**Video Link:** https://youtu.be/n_OVhpptJ8s?si=m7oKK72R0jKi4_ki
+
+The demo showcases:
+
+* Wallet onboarding with Stellar Wallets Kit
+* Profile registration and verification
+* Escrow agreement creation
+* Escrow funding on Stellar Testnet
+* Freelancer acceptance workflow
+* Milestone submission and approval
+* Payment release through Soroban smart contracts
+* On-chain reputation updates
+* NFT achievement certificate minting
+* Testing Hub validation system
+* Analytics and monitoring integrations
+* Real user onboarding evidence
+
+---
+
 ## 🛠️ Technology Stack
 
 * **Frontend:** Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS, Framer Motion
@@ -26,6 +49,53 @@ StellarTrust is a decentralized freelance payment and trust protocol designed to
 * **CI/CD:** GitHub Actions (contracts tests and frontend builds)
 
 ---
+
+## 🟢 Green Belt Level 4 Validation
+
+### Production MVP Status
+
+✅ Fully Functional Production MVP
+
+✅ Mobile Responsive UI
+
+✅ Stable Soroban Smart Contract Architecture
+
+✅ Error Handling & Loading States
+
+✅ Stellar Testnet Deployment
+
+
+### Real User Validation
+
+* 18+ Distinct Wallet Sessions
+* 11+ Validator Feedback Reports
+* 46+ Audited Events
+* 100% Tracked Action Coverage
+* Real Stellar Testnet Wallet Interactions
+* Proof Export Available in CSV Format
+
+### Analytics & Monitoring
+
+* PostHog Event Analytics
+* Sentry Exception Monitoring
+* Automated Audit Dashboard
+* Evidence Submission Dashboard
+
+### Validation Evidence
+
+The repository includes:
+
+* Deployment transaction proofs
+* Smart contract addresses
+* Wallet interaction logs
+* Validator feedback reports
+* Audit CSV exports
+* Automated screenshots
+* Mobile responsiveness proof
+
+
+---
+
 
 ## 📂 Project Structure
 
@@ -153,6 +223,29 @@ This repository structured development is built upon the following roadmap of me
 26. `docs: create demo scripts and hackathon deck blueprints`
 
 ---
+
+## 📋 Green Belt Submission Checklist
+
+| Requirement                | Status |
+| -------------------------- | ------ |
+| Production MVP             | ✅      |
+| Smart Contracts on Testnet | ✅      |
+| Mobile Responsive UI       | ✅      |
+| Public GitHub Repository   | ✅      |
+| 15+ Meaningful Commits     | ✅      |
+| Demo Video                 | ✅      |
+| Contract Addresses         | ✅      |
+| Monitoring Integration     | ✅      |
+| Analytics Integration      | ✅      |
+| 10+ Real Users Onboarded   | ✅      |
+| Wallet Interaction Proof   | ✅      |
+| User Feedback Collection   | ✅      |
+| NFT Certificates           | ✅      |
+| Reputation System          | ✅      |
+| Documentation              | ✅      |
+
+---
+
 
 ## 🗺️ Future Roadmap
 
