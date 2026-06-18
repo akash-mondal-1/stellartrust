@@ -1,0 +1,32 @@
+[
+  {
+    "id": "onb_ymf5j1rlf",
+    "wallet_address": "GDEMOCLIENT6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT",
+    "joined_at": "2026-06-18T16:21:27.035Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "demo",
+    "escrow_count": 2,
+    "nft_count": 1
+  },
+  {
+    "id": "onb_6ox7d2d0h",
+    "wallet_address": "GDEALER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT",
+    "joined_at": "2026-06-18T16:21:27.036Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": "GDEMOCLIENT6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT",
+    "connection_source": "freighter",
+    "escrow_count": 5,
+    "nft_count": 3
+  },
+  {
+    "id": "onb_96s5u00l2",
+    "wallet_address": "GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ",
+    "joined_at": "2026-06-18T16:21:27.036Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "albedo",
+    "escrow_count": 1,
+    "nft_count": 0
+  }
+]

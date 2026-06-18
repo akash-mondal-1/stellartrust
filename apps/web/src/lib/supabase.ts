@@ -292,6 +292,30 @@ class MockDatabase {
     this.setStorage('validation_events', events);
     return newEvent;
   }
+
+  // Onboarding operations
+  getOnboardings() {
+    return this.getStorage('onboardings', []);
+  }
+
+  addOnboarding(wallet: string, firstInteraction: string, referredBy?: string | null, connectionSource?: string) {
+    if (!wallet) return null;
+    const onboardings = this.getOnboardings();
+    const exists = onboardings.some((o: any) => o.wallet_address.toLowerCase() === wallet.toLowerCase());
+    if (exists) return null;
+
+    const newOnboarding = {
+      id: Math.random().toString(36).substring(2, 11),
+      wallet_address: wallet,
+      joined_at: new Date().toISOString(),
+      first_interaction: firstInteraction,
+      referred_by: referredBy || null,
+      connection_source: connectionSource || 'demo'
+    };
+    onboardings.push(newOnboarding);
+    this.setStorage('onboardings', onboardings);
+    return newOnboarding;
+  }
 }
 
 export const mockDb = new MockDatabase();

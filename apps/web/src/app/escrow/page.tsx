@@ -59,6 +59,7 @@ function EscrowContent() {
   const [milestonesCount, setMilestonesCount] = useState(1);
   const [deadlineDays, setDeadlineDays] = useState(14);
   const [creating, setCreating] = useState(false);
+  const [faucetLoading, setFaucetLoading] = useState(false);
 
   // Active agreement details
   const [agreement, setAgreement] = useState<any | null>(null);
@@ -270,6 +271,32 @@ function EscrowContent() {
     }
   };
 
+  const handleFaucet = async () => {
+    if (!address) {
+      alert("Please connect your wallet first.");
+      return;
+    }
+    if (isDemo) {
+      alert('Simulated Faucet: Added 10,000 XLM into mock wallet balance!');
+      return;
+    }
+
+    setFaucetLoading(true);
+    try {
+      const res = await fetch(`https://friendbot.stellar.org/?addr=${address}`);
+      if (res.ok) {
+        alert(`✓ Real Stellar Friendbot funded address ${address} successfully with 10,000 Testnet XLM! Check your wallet.`);
+      } else {
+        const text = await res.text();
+        alert(`Friendbot call failed: ${text || res.statusText}`);
+      }
+    } catch (err: any) {
+      alert(`Error calling Stellar Friendbot: ${err.message || err}`);
+    } finally {
+      setFaucetLoading(false);
+    }
+  };
+
   const isClient = agreement?.client_address?.toLowerCase() === address?.toLowerCase();
   const isFreelancer = agreement?.freelancer_address?.toLowerCase() === address?.toLowerCase();
 
@@ -286,6 +313,23 @@ function EscrowContent() {
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100">Create Work Agreement</h1>
             <p className="text-slate-400 text-sm">Lock payments securely in a Soroban escrow contract before starting work.</p>
           </div>
+
+          {connected && (
+            <div className="glass-panel border border-cyan-500/20 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+              <div className="space-y-0.5 text-center sm:text-left">
+                <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest block">Stellar Testnet Faucet</span>
+                <span className="text-xs text-slate-350 font-medium">Need XLM to fund escrows or register profiles?</span>
+              </div>
+              <button
+                type="button"
+                onClick={handleFaucet}
+                disabled={faucetLoading}
+                className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-purple-600 hover:opacity-90 text-white font-extrabold text-xs rounded-xl transition-all shadow-md shrink-0 cursor-pointer disabled:opacity-50"
+              >
+                {faucetLoading ? 'Funding Account...' : 'Get +10,000 Testnet XLM'}
+              </button>
+            </div>
+          )}
 
           <div className="glass-panel border border-white/5 rounded-2xl p-6 sm:p-8">
             <form onSubmit={handleCreate} className="space-y-6">
@@ -650,6 +694,24 @@ function EscrowContent() {
             {/* Right Column - Status Actions */}
             <div className="space-y-6">
               <div className="glass-panel border border-white/5 rounded-2xl p-6 space-y-6">
+                
+                {connected && (
+                  <div className="border-b border-white/5 pb-4 space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Testnet Faucet</span>
+                      <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleFaucet}
+                      disabled={faucetLoading}
+                      className="w-full py-2 bg-slate-900 border border-cyan-500/30 text-cyan-400 font-bold text-xs rounded-xl hover:bg-slate-800/50 hover:border-cyan-500/60 transition-all cursor-pointer disabled:opacity-50"
+                    >
+                      {faucetLoading ? 'Calling Friendbot...' : 'Request +10K Testnet XLM'}
+                    </button>
+                  </div>
+                )}
+
                 <div className="space-y-1">
                   <span className="text-slate-500 font-semibold uppercase tracking-wider text-[10px]">Contract Funds</span>
                   <p className="text-3xl font-extrabold text-slate-100">{agreement.amount} XLM</p>
@@ -663,6 +725,9 @@ function EscrowContent() {
                     <div className="space-y-3">
                       {agreement.status === 'Created' && (
                         <>
+                          <div className="p-3 bg-yellow-950/20 border border-yellow-800/30 text-yellow-500 text-xs rounded-xl text-center font-medium leading-relaxed">
+                            ⚠️ Action Required: Fund the escrow contract to launch the project milestones on-chain.
+                          </div>
                           <button
                             onClick={() => handleAction(() => fundEscrow(agreement.id))}
                             disabled={actionLoading}
@@ -739,8 +804,8 @@ function EscrowContent() {
                   {isFreelancer && (
                     <div className="space-y-3">
                       {agreement.status === 'Created' && (
-                        <div className="p-3 bg-yellow-950/30 border border-yellow-800/40 text-yellow-500 text-xs rounded-xl text-center font-medium">
-                          Waiting for Client to fund the escrow...
+                        <div className="p-3 bg-yellow-950/20 border border-yellow-800/30 text-yellow-500 text-xs rounded-xl text-center font-medium leading-relaxed">
+                          ⚠️ Awaiting Client Funding: The client has not funded this escrow contract yet. You should not begin work until the client locks the XLM payment on-chain and status changes to 'Funded'.
                         </div>
                       )}
 

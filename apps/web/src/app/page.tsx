@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -14,12 +14,16 @@ import {
   ChevronRight, 
   Star,
   Users,
-  CheckCircle2
+  CheckCircle2,
+  Wallet,
+  Laptop,
+  ExternalLink
 } from 'lucide-react';
 import { useStellar, WalletType } from '@/hooks/useStellar';
 
 export default function LandingPage() {
   const { connected, connectWallet } = useStellar();
+  const [activeTab, setActiveTab] = useState<'wallet' | 'faucet' | 'demo'>('wallet');
 
   const stats = [
     { label: 'Volume Secured', value: '450,210 XLM', change: '+14% this month' },
@@ -190,6 +194,137 @@ export default function LandingPage() {
                 <p className="text-xs text-slate-400 leading-relaxed">{step.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+      {/* Wallet Setup & Faucet Onboarding Assistant */}
+      <section className="py-20 max-w-5xl mx-auto px-4 space-y-12">
+        <div className="text-center max-w-2xl mx-auto space-y-4">
+          <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest block">Interactive Onboarding Assistant</span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-100">
+            Getting Started on Stellar Testnet
+          </h2>
+          <p className="text-slate-400 font-medium text-sm">
+            Whether you are a Web3 developer or a first-time validator, setting up takes less than 2 minutes.
+          </p>
+        </div>
+
+        <div className="glass-panel border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+          {/* Tab buttons switcher */}
+          <div className="flex flex-wrap bg-slate-900/80 border border-white/5 p-1.5 rounded-2xl max-w-lg mx-auto">
+            <button
+              onClick={() => setActiveTab('wallet')}
+              className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-xl text-xs font-bold transition-all ${
+                activeTab === 'wallet'
+                  ? 'bg-cyan-500 text-white shadow'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Wallet className="h-4 w-4" />
+              <span>1. Setup Wallet</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('faucet')}
+              className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-xl text-xs font-bold transition-all ${
+                activeTab === 'faucet'
+                  ? 'bg-purple-600 text-white shadow'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Coins className="h-4 w-4" />
+              <span>2. Fund Faucet</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('demo')}
+              className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-xl text-xs font-bold transition-all ${
+                activeTab === 'demo'
+                  ? 'bg-blue-600 text-white shadow'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Laptop className="h-4 w-4" />
+              <span>3. Demo Simulator</span>
+            </button>
+          </div>
+
+          {/* Tab content view */}
+          <div className="pt-2">
+            {activeTab === 'wallet' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-left">
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-100">Step 1: Install Freighter or Albedo Extension</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Freighter is the official browser wallet extension designed by the Stellar Development Foundation. Albedo provides simple, cross-browser web keys.
+                  </p>
+                  <div className="flex flex-wrap gap-3 pt-2">
+                    <a
+                      href="https://www.freighter.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2.5 bg-slate-900 border border-white/10 hover:border-cyan-500/30 text-slate-250 font-bold text-xs rounded-xl flex items-center space-x-1.5 transition-colors"
+                    >
+                      <span>Get Freighter Wallet</span>
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                    <a
+                      href="https://albedo.link/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2.5 bg-slate-900 border border-white/10 hover:border-cyan-500/30 text-slate-250 font-bold text-xs rounded-xl flex items-center space-x-1.5 transition-colors"
+                    >
+                      <span>Get Albedo Wallet</span>
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
+                </div>
+                <div className="space-y-4 p-5 bg-slate-950/60 border border-white/5 rounded-2xl text-xs text-slate-400 leading-relaxed">
+                  <h4 className="font-bold text-slate-250 uppercase tracking-wide">Configure Wallet to Testnet:</h4>
+                  <ul className="list-decimal pl-4 space-y-2.5">
+                    <li>Open your wallet extension settings (Freighter or Albedo).</li>
+                    <li>Toggle network selection from <strong>Public</strong> to <strong>Testnet</strong>.</li>
+                    <li>Click <strong>Connect Wallet</strong> in our navigation bar above.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'faucet' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-left">
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-100">Step 2: Fund Wallet via Friendbot Faucet</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Testnet XLM has no real-world value but is required to submit agreements and sign milestones on Stellar Testnet. Stellar provides a free bot called Friendbot to instantly grant 10,000 testnet XLM.
+                  </p>
+                </div>
+                <div className="space-y-4 p-5 bg-slate-950/60 border border-white/5 rounded-2xl text-xs text-slate-400 leading-relaxed">
+                  <h4 className="font-bold text-slate-250 uppercase tracking-wide">Acquiring Faucet Tokens:</h4>
+                  <ul className="list-decimal pl-4 space-y-2.5">
+                    <li>Copy your Stellar public address (starts with G...).</li>
+                    <li>Visit our **Sandbox Testing Hub** faucet section or click **Manage Escrow** to call Friendbot.</li>
+                    <li>Your account balance will update instantly on the dashboard once confirmed by the ledger.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'demo' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-left">
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-100">No Wallets Configured? Try Demo Simulator Mode</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    To evaluate the application instantly without extensions or real blockchain calls, toggle **Demo Mode** in the header navigation bar.
+                  </p>
+                </div>
+                <div className="space-y-4 p-5 bg-slate-950/60 border border-white/5 rounded-2xl text-xs text-slate-400 leading-relaxed">
+                  <h4 className="font-bold text-slate-250 uppercase tracking-wide">Simulator Capabilities:</h4>
+                  <ul className="list-decimal pl-4 space-y-2.5">
+                    <li>Uses local storage mock consensus DB so state changes persist across reloads.</li>
+                    <li>Simulates profile updates, escrow releases, rating changes, and NFT issues instantly.</li>
+                    <li>Allows testing dual-sided client-freelancer flows simultaneously.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

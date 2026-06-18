@@ -57,6 +57,30 @@ export async function POST(request: Request) {
     // Write merged list to disk
     fs.writeFileSync(jsonPath, JSON.stringify(existingFeedbacks, null, 2), 'utf8');
 
+    // Build CSV Content for Blue Belt evidence
+    const csvHeaders = ['id', 'name', 'email', 'wallet_address', 'rating', 'feedback_text', 'feature_request', 'created_at'];
+    const csvRows = existingFeedbacks.map((fb: any) => {
+      const id = fb.id || '';
+      const name = fb.name || '';
+      const email = fb.email || '';
+      const wallet_address = fb.user_address || fb.wallet_address || '';
+      const rating = fb.rating || 5;
+      const feedback_text = fb.comment || fb.feedback_text || '';
+      const feature_request = fb.feature_request || '';
+      const created_at = fb.created_at || '';
+      return [id, name, email, wallet_address, rating, feedback_text, feature_request, created_at];
+    });
+
+    const csvContent = [csvHeaders.join(','), ...csvRows.map(r => r.map(val => `"${String(val).replace(/"/g, '""')}"`).join(','))].join('\n') + '\n';
+
+    // Target path: submission-proof/user-testing/blue-belt-feedback.csv
+    const csvTargetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/blue-belt-feedback.csv');
+    const csvDir = path.dirname(csvTargetPath);
+    if (!fs.existsSync(csvDir)) {
+      fs.mkdirSync(csvDir, { recursive: true });
+    }
+    fs.writeFileSync(csvTargetPath, csvContent, 'utf8');
+
     // Group feedbacks based on keywords and ratings for markdown summary
     const positive: string[] = [];
     const negative: string[] = [];
@@ -65,17 +89,17 @@ export async function POST(request: Request) {
     const resolved: string[] = [];
 
     existingFeedbacks.forEach((fb: any) => {
-      const comment = fb.comment || '';
+      const comment = fb.comment || fb.feedback_text || '';
       const category = fb.category || '';
       const rating = fb.rating || 5;
-      const user = fb.user_address || 'Unknown';
+      const user = fb.user_address || fb.wallet_address || 'Unknown';
       const date = fb.created_at ? new Date(fb.created_at).toLocaleDateString() : new Date().toLocaleDateString();
 
       const entry = `*   **${user.substring(0, 8)}... (${date})** [Rating: ${rating}★]: "${comment}"`;
 
       if (category === 'Vulnerabilities Found' || comment.toLowerCase().includes('bug') || comment.toLowerCase().includes('error')) {
         bugs.push(entry);
-      } else if (comment.toLowerCase().includes('should') || comment.toLowerCase().includes('suggest') || comment.toLowerCase().includes('improve') || comment.toLowerCase().includes('feature')) {
+      } else if (comment.toLowerCase().includes('should') || comment.toLowerCase().includes('suggest') || comment.toLowerCase().includes('improve') || comment.toLowerCase().includes('feature') || fb.feature_request) {
         features.push(entry);
       } else if (rating <= 2) {
         negative.push(entry);
@@ -92,7 +116,7 @@ This document aggregates the actual feedback collected from users during the act
 
 ## 👥 User Count
 *   **Total Feedback Submissions**: ${existingFeedbacks.length}
-*   **Unique Wallet Addresses**: ${Array.from(new Set(existingFeedbacks.map(f => f.user_address))).length}
+*   **Unique Wallet Addresses**: ${Array.from(new Set(existingFeedbacks.map(f => f.user_address || f.wallet_address))).length}
 
 ---
 
@@ -123,7 +147,7 @@ ${resolved.length > 0 ? resolved.join('\n') : '*   *No items marked as resolved.
     const targetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/feedback-summary.md');
     fs.writeFileSync(targetPath, markdownContent, 'utf8');
 
-    return NextResponse.json({ success: true, path: targetPath, feedbacks: existingFeedbacks });
+    return NextResponse.json({ success: true, path: csvTargetPath, feedbacks: existingFeedbacks });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

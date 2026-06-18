@@ -63,7 +63,10 @@ export default function Navbar() {
     { name: 'Escrow', href: '/escrow' },
     { name: 'Reputation', href: '/reputation' },
     { name: 'NFT Gallery', href: '/gallery' },
-    { name: 'Testing Hub', href: '/admin' },
+    { name: 'Analytics', href: '/analytics' },
+    { name: 'Feedback', href: '/feedback' },
+    { name: 'Improvements', href: '/improvements' },
+    { name: 'Blue Belt', href: '/blue-belt' },
   ];
 
   return (
@@ -90,7 +93,7 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`px-3 py-2 rounded-md text-sm font-semibold transition-all duration-200 ${
+                  className={`px-2 lg:px-3 py-2 rounded-md text-xs lg:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
                     isActive
                       ? 'text-cyan-400 bg-white/5 border border-white/5 shadow-md shadow-cyan-950/20'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
@@ -105,8 +108,8 @@ export default function Navbar() {
           {/* Action Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             {/* Demo Mode Toggle */}
-            <div className="flex items-center space-x-2 bg-slate-900 border border-white/10 px-3 py-1.5 rounded-full">
-              <span className="text-xs font-medium text-slate-400">Demo Mode</span>
+            <div className="flex items-center space-x-2 bg-slate-900 border border-white/10 px-3 py-1.5 rounded-full shrink-0">
+              <span className="text-xs font-medium text-slate-400 whitespace-nowrap">Demo Mode</span>
               <button
                 onClick={toggleDemo}
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
