@@ -63,6 +63,8 @@ export default function Navbar() {
     { name: 'Escrow', href: '/escrow' },
     { name: 'Reputation', href: '/reputation' },
     { name: 'NFT Gallery', href: '/gallery' },
+    { name: 'Analytics', href: '/analytics' },
+    { name: 'Pitch Deck', href: '/pitch' },
     { name: 'Testing Hub', href: '/admin' },
   ];
 
