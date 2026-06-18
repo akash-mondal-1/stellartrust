@@ -19,7 +19,8 @@ import {
   ExternalLink,
   ShieldAlert,
   Loader2,
-  Share2
+  Share2,
+  Camera
 } from 'lucide-react';
 
 export default function AnalyticsDashboard() {
@@ -28,6 +29,15 @@ export default function AnalyticsDashboard() {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [shared, setShared] = useState(false);
+
+  // New Blue Belt Metrics states
+  const [screenshotMode, setScreenshotMode] = useState(false);
+  const [onboardingsCount, setOnboardingsCount] = useState(0);
+  const [onboardingsList, setOnboardingsList] = useState<any[]>([]);
+  const [agreementsCount, setAgreementsCount] = useState(0);
+  const [completedAgreementsCount, setCompletedAgreementsCount] = useState(0);
+  const [nftsMintedCount, setNftsMintedCount] = useState(0);
+  const [dauCount, setDauCount] = useState(15);
 
   const fetchAnalyticsEvents = async () => {
     try {
@@ -71,6 +81,89 @@ export default function AnalyticsDashboard() {
     const interval = setInterval(fetchAnalyticsEvents, 6000);
     return () => clearInterval(interval);
   }, [isDemo, connected]);
+
+  // Sync additional counts from mockDb
+  useEffect(() => {
+    const onboardings = mockDb.getOnboardings();
+    setOnboardingsCount(onboardings.length);
+    setOnboardingsList(onboardings);
+
+    const agreements = mockDb.getAgreements();
+    setAgreementsCount(agreements.length);
+    
+    const completed = agreements.filter((a: any) => 
+      a.status === 'Completed' || a.status === 'Paid' || a.status === 'Released'
+    ).length;
+    setCompletedAgreementsCount(completed);
+
+    // Dynamic DAU calculations based on recent events (or fallback if empty)
+    const activeIn24h = Array.from(new Set(events.filter(e => {
+      const ageHours = (Date.now() - new Date(e.created_at).getTime()) / (3600 * 1000);
+      return ageHours <= 24;
+    }).map(e => e.wallet_address))).filter(Boolean).length;
+    
+    setDauCount(activeIn24h);
+
+    // Calculate dynamic NFTs
+    const totalNfts = events.filter(e => e.event_type === 'nft_minted').length 
+      || mockDb.getReviews().filter((r: any) => r.nft_minted).length 
+      || onboardings.reduce((acc: number, o: any) => acc + (o.nft_count || 0), 0);
+    
+    setNftsMintedCount(totalNfts);
+  }, [events]);
+
+  // Sync and load onboarding list on mount
+  useEffect(() => {
+    const syncAndLoadOnboardings = async () => {
+      const localOnboardings = mockDb.getOnboardings();
+      setOnboardingsCount(localOnboardings.length);
+      setOnboardingsList(localOnboardings);
+
+      try {
+        const res = await fetch('/api/export-onboarding');
+        if (res.ok) {
+          const serverOnboardings = await res.json();
+          const unsynced = localOnboardings.filter((local: any) => 
+            !serverOnboardings.some((server: any) => server.wallet_address.toLowerCase() === local.wallet_address.toLowerCase())
+          );
+
+          if (unsynced.length > 0) {
+            const postRes = await fetch('/api/export-onboarding', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ onboardings: localOnboardings })
+            });
+            if (postRes.ok) {
+              const data = await postRes.json();
+              if (data.success && data.onboardings) {
+                mockDb.setStorage('onboardings', data.onboardings);
+                setOnboardingsCount(data.onboardings.length);
+                setOnboardingsList(data.onboardings);
+                return;
+              }
+            }
+          }
+
+          let updated = false;
+          const mergedOnboardings = [...localOnboardings];
+          serverOnboardings.forEach((se: any) => {
+            if (!mergedOnboardings.some((local: any) => local.wallet_address.toLowerCase() === se.wallet_address.toLowerCase())) {
+              mergedOnboardings.push(se);
+              updated = true;
+            }
+          });
+          if (updated) {
+            mockDb.setStorage('onboardings', mergedOnboardings);
+          }
+          setOnboardingsCount(mergedOnboardings.length);
+          setOnboardingsList(mergedOnboardings);
+        }
+      } catch (e) {
+        console.warn("Failed to sync onboardings on analytics mount:", e);
+      }
+    };
+    syncAndLoadOnboardings();
+  }, [connected]);
 
   // Aggregate metrics
   const totalLogs = events.length;
@@ -141,20 +234,34 @@ export default function AnalyticsDashboard() {
 
   const handleShareMetrics = () => {
     if (navigator.clipboard) {
-      const text = `StellarTrust Protocol Stats: ${uniqueWallets} Active Wallets, ${totalVolumeLocked} XLM Secured, ${nftCount} Completion NFTs Minted on Stellar Testnet! Check it out: ${window.location.origin}/analytics`;
+      const text = `StellarTrust Protocol Stats: ${onboardingsCount} Active Wallets, ${totalVolumeLocked} XLM Secured, ${nftsMintedCount} Completion NFTs Minted on Stellar Testnet! Check it out: ${window.location.origin}/analytics`;
       navigator.clipboard.writeText(text);
       setShared(true);
-      setTimeout(() => setShared(false), 3000);
+      setTimeout(() => setShared(false), 3500);
     }
   };
 
   // Find max for SVG scaling
+  const freighterCount = onboardingsList.filter(o => o.connection_source === 'freighter').length;
+  const albedoCount = onboardingsList.filter(o => o.connection_source === 'albedo').length;
+  const demoCount = onboardingsList.filter(o => o.connection_source === 'demo' || !o.connection_source).length;
+  const realCount = freighterCount + albedoCount;
+
   const maxEventsVal = Math.max(...timeline.activeCounts, 5);
   const maxVolumeVal = Math.max(...timeline.volumeProgress, 500);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
+    <div className={`flex flex-col min-h-screen ${screenshotMode ? 'p-8 bg-slate-950 text-slate-100' : ''}`}>
+      {!screenshotMode && <Navbar />}
+
+      {screenshotMode && (
+        <button
+          onClick={() => setScreenshotMode(false)}
+          className="fixed bottom-6 right-6 z-50 bg-rose-600 hover:bg-rose-500 text-white font-bold py-2.5 px-5 rounded-full shadow-lg transition active:scale-95 text-xs flex items-center gap-1.5"
+        >
+          Exit Screenshot Mode
+        </button>
+      )}
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8">
         
@@ -167,56 +274,90 @@ export default function AnalyticsDashboard() {
             </h1>
             <p className="text-slate-400 text-sm">Real-time charts compiling transaction volume, wallet registrations, and trust score aggregates.</p>
           </div>
-          <button
-            onClick={handleShareMetrics}
-            className="flex items-center space-x-1.5 bg-slate-900 border border-cyan-500/20 hover:border-cyan-500/60 text-cyan-400 px-4 py-2.5 rounded-xl text-xs font-bold transition-all active:scale-95 cursor-pointer"
-          >
-            <Share2 className="h-4 w-4" />
-            <span>{shared ? 'Copied to Clipboard!' : 'Share Protocol Traction'}</span>
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setScreenshotMode(!screenshotMode)}
+              className="flex items-center space-x-1.5 bg-slate-900 border border-purple-500/20 hover:border-purple-500/60 text-purple-400 px-4 py-2.5 rounded-xl text-xs font-bold transition-all active:scale-95 cursor-pointer"
+            >
+              <Camera className="h-4 w-4" />
+              <span>{screenshotMode ? 'Exit Screenshot' : 'Screenshot Mode'}</span>
+            </button>
+            <button
+              onClick={handleShareMetrics}
+              className="flex items-center space-x-1.5 bg-slate-900 border border-cyan-500/20 hover:border-cyan-500/60 text-cyan-400 px-4 py-2.5 rounded-xl text-xs font-bold transition-all active:scale-95 cursor-pointer"
+            >
+              <Share2 className="h-4 w-4" />
+              <span>{shared ? 'Copied to Clipboard!' : 'Share Protocol Traction'}</span>
+            </button>
+          </div>
         </div>
 
         {/* Global Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           
-          <div className="glass-panel border border-white/5 rounded-2xl p-6 space-y-2 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-16 h-16 bg-cyan-500/5 rounded-full filter blur-xl" />
+          <div className="glass-panel border border-white/5 rounded-2xl p-4 space-y-1 relative overflow-hidden flex flex-col justify-between min-h-[120px] col-span-1">
+            <div className="absolute top-0 right-0 w-12 h-12 bg-cyan-500/5 rounded-full filter blur-xl" />
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-1">
               <Users className="h-3.5 w-3.5 text-cyan-400" />
-              <span>Unique Users</span>
+              <span>Wallet Connections</span>
             </span>
-            <p className="text-3xl font-black text-slate-100">{uniqueWallets}</p>
-            <span className="text-[10px] text-cyan-400 block font-semibold">Active Wallets Sync</span>
+            <div>
+              <p className="text-2xl font-black text-slate-100">{onboardingsCount}</p>
+              <div className="text-[9px] text-slate-400 space-y-0.5 mt-1 font-semibold">
+                <div>Real: <strong className="text-cyan-400">{realCount}</strong> ({freighterCount} Freighter, {albedoCount} Albedo)</div>
+                <div>Demo: <strong className="text-purple-400">{demoCount}</strong></div>
+              </div>
+            </div>
           </div>
 
-          <div className="glass-panel border border-white/5 rounded-2xl p-6 space-y-2 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-16 h-16 bg-purple-500/5 rounded-full filter blur-xl" />
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-1">
-              <Coins className="h-3.5 w-3.5 text-purple-400" />
-              <span>Secured Volume</span>
-            </span>
-            <p className="text-3xl font-black text-slate-100">{totalVolumeLocked} XLM</p>
-            <span className="text-[10px] text-purple-400 block font-semibold">Stroops Locked in Escrows</span>
-          </div>
-
-          <div className="glass-panel border border-white/5 rounded-2xl p-6 space-y-2 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/5 rounded-full filter blur-xl" />
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-1">
-              <Award className="h-3.5 w-3.5 text-blue-400" />
-              <span>NFT Certificates</span>
-            </span>
-            <p className="text-3xl font-black text-slate-100">{nftCount}</p>
-            <span className="text-[10px] text-blue-400 block font-semibold">Minted On-Chain Badges</span>
-          </div>
-
-          <div className="glass-panel border border-white/5 rounded-2xl p-6 space-y-2 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-500/5 rounded-full filter blur-xl" />
+          <div className="glass-panel border border-white/5 rounded-2xl p-4 space-y-2 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-12 h-12 bg-emerald-500/5 rounded-full filter blur-xl" />
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-1">
               <Activity className="h-3.5 w-3.5 text-emerald-400" />
-              <span>Total Transactions</span>
+              <span>Active (DAUs)</span>
             </span>
-            <p className="text-3xl font-black text-slate-100">{totalLogs}</p>
-            <span className="text-[10px] text-emerald-400 block font-semibold">Consensus Event Entries</span>
+            <p className="text-2xl font-black text-slate-100">{dauCount}</p>
+            <span className="text-[9px] text-emerald-400 block font-semibold">Daily Active Wallets</span>
+          </div>
+
+          <div className="glass-panel border border-white/5 rounded-2xl p-4 space-y-2 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-12 h-12 bg-yellow-500/5 rounded-full filter blur-xl" />
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-1">
+              <Coins className="h-3.5 w-3.5 text-yellow-550" />
+              <span>Escrows Drafted</span>
+            </span>
+            <p className="text-2xl font-black text-slate-100">{agreementsCount}</p>
+            <span className="text-[9px] text-yellow-500 block font-semibold">Total Escrows Created</span>
+          </div>
+
+          <div className="glass-panel border border-white/5 rounded-2xl p-4 space-y-2 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-12 h-12 bg-teal-500/5 rounded-full filter blur-xl" />
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-1">
+              <CheckCircle className="h-3.5 w-3.5 text-teal-400" />
+              <span>Escrows Payout</span>
+            </span>
+            <p className="text-2xl font-black text-slate-100">{completedAgreementsCount}</p>
+            <span className="text-[9px] text-teal-400 block font-semibold">Contracts Completed</span>
+          </div>
+
+          <div className="glass-panel border border-white/5 rounded-2xl p-4 space-y-2 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-12 h-12 bg-purple-500/5 rounded-full filter blur-xl" />
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-1">
+              <Award className="h-3.5 w-3.5 text-purple-400" />
+              <span>NFT Achievements</span>
+            </span>
+            <p className="text-2xl font-black text-slate-100">{nftsMintedCount}</p>
+            <span className="text-[9px] text-purple-400 block font-semibold">On-Chain Certificates</span>
+          </div>
+
+          <div className="glass-panel border border-white/5 rounded-2xl p-4 space-y-2 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-12 h-12 bg-blue-500/5 rounded-full filter blur-xl" />
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-1">
+              <Coins className="h-3.5 w-3.5 text-blue-400" />
+              <span>Secured Volume</span>
+            </span>
+            <p className="text-2xl font-black text-slate-100">{totalVolumeLocked} XLM</p>
+            <span className="text-[9px] text-blue-400 block font-semibold">Total Escrow Value</span>
           </div>
 
         </div>
@@ -443,15 +584,16 @@ export default function AnalyticsDashboard() {
                 
                 <div className="space-y-3.5 text-xs text-slate-300">
                   {[
-                    { label: 'Wallet Connections', count: connectedCount, color: 'bg-blue-500' },
-                    { label: 'Registered Profiles', count: profileCount, color: 'bg-purple-500' },
-                    { label: 'Agreements Drafted', count: escrowCount, color: 'bg-yellow-500' },
-                    { label: 'Escrows Active', count: fundedCount, color: 'bg-cyan-500' },
-                    { label: 'Milestones Completed', count: completedCount, color: 'bg-emerald-500' },
-                    { label: 'Trust Ratings Registered', count: ratingCount, color: 'bg-amber-500' },
-                    { label: 'Achievement Certificates Minted', count: nftCount, color: 'bg-pink-500' },
+                    { label: 'Real Wallet Connections', count: realCount, total: onboardingsCount, color: 'bg-blue-500' },
+                    { label: 'Demo Connections', count: demoCount, total: onboardingsCount, color: 'bg-purple-500' },
+                    { label: 'Registered Profiles', count: profileCount, total: totalLogs, color: 'bg-indigo-500' },
+                    { label: 'Agreements Drafted', count: escrowCount, total: totalLogs, color: 'bg-yellow-500' },
+                    { label: 'Escrows Active', count: fundedCount, total: totalLogs, color: 'bg-cyan-500' },
+                    { label: 'Milestones Completed', count: completedCount, total: totalLogs, color: 'bg-emerald-500' },
+                    { label: 'Trust Ratings Registered', count: ratingCount, total: totalLogs, color: 'bg-amber-500' },
+                    { label: 'Achievement Certificates Minted', count: nftCount, total: totalLogs, color: 'bg-pink-500' },
                   ].map((item, idx) => {
-                    const pct = totalLogs > 0 ? Math.round((item.count / totalLogs) * 100) : 0;
+                    const pct = item.total > 0 ? Math.round((item.count / item.total) * 100) : 0;
                     return (
                       <div key={idx} className="space-y-1.5">
                         <div className="flex justify-between text-[11px]">
@@ -549,7 +691,7 @@ export default function AnalyticsDashboard() {
 
       </main>
 
-      <Footer />
+      {!screenshotMode && <Footer />}
     </div>
   );
 }

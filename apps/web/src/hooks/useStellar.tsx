@@ -90,6 +90,15 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   // Auto-load connected address or demo address
   useEffect(() => {
     const checkWalletsAndInit = async () => {
+      // Extract referral code if present
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const referralCode = params.get('ref');
+        if (referralCode) {
+          localStorage.setItem('stellar_trust_referred_by', referralCode);
+        }
+      }
+
       // Initialize the Stellar Wallets Kit static class client-side
       try {
         const { StellarWalletsKit, Networks } = require('@creit.tech/stellar-wallets-kit');
@@ -176,6 +185,13 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setConnected(true);
       localStorage.setItem('stellar_trust_wallet_address', demoClientAddress);
       refreshProfile(demoClientAddress);
+      mockDb.addOnboarding(demoClientAddress, 'wallet_connected', null, 'demo');
+      // Trigger sync to disk
+      fetch('/api/export-onboarding', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ onboardings: mockDb.getOnboardings() })
+      }).catch(err => console.warn("Failed to sync onboarding on demo toggle:", err));
     } else {
       setAddress(null);
       setConnected(false);
@@ -686,8 +702,29 @@ export const StellarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setConnected(true);
       localStorage.setItem('stellar_trust_wallet_address', walletAddress);
       localStorage.setItem('stellar_trust_demo_mode', 'false');
-      
       await refreshProfile(walletAddress);
+
+      // Identify selected wallet connection source
+      let source = 'freighter';
+      try {
+        const activeModule = StellarWalletsKit.selectedModule;
+        if (activeModule && activeModule.productId === 'albedo') {
+          source = 'albedo';
+        }
+      } catch (e) {
+        console.warn("Could not determine selected wallet module", e);
+      }
+
+      // Register onboarding
+      const referrer = localStorage.getItem('stellar_trust_referred_by');
+      mockDb.addOnboarding(walletAddress, 'wallet_connected', referrer, source);
+
+      // Trigger sync to disk
+      fetch('/api/export-onboarding', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ onboardings: mockDb.getOnboardings() })
+      }).catch(err => console.warn("Failed to sync onboarding on wallet connect:", err));
 
       trackEvent({
         wallet_address: walletAddress,
