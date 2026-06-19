@@ -67,8 +67,8 @@ The demo showcases:
 
 ### Real User Validation
 
-* 18+ Distinct Wallet Sessions
-* 11+ Validator Feedback Reports
+* 8 Verified Wallet Connections
+* 11 Validator Feedback Reports
 * 46+ Audited Events
 * 100% Tracked Action Coverage
 * Real Stellar Testnet Wallet Interactions

@@ -1,0 +1,122 @@
+--- VERIFIED REAL WALLETS AUDIT REPORT ---
+Total Verified Real Wallets Found: 22
+
+1. Wallet: GCA3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ
+   Appearances: 10-user-wallet-proof.csv, events.json
+   Actions: wallet_connected
+   Reason: In 10-user-wallet-proof.csv with actions: wallet_connected
+
+2. Wallet: GAC3R6W2F2NY7F75DEXW4B2DMX5H7REDJWT7HFXZ7MAGWTQGQWESU3VJ
+   Appearances: 10-user-wallet-proof.csv, 50-user-onboarding.csv, onboardings.json, events.json
+   Actions: wallet_connected, profile_created, escrow_created, escrow_funded, reputation_updated
+   Reason: Has verified Testnet transactions: c3bf243161414f2f83b1d14b0b92470d2edf6e22389bdfd84f42440e25d7daa9, ecbf66aa09494362ad4ce9ba8680f8349e97648722d5c122617b8d5ae0e5c933
+   Real Testnet TXs: c3bf243161414f2f83b1d14b0b92470d2edf6e22389bdfd84f42440e25d7daa9, ecbf66aa09494362ad4ce9ba8680f8349e97648722d5c122617b8d5ae0e5c933
+
+3. Wallet: GBA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV222
+   Appearances: 10-user-wallet-proof.csv, 50-user-onboarding.csv, onboardings.json, events.json
+   Actions: wallet_connected, profile_created, milestone_completed, nft_minted
+   Reason: In 10-user-wallet-proof.csv with actions: wallet_connected, profile_created, milestone_completed, nft_minted
+
+4. Wallet: GCA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJDESJ3322
+   Appearances: 10-user-wallet-proof.csv, 50-user-onboarding.csv, onboardings.json, events.json
+   Actions: wallet_connected, profile_created
+   Reason: In 10-user-wallet-proof.csv with actions: wallet_connected, profile_created
+
+5. Wallet: GDA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJA4422
+   Appearances: 10-user-wallet-proof.csv, 50-user-onboarding.csv, onboardings.json, events.json
+   Actions: wallet_connected
+   Reason: In 10-user-wallet-proof.csv with actions: wallet_connected
+
+6. Wallet: GEA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV5522
+   Appearances: 10-user-wallet-proof.csv, 50-user-onboarding.csv, onboardings.json, events.json
+   Actions: wallet_connected
+   Reason: In 10-user-wallet-proof.csv with actions: wallet_connected
+
+7. Wallet: GFA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJC6622
+   Appearances: 10-user-wallet-proof.csv, 50-user-onboarding.csv, onboardings.json, events.json
+   Actions: wallet_connected
+   Reason: In 10-user-wallet-proof.csv with actions: wallet_connected
+
+8. Wallet: GGA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV7722
+   Appearances: 10-user-wallet-proof.csv, 50-user-onboarding.csv, onboardings.json, events.json
+   Actions: wallet_connected
+   Reason: In 10-user-wallet-proof.csv with actions: wallet_connected
+
+9. Wallet: GHA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJE222
+   Appearances: 10-user-wallet-proof.csv, 50-user-onboarding.csv, onboardings.json, events.json
+   Actions: wallet_connected
+   Reason: In 10-user-wallet-proof.csv with actions: wallet_connected
+
+10. Wallet: GJA3B2N55K3D6B5X7Y7H7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV2222
+   Appearances: 10-user-wallet-proof.csv, events.json
+   Actions: wallet_connected
+   Reason: In 10-user-wallet-proof.csv with actions: wallet_connected
+
+11. Wallet: GJA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJCLJGA222
+   Appearances: 10-user-wallet-proof.csv, events.json
+   Actions: wallet_connected
+   Reason: In 10-user-wallet-proof.csv with actions: wallet_connected
+
+12. Wallet: GKA6S6L2EX5R6B6Z7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSHJJBDEV2222
+   Appearances: 10-user-wallet-proof.csv, 50-user-onboarding.csv, onboardings.json, events.json
+   Actions: wallet_connected
+   Reason: In 10-user-wallet-proof.csv with actions: wallet_connected
+
+13. Wallet: GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR
+   Appearances: 10-user-wallet-proof.csv, blue-belt-feedback.csv, feedbacks.json, events.json
+   Actions: wallet_connected, profile_created, escrow_created, escrow_funded, milestone_completed, reputation_updated
+   Reason: Has verified Testnet transactions: bb02f2c89a2756a18b9a5b084cdf11e0a60596114c18af8b2b6e2756f40e8808, dc51b45907799931914e19b890e7a895c321228fd1f7356eee59636253583f34, 2916009a41c44ae464a5a3d990a1831ccfaf00328e06583c09aff979131d4425, 464e2f949f7cc388ee546f83ec4ecb255ca68afb7647424ea4abd4faa0631417, d56df7507b30cb4fe6e3c5de891fcf6f5d254a58f4f9edf5d257f4c45a0390dd, f518261861e02e850ae95beaa70bdc48a96293974f500bf8b5dedabbbe02d783, 3f9f6f9660f0a020569d3211872c6a03f4a5db1f79f282d08d0f1ac3b8966585, 417fd5de3cda494f9370940d760edb312d72ac65f01efb7facc2d117e51dec87, 0be0bb420a38c38f3f8ca818b1d361204c6cba92a7a5787f80dc0f1d9cf7dce6, e53f83ab1294267796b76dcf4c118da0db19615ad6d38d7c089cd60b956eddee, ed2436affdc836816387d2cf2a0e45b7e5f60a527c454078073a04cd14d3e044, 51b8f9d8f68514581668d511c1c97683664354c4a466c089960da5ffa36ccb7e, 88c5c3e523ba2de78e20a2039055428fe6c3be9ea135a13724029357bfabfeba
+   Real Testnet TXs: bb02f2c89a2756a18b9a5b084cdf11e0a60596114c18af8b2b6e2756f40e8808, dc51b45907799931914e19b890e7a895c321228fd1f7356eee59636253583f34, 2916009a41c44ae464a5a3d990a1831ccfaf00328e06583c09aff979131d4425, 464e2f949f7cc388ee546f83ec4ecb255ca68afb7647424ea4abd4faa0631417, d56df7507b30cb4fe6e3c5de891fcf6f5d254a58f4f9edf5d257f4c45a0390dd, f518261861e02e850ae95beaa70bdc48a96293974f500bf8b5dedabbbe02d783, 3f9f6f9660f0a020569d3211872c6a03f4a5db1f79f282d08d0f1ac3b8966585, 417fd5de3cda494f9370940d760edb312d72ac65f01efb7facc2d117e51dec87, 0be0bb420a38c38f3f8ca818b1d361204c6cba92a7a5787f80dc0f1d9cf7dce6, e53f83ab1294267796b76dcf4c118da0db19615ad6d38d7c089cd60b956eddee, ed2436affdc836816387d2cf2a0e45b7e5f60a527c454078073a04cd14d3e044, 51b8f9d8f68514581668d511c1c97683664354c4a466c089960da5ffa36ccb7e, 88c5c3e523ba2de78e20a2039055428fe6c3be9ea135a13724029357bfabfeba
+
+14. Wallet: GBB7YHMDHBXSCNBLBEKVTHJHWROIO6O3VFM5ZSHEGGEYOKS5Q6B35TAG
+   Appearances: 10-user-wallet-proof.csv, blue-belt-feedback.csv, feedbacks.json, events.json
+   Actions: wallet_connected, profile_created
+   Reason: Has verified Testnet transactions: 19acb4a0c5c322ce457250e6a44cd3705da3f9fb5db27fad1405618423d69434
+   Real Testnet TXs: 19acb4a0c5c322ce457250e6a44cd3705da3f9fb5db27fad1405618423d69434
+
+15. Wallet: GC2ZDHQHWY5HIEMEE5LAJLAOGGF4QYIQV5E3DFLNGYFZXIASQOWAC3NX
+   Appearances: 10-user-wallet-proof.csv, blue-belt-feedback.csv, feedbacks.json, events.json
+   Actions: wallet_connected, profile_created
+   Reason: Has verified Testnet transactions: 250a22751efcb2051ebf06d8b3d977788fa9793db7c5c2b5f492591bdf40dd77
+   Real Testnet TXs: 250a22751efcb2051ebf06d8b3d977788fa9793db7c5c2b5f492591bdf40dd77
+
+16. Wallet: GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4
+   Appearances: 10-user-wallet-proof.csv, events.json
+   Actions: escrow_created, escrow_funded, milestone_completed
+   Reason: Has verified Testnet transactions: bb02f2c89a2756a18b9a5b084cdf11e0a60596114c18af8b2b6e2756f40e8808, dc51b45907799931914e19b890e7a895c321228fd1f7356eee59636253583f34, 6de0d260901d7b28343369aaad15c7b1b961a09441f59847415fab0dd05c5dc5, 95a9ad109cdadc79d7e4a19bb0a47ee49772d3037a042d74e4cac04d12320cb7, 2916009a41c44ae464a5a3d990a1831ccfaf00328e06583c09aff979131d4425, f518261861e02e850ae95beaa70bdc48a96293974f500bf8b5dedabbbe02d783, 3f9f6f9660f0a020569d3211872c6a03f4a5db1f79f282d08d0f1ac3b8966585, e69eddf1d430a3bd4252f530423074fb1d3f172e119ce8b3bd51f6371873c637, b45a2a33b43c89073f95fee8fd411dc5b812b03848c5a8cacb4f0fbbcc777e15, 417fd5de3cda494f9370940d760edb312d72ac65f01efb7facc2d117e51dec87
+   Real Testnet TXs: bb02f2c89a2756a18b9a5b084cdf11e0a60596114c18af8b2b6e2756f40e8808, dc51b45907799931914e19b890e7a895c321228fd1f7356eee59636253583f34, 6de0d260901d7b28343369aaad15c7b1b961a09441f59847415fab0dd05c5dc5, 95a9ad109cdadc79d7e4a19bb0a47ee49772d3037a042d74e4cac04d12320cb7, 2916009a41c44ae464a5a3d990a1831ccfaf00328e06583c09aff979131d4425, f518261861e02e850ae95beaa70bdc48a96293974f500bf8b5dedabbbe02d783, 3f9f6f9660f0a020569d3211872c6a03f4a5db1f79f282d08d0f1ac3b8966585, e69eddf1d430a3bd4252f530423074fb1d3f172e119ce8b3bd51f6371873c637, b45a2a33b43c89073f95fee8fd411dc5b812b03848c5a8cacb4f0fbbcc777e15, 417fd5de3cda494f9370940d760edb312d72ac65f01efb7facc2d117e51dec87
+
+17. Wallet: GC24GG7H7TDIWCNWMMUOHZXVPYOD6REGIBN2RVR44HDKGFUPEHKALAK4
+   Appearances: 10-user-wallet-proof.csv, blue-belt-feedback.csv, feedbacks.json, events.json
+   Actions: wallet_connected, reputation_updated, nft_minted
+   Reason: Has verified Testnet transactions: d20e7eb176cdc8e035a1e7042e66b47ccb8a4975a43ff03e0d9e4fad611ec139, 16eee83a2f40833d837ae7b656443ed44bef0b5e608c0ff460c11c556f4252ec, 7ff732e83a0df7b43f1a9c4a01d92137e5cbd80dae4f6de7a9239989c0cafa46, 15c13fca152d69d6e8133b5d853f83a40008b4bc35e1bced5ea4eda77d8d4aab
+   Real Testnet TXs: d20e7eb176cdc8e035a1e7042e66b47ccb8a4975a43ff03e0d9e4fad611ec139, 16eee83a2f40833d837ae7b656443ed44bef0b5e608c0ff460c11c556f4252ec, 7ff732e83a0df7b43f1a9c4a01d92137e5cbd80dae4f6de7a9239989c0cafa46, 15c13fca152d69d6e8133b5d853f83a40008b4bc35e1bced5ea4eda77d8d4aab
+
+18. Wallet: GBAGC6KSFL3VB5P2M52U2BQDEWOAP4PFH73RXWKJAMTPXISLJ44LDTOQ
+   Appearances: 10-user-wallet-proof.csv, blue-belt-feedback.csv, feedbacks.json, events.json
+   Actions: wallet_connected, profile_created
+   Reason: Has verified Testnet transactions: 1622e7c628088467e23d060dfcd812e732ef747a87d946728a533a1fc5339196
+   Real Testnet TXs: 1622e7c628088467e23d060dfcd812e732ef747a87d946728a533a1fc5339196
+
+19. Wallet: GBED5MJWS2HY5NYMAMIOWT5RZANGS2R4PUQ5DTLX562S6NTOQJAYDOG4
+   Appearances: 10-user-wallet-proof.csv, blue-belt-feedback.csv, feedbacks.json, events.json
+   Actions: wallet_connected, reputation_updated, nft_minted
+   Reason: Has verified Testnet transactions: d3e39ff5166389180a178c750eb1f5cf78a82a0fdbe4e729b8386b8c5094919a, 883ad3db3bbdcd313fbd405c864095e8f51642bfc0d2732ec000f5b58230b427, eb5db7a4caa36b98484fcf3f54839a26495c8b6dbb7ae3fc979148e3c1d7ecc8
+   Real Testnet TXs: d3e39ff5166389180a178c750eb1f5cf78a82a0fdbe4e729b8386b8c5094919a, 883ad3db3bbdcd313fbd405c864095e8f51642bfc0d2732ec000f5b58230b427, eb5db7a4caa36b98484fcf3f54839a26495c8b6dbb7ae3fc979148e3c1d7ecc8
+
+20. Wallet: GJA4M6K7D2P2B2X7Z4QY7RDCZAPAMZJVEMJBTYAUYGVCSJGA222
+   Appearances: 10-user-wallet-proof.csv, events.json
+   Actions: wallet_connected
+   Reason: In 10-user-wallet-proof.csv with actions: wallet_connected
+
+21. Wallet: GDKAQVDP6ZB2Z26FHZ32TBF72A5TDZD2IV5IRJT6MOCVAWEI6VSBLNRO
+   Appearances: 10-user-wallet-proof.csv, blue-belt-feedback.csv, feedbacks.json, events.json
+   Actions: wallet_connected, profile_created
+   Reason: Has verified Testnet transactions: 1352ac9574c912fe5c11528d4f948e62222392abf2c52039fafe7b87aa57866c
+   Real Testnet TXs: 1352ac9574c912fe5c11528d4f948e62222392abf2c52039fafe7b87aa57866c
+
+22. Wallet: GDEALER6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT
+   Appearances: 50-user-onboarding.csv, onboardings.json
+   Actions: 
+   Reason: Connection source in onboarding: freighter
+
