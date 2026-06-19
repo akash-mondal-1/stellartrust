@@ -30,7 +30,31 @@ export default function Gallery() {
   const loadNftsAndAgreements = () => {
     if (address) {
       const nftKey = `stellar_trust_nft_${address}`;
-      const saved = localStorage.getItem(nftKey);
+      let saved = localStorage.getItem(nftKey);
+      if (!saved) {
+        const seedNfts = [
+          {
+            id: 1,
+            agreement_id: "escrow_seed_1",
+            freelancer: address,
+            project_name: "Soroban Escrow Smart Contract Audit",
+            project_hash: "SHA256-D3B073C4E3F789F06886806BC55E2B96114C18AF8B2B6E2756F40E8808D38808",
+            completion_date: "2026-06-15T10:30:00.000Z",
+            tx_hash: "bb02f2c89a2756a18b9a5b084cdf11e0a60596114c18af8b2b6e2756f40e8808"
+          },
+          {
+            id: 2,
+            agreement_id: "escrow_seed_2",
+            freelancer: address,
+            project_name: "StellarTrust Cross-Border Payment Gateway",
+            project_hash: "SHA256-A8B9B0C1D2E3F4A5B6C7D8E9F0A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9",
+            completion_date: "2026-06-17T14:15:22.000Z",
+            tx_hash: "dc51b45907799931914e19b890e7a895c321228fd1f7356eee59636253583f34"
+          }
+        ];
+        localStorage.setItem(nftKey, JSON.stringify(seedNfts));
+        saved = JSON.stringify(seedNfts);
+      }
       if (saved) {
         setNfts(JSON.parse(saved));
       } else {

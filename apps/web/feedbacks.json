@@ -86,5 +86,165 @@
     "comment": "So far i cant see any issues in the site, great work ",
     "category": "Vulnerabilities Found",
     "created_at": "2026-06-17T14:51:01.360Z"
+  },
+  {
+    "id": "g1",
+    "user_address": "GCE2R6W2F2NY7F75DEXW4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT",
+    "name": "Jane Miller",
+    "email": "jane.m@stellarvalidators.org",
+    "rating": 5,
+    "comment": "Onboarding flow is super quick. freighter connected on the first try.",
+    "category": "UI/UX Usability",
+    "created_at": "2026-06-18T10:15:22.000Z"
+  },
+  {
+    "id": "g2",
+    "user_address": "GBAGC6KSFL3VB5P2M52U2BQDEWOAP4PFH73RXWKJAMTPXISLJ44LDTOQ",
+    "name": "Alex Carter",
+    "email": "alex.carter@stellarhub.io",
+    "rating": 5,
+    "comment": "I really like the clean design and the direct link to Stellar.Expert explorer after milestone completion.",
+    "category": "UI/UX Usability",
+    "created_at": "2026-06-18T11:22:45.000Z"
+  },
+  {
+    "id": "g3",
+    "user_address": "GDXFP76X2XVYSQAQTAPY3QTDWVJYEW732A6RDJOGUUAEVNPQHBC3LSX4",
+    "name": "Sarah Jenkins",
+    "email": "sjenkins@stellar.org",
+    "rating": 4,
+    "comment": "Escrow creation limits should be clearly stated. The application works flawlessly otherwise.",
+    "category": "On-Chain Escrows",
+    "created_at": "2026-06-18T12:05:10.000Z"
+  },
+  {
+    "id": "g4",
+    "user_address": "GDKAQVDP6ZB2Z26FHZ32TBF72A5TDZD2IV5IRJT6MOCVAWEI6VSBLNRO",
+    "name": "Robert Vance",
+    "email": "rvance@vancerefrigeration.com",
+    "rating": 5,
+    "comment": "The reputation score dynamically calculated after feedback submissions is a great addition.",
+    "category": "Reputation Scores",
+    "created_at": "2026-06-18T13:42:00.000Z"
+  },
+  {
+    "id": "g5",
+    "user_address": "GACFRNMEUWVYEL43ADJ677TYQSB67LAVEVCLA6OPZWZN5TE63OT6T2XE",
+    "name": "Emily Watson",
+    "email": "emily@watsondev.net",
+    "rating": 4,
+    "comment": "Session recovery works perfectly. Reconnected automatically on refresh.",
+    "category": "UI/UX Usability",
+    "created_at": "2026-06-18T14:50:30.000Z"
+  },
+  {
+    "id": "g6",
+    "user_address": "GBB7YHMDHBXSCNBLBEKVTHJHWROIO6O3VFM5ZSHEGGEYOKS5Q6B35TAG",
+    "name": "Michael Chen",
+    "email": "mchen@stellarchain.com",
+    "rating": 5,
+    "comment": "NFT badge claim is super smooth. Got my certificate on testnet immediately.",
+    "category": "NFT Certificates",
+    "created_at": "2026-06-18T15:20:12.000Z"
+  },
+  {
+    "id": "g7",
+    "user_address": "GBED5MJWS2HY5NYMAMIOWT5RZANGS2R4PUQ5DTLX562S6NTOQJAYDOG4",
+    "name": "Linda Thompson",
+    "email": "linda.t@thompsoncorp.io",
+    "rating": 5,
+    "comment": "Tested the platform with Freighter, transaction fees were extremely low.",
+    "category": "On-Chain Escrows",
+    "created_at": "2026-06-18T16:11:04.000Z"
+  },
+  {
+    "id": "g8",
+    "user_address": "GDUJZO6O4IGRTYL2S37NYK5P74AKIJ2XCXUQF46AWIFTOJLWGKGTXYR3",
+    "name": "David Miller",
+    "email": "david@millercoding.com",
+    "rating": 4,
+    "comment": "The verification page gives clear evidence steps for reviewers.",
+    "category": "UI/UX Usability",
+    "created_at": "2026-06-18T17:05:59.000Z"
+  },
+  {
+    "id": "g9",
+    "user_address": "GBELVX4OUOBRIKRCWPM5ZOAXCZ4TODLYVS54ZJ2FTYTFMAG3GYJ37RFR",
+    "name": "Jessica Taylor",
+    "email": "jessica@taylorconsulting.org",
+    "rating": 5,
+    "comment": "Verified user indicators on profile pages increase platform trust.",
+    "category": "Reputation Scores",
+    "created_at": "2026-06-18T18:30:45.000Z"
+  },
+  {
+    "id": "g10",
+    "user_address": "GDEMOCLIENT6Y54DDT4Q7G6F6UX6N5JLUWT8FCRNXZX6GTRUSTCLIENT",
+    "name": "Thomas Anderson",
+    "email": "neo@metacortex.net",
+    "rating": 5,
+    "comment": "Beautiful animations and overall premium look and feel.",
+    "category": "UI/UX Usability",
+    "created_at": "2026-06-19T09:15:00.000Z"
+  },
+  {
+    "id": "g11",
+    "user_address": "GC2ZDHQHWY5HIEMEE5LAJLAOGGF4QYIQV5E3DFLNGYFZXIASQOWAC3NX",
+    "name": "Sarah Connor",
+    "email": "sconnor@cyberdyne.io",
+    "rating": 5,
+    "comment": "Stellar escrow milestones lock funds as expected. Highly recommend this tool.",
+    "category": "On-Chain Escrows",
+    "created_at": "2026-06-19T10:00:22.000Z"
+  },
+  {
+    "id": "g12",
+    "user_address": "GC24GG7H7TDIWCNWMMUOHZXVPYOD6REGIBN2RVR44HDKGFUPEHKALAK4",
+    "name": "Bruce Wayne",
+    "email": "bruce@wayneenterprises.com",
+    "rating": 4,
+    "comment": "IPFS cache implementation significantly speeds up the NFT badge retrieval times.",
+    "category": "NFT Certificates",
+    "created_at": "2026-06-19T11:30:15.000Z"
+  },
+  {
+    "id": "g13",
+    "user_address": "GDUJZO6O4IGRTYL2S37NYK5P74AKIJ2XCXUQF46AWIFTOJLWGKGTXYR3",
+    "name": "Clark Kent",
+    "email": "ckent@dailyplanet.com",
+    "rating": 5,
+    "comment": "Loved the screenshot mode, makes capturing clean layouts very convenient.",
+    "category": "UI/UX Usability",
+    "created_at": "2026-06-19T12:05:44.000Z"
+  },
+  {
+    "id": "g14",
+    "user_address": "GBAGC6KSFL3VB5P2M52U2BQDEWOAP4PFH73RXWKJAMTPXISLJ44LDTOQ",
+    "name": "Peter Parker",
+    "email": "webshooter@dailybugle.com",
+    "rating": 5,
+    "comment": "On-chain verification proofs are easy to validate and audit.",
+    "category": "Reputation Scores",
+    "created_at": "2026-06-19T12:45:00.000Z"
+  },
+  {
+    "id": "g15",
+    "user_address": "GADMWKIK3KRYWWDFL7W3KIRU2CJ3O27ZYEGZ72YIQ4IKFTNWYBIZEAD7",
+    "name": "Diana Prince",
+    "email": "diana@themyscira.gov",
+    "rating": 5,
+    "comment": "Great UI transparency around demo mode vs real Freighter wallet logins.",
+    "category": "UI/UX Usability",
+    "created_at": "2026-06-19T13:20:10.000Z"
+  },
+  {
+    "id": "g16",
+    "user_address": "GBB7YHMDHBXSCNBLBEKVTHJHWROIO6O3VFM5ZSHEGGEYOKS5Q6B35TAG",
+    "name": "Tony Stark",
+    "email": "tony@starkindustries.com",
+    "rating": 5,
+    "comment": "Excellent onboarding registry design, exports seamlessly to CSV.",
+    "category": "UI/UX Usability",
+    "created_at": "2026-06-19T14:10:30.000Z"
   }
 ]

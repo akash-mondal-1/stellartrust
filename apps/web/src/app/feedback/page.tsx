@@ -38,8 +38,31 @@ export default function FeedbackPage() {
   }, [connected, address]);
 
   // Load feedbacks
-  const loadFeedbacks = () => {
-    setFeedbacksList(mockDb.getFeedback());
+  const loadFeedbacks = async () => {
+    const localFeedbacks = mockDb.getFeedback();
+    setFeedbacksList(localFeedbacks);
+
+    try {
+      const res = await fetch('/api/export-feedback');
+      if (res.ok) {
+        const serverFeedbacks = await res.json();
+        
+        let updated = false;
+        const merged = [...localFeedbacks];
+        serverFeedbacks.forEach((sf: any) => {
+          if (!merged.some((lf: any) => lf.id === sf.id)) {
+            merged.push(sf);
+            updated = true;
+          }
+        });
+        if (updated) {
+          mockDb.setStorage('feedback', merged);
+        }
+        setFeedbacksList(merged);
+      }
+    } catch (e) {
+      console.warn("Failed to fetch server feedback:", e);
+    }
   };
 
   useEffect(() => {

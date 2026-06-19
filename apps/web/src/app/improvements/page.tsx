@@ -27,7 +27,7 @@ export default function ImprovementsPage() {
     {
       feedback: "Escrow creation counts and wallet onboarding details need standardized CSV evidence for Level 5 audit.",
       category: "User Onboarding",
-      improvement: "Designed a local-storage synchronized user onboarding registry and automated seeder producing organic CSV data.",
+      improvement: "Designed a local-storage synchronized user onboarding registry producing exported onboarding evidence.",
       commitHash: "9235e70",
       commitUrl: "https://github.com/akash-mondal-1/stellartrust/commit/9235e70",
       status: "DEPLOYED",

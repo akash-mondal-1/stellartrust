@@ -318,7 +318,7 @@ export default function LandingPage() {
                 <div className="space-y-4 p-5 bg-slate-950/60 border border-white/5 rounded-2xl text-xs text-slate-400 leading-relaxed">
                   <h4 className="font-bold text-slate-250 uppercase tracking-wide">Simulator Capabilities:</h4>
                   <ul className="list-decimal pl-4 space-y-2.5">
-                    <li>Uses local storage mock consensus DB so state changes persist across reloads.</li>
+                    <li>Uses local storage sandbox database so state changes persist across reloads.</li>
                     <li>Simulates profile updates, escrow releases, rating changes, and NFT issues instantly.</li>
                     <li>Allows testing dual-sided client-freelancer flows simultaneously.</li>
                   </ul>

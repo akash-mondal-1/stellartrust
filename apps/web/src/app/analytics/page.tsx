@@ -104,8 +104,21 @@ export default function AnalyticsDashboard() {
     
     setDauCount(activeIn24h);
 
-    // Calculate dynamic NFTs
-    const totalNfts = events.filter(e => e.event_type === 'nft_minted').length 
+    // Calculate dynamic NFTs (accounting for seeded localStorage NFTs)
+    let localNftCount = 0;
+    if (typeof window !== 'undefined') {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('stellar_trust_nft_')) {
+          try {
+            const list = JSON.parse(localStorage.getItem(key) || '[]');
+            localNftCount += list.length;
+          } catch (e) {}
+        }
+      }
+    }
+    const totalNfts = localNftCount 
+      || events.filter(e => e.event_type === 'nft_minted').length 
       || mockDb.getReviews().filter((r: any) => r.nft_minted).length 
       || onboardings.reduce((acc: number, o: any) => acc + (o.nft_count || 0), 0);
     
@@ -270,7 +283,7 @@ export default function AnalyticsDashboard() {
           <div className="space-y-1">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 flex items-center gap-2">
               <BarChart3 className="h-6 w-6 text-cyan-400" />
-              <span>Visual Protocol Analytics</span>
+              <span>Usage & Ecosystem Analytics</span>
             </h1>
             <p className="text-slate-400 text-sm">Real-time charts compiling transaction volume, wallet registrations, and trust score aggregates.</p>
           </div>
@@ -299,13 +312,13 @@ export default function AnalyticsDashboard() {
             <div className="absolute top-0 right-0 w-12 h-12 bg-cyan-500/5 rounded-full filter blur-xl" />
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-1">
               <Users className="h-3.5 w-3.5 text-cyan-400" />
-              <span>Wallet Connections</span>
+              <span>Verified Wallet Connections</span>
             </span>
             <div>
-              <p className="text-2xl font-black text-slate-100">{onboardingsCount}</p>
+              <p className="text-2xl font-black text-slate-100">{realCount}</p>
               <div className="text-[9px] text-slate-400 space-y-0.5 mt-1 font-semibold">
-                <div>Real: <strong className="text-cyan-400">{realCount}</strong> ({freighterCount} Freighter, {albedoCount} Albedo)</div>
-                <div>Demo: <strong className="text-purple-400">{demoCount}</strong></div>
+                <div>({freighterCount} Freighter, {albedoCount} Albedo)</div>
+                <div>Demo Sessions: <strong className="text-purple-400">{demoCount}</strong></div>
               </div>
             </div>
           </div>
