@@ -7,8 +7,10 @@ The StellarTrust frontend integrates the PostHog JS SDK to log lifecycle actions
 ## 🗂️ Event Registry
 
 ### 1. `wallet_connected`
-*   **Trigger**: A user successfully connects a Stellar browser wallet.
-*   **Properties Tracked**:
+
+* **Trigger**: A user successfully connects a Stellar browser wallet.
+* **Properties Tracked**:
+
     ```json
     {
       "wallet_address": "G...",
@@ -21,8 +23,10 @@ The StellarTrust frontend integrates the PostHog JS SDK to log lifecycle actions
     ```
 
 ### 2. `profile_created`
-*   **Trigger**: A user registers their identity profile on the protocol.
-*   **Properties Tracked**:
+
+* **Trigger**: A user registers their identity profile on the protocol.
+* **Properties Tracked**:
+
     ```json
     {
       "wallet_address": "G...",
@@ -35,8 +39,10 @@ The StellarTrust frontend integrates the PostHog JS SDK to log lifecycle actions
     ```
 
 ### 3. `escrow_created`
-*   **Trigger**: A client submits a new project agreement.
-*   **Properties Tracked**:
+
+* **Trigger**: A client submits a new project agreement.
+* **Properties Tracked**:
+
     ```json
     {
       "wallet_address": "G...",
@@ -50,8 +56,10 @@ The StellarTrust frontend integrates the PostHog JS SDK to log lifecycle actions
     ```
 
 ### 4. `escrow_funded`
-*   **Trigger**: A client locks XLM tokens inside the Escrow contract.
-*   **Properties Tracked**:
+
+* **Trigger**: A client locks XLM tokens inside the Escrow contract.
+* **Properties Tracked**:
+
     ```json
     {
       "wallet_address": "G...",
@@ -63,8 +71,10 @@ The StellarTrust frontend integrates the PostHog JS SDK to log lifecycle actions
     ```
 
 ### 5. `milestone_completed`
-*   **Trigger**: A milestone payment is released by the client.
-*   **Properties Tracked**:
+
+* **Trigger**: A milestone payment is released by the client.
+* **Properties Tracked**:
+
     ```json
     {
       "wallet_address": "G...",
@@ -78,8 +88,10 @@ The StellarTrust frontend integrates the PostHog JS SDK to log lifecycle actions
     ```
 
 ### 6. `reputation_updated`
-*   **Trigger**: A review feedback entry is submitted for a completed project.
-*   **Properties Tracked**:
+
+* **Trigger**: A review feedback entry is submitted for a completed project.
+* **Properties Tracked**:
+
     ```json
     {
       "wallet_address": "G...",
@@ -93,8 +105,10 @@ The StellarTrust frontend integrates the PostHog JS SDK to log lifecycle actions
     ```
 
 ### 7. `nft_minted`
-*   **Trigger**: A freelancer mints their non-transferable completion badge NFT.
-*   **Properties Tracked**:
+
+* **Trigger**: A freelancer mints their non-transferable completion badge NFT.
+* **Properties Tracked**:
+
     ```json
     {
       "wallet_address": "G...",

@@ -5,11 +5,12 @@ This document registers the active hosting parameters, deployment dates, and tar
 ---
 
 ## 📅 Deployment Context
-*   **Deployment Date**: June 16, 2026
-*   **Environment**: Production MVP Submission
-*   **Target Blockchain Network**: Stellar Testnet
-*   **Testnet Horizon RPC**: `https://soroban-testnet.stellar.org:443`
-*   **Testnet Network Passphrase**: `Test Stellar Network ; September 2015`
+
+* **Deployment Date**: June 16, 2026
+* **Environment**: Production MVP Submission
+* **Target Blockchain Network**: Stellar Testnet
+* **Testnet Horizon RPC**: `https://soroban-testnet.stellar.org:443`
+* **Testnet Network Passphrase**: `Test Stellar Network ; September 2015`
 
 ---
 
@@ -25,7 +26,8 @@ This document registers the active hosting parameters, deployment dates, and tar
 ---
 
 ## ☁️ Frontend & Database Hosting
-*   **Web App Platform**: **Vercel** (`apps/web` root directory preset Next.js App Router).
-*   **Database & RLS Engine**: **Supabase Cloud** (PostgreSQL hosting REST APIs with row-level policies).
-*   **Error Monitoring Service**: **Sentry Cloud** (Sentry exception logging tracking edge and client runs).
-*   **Product Analytics Service**: **PostHog Cloud** (Tracking core workflow user triggers).
+
+* **Web App Platform**: **Vercel** (`apps/web` root directory preset Next.js App Router).
+* **Database & RLS Engine**: **Supabase Cloud** (PostgreSQL hosting REST APIs with row-level policies).
+* **Error Monitoring Service**: **Sentry Cloud** (Sentry exception logging tracking edge and client runs).
+* **Product Analytics Service**: **PostHog Cloud** (Tracking core workflow user triggers).

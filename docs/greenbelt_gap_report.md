@@ -22,27 +22,35 @@ This audit details the production readiness of the **StellarTrust** repository i
 ## 🛠️ Step-by-Step Remediation Plan
 
 ### Gap 1: Missing Soroban SDK Transaction Builder (Production MVP / Wallet Interactions)
-*   **Severity**: **HIGH** (Critical blocker for live mainnet/testnet operations).
-*   **Fix Estimate**: 3–4 Days.
-*   **Implementation Steps**:
-    1.  Install the official Stellar JavaScript SDK:
+
+* **Severity**: **HIGH** (Critical blocker for live mainnet/testnet operations).
+* **Fix Estimate**: 3–4 Days.
+* **Implementation Steps**:
+    1. Install the official Stellar JavaScript SDK:
+
         ```bash
         npm install --prefix apps/web @stellar/stellar-sdk
         ```
-    2.  Create an on-chain transaction helper (`apps/web/src/lib/stellar-service.ts`) to initialize a `SorobanServer` connecting to the testnet RPC endpoint:
+
+    2. Create an on-chain transaction helper (`apps/web/src/lib/stellar-service.ts`) to initialize a `SorobanServer` connecting to the testnet RPC endpoint:
+
         ```typescript
         import { Horizon, Contract, TransactionBuilder, Networks } from '@stellar/stellar-sdk';
         const server = new Horizon.Server('https://horizon-testnet.stellar.org');
         ```
-    3.  Implement standard transaction construction:
-        *   Retrieve the client account's sequence number from Horizon.
-        *   Construct a contract invocation transaction using `Contract.call(functionName, ...args)`.
-        *   Serialize the transaction envelope XDR.
-    4.  Hook into [useStellar.tsx](file:///d:/StellarFlow%204/apps/web/src/hooks/useStellar.tsx) to prompt the connected wallet (Freighter/Albedo) to sign the transaction envelope:
+
+    3. Implement standard transaction construction:
+        * Retrieve the client account's sequence number from Horizon.
+        * Construct a contract invocation transaction using `Contract.call(functionName, ...args)`.
+        * Serialize the transaction envelope XDR.
+    4. Hook into [useStellar.tsx](file:///d:/StellarFlow%204/apps/web/src/hooks/useStellar.tsx) to prompt the connected wallet (Freighter/Albedo) to sign the transaction envelope:
+
         ```typescript
         const signedTx = await StellarWalletsKit.signTransaction(txEnvelopeXdr);
         ```
-    5.  Submit the signed transaction to Horizon/Soroban RPC and poll for transaction success status:
+
+    5. Submit the signed transaction to Horizon/Soroban RPC and poll for transaction success status:
+
         ```typescript
         const response = await server.submitTransaction(signedTx);
         ```

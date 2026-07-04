@@ -16,6 +16,7 @@ The following Stellar Soroban smart contracts are actively deployed on the **Ste
 ---
 
 ## 🛠️ Verification Command Reference
+
 You can verify the active status and methods exposed by these contract instances directly from your terminal using the Stellar CLI:
 
 ```bash

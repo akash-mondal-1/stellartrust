@@ -59,6 +59,7 @@ export default function Navbar() {
   };
 
   const navLinks = [
+    { name: 'Onboard', href: '/onboard' },
     { name: 'Dashboard', href: '/dashboard' },
     { name: 'Escrow', href: '/escrow' },
     { name: 'Reputation', href: '/reputation' },

@@ -24,22 +24,25 @@ This document simulates an official competition judge's scoring assessment of **
 ## 🔍 Scoring Details
 
 ### 1. Pre-Test Status (72.5 / 100) - *Current State*
-*   **Verdict**: **PASS (Green Belt Standard)** but unlikely to win prizes.
-*   **Objection**: The core mechanics are implemented, but the submission lacks finalized user testing logs (CSV sheet is empty) and dashboard screenshot evidence. Sentry and PostHog are verified at the code level, but not visually proved.
+
+* **Verdict**: **PASS (Green Belt Standard)** but unlikely to win prizes.
+* **Objection**: The core mechanics are implemented, but the submission lacks finalized user testing logs (CSV sheet is empty) and dashboard screenshot evidence. Sentry and PostHog are verified at the code level, but not visually proved.
 
 ### 2. Post-Testing Status (93.0 / 100) - *After Running Manual Tests*
-*   **Verdict**: **EXCELLENT (High winning probability)**.
-*   **Objection**: The user testing CSV registers 10+ distinct wallet interactions on-chain, and live dashboard screenshots are uploaded. The verification tooling compiles valid telemetry logs.
+
+* **Verdict**: **EXCELLENT (High winning probability)**.
+* **Objection**: The user testing CSV registers 10+ distinct wallet interactions on-chain, and live dashboard screenshots are uploaded. The verification tooling compiles valid telemetry logs.
 
 ### 3. Post-Demo Video Status (98.0 / 100) - *After Uploading Pitch Video*
-*   **Verdict**: **ELITE (Top prize tier contender)**.
-*   **Objection**: The demo video demonstrates the client workflow, Freighter signing prompts, and NFT gallery badge rendering, leaving judges with zero doubts about functionality.
+
+* **Verdict**: **ELITE (Top prize tier contender)**.
+* **Objection**: The demo video demonstrates the client workflow, Freighter signing prompts, and NFT gallery badge rendering, leaving judges with zero doubts about functionality.
 
 ---
 
 ## ⚡ Remaining Risks & Mitigations
 
-*   **Risk: Client-Side Transaction Mocking**: The Next.js frontend redirects on-chain operations to a Demo Mode simulation, showing a warning that live transaction broadcasting requires full SDK setup. 
-    *   *Mitigation*: The codebase contains functional Testnet contract deployments and detailed SDK implementation blueprints in `docs/greenbelt_gap_report.md`.
-*   **Risk: Testnet Horizon RPC Latency**: Judges might encounter slow transaction signing responses if the Stellar Testnet RPC is congested during reviews.
-    *   *Mitigation*: Pre-populate the local database with verified mock states so that if the judge switches to Demo Mode, they can evaluate all dashboards immediately.
+* **Risk: Client-Side Transaction Mocking**: The Next.js frontend redirects on-chain operations to a Demo Mode simulation, showing a warning that live transaction broadcasting requires full SDK setup.
+  * *Mitigation*: The codebase contains functional Testnet contract deployments and detailed SDK implementation blueprints in `docs/greenbelt_gap_report.md`.
+* **Risk: Testnet Horizon RPC Latency**: Judges might encounter slow transaction signing responses if the Stellar Testnet RPC is congested during reviews.
+  * *Mitigation*: Pre-populate the local database with verified mock states so that if the judge switches to Demo Mode, they can evaluate all dashboards immediately.
