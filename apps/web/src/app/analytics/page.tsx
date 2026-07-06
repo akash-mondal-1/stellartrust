@@ -448,9 +448,9 @@ export default function AnalyticsDashboard() {
               <span>Real Human Testers</span>
             </span>
             <div className="mt-2">
-              <p className="text-3xl font-black text-slate-100">11</p>
+              <p className="text-3xl font-black text-slate-100">{realCount + Math.max(0, feedbackCount - realCount)}</p>
               <div className="text-[9px] text-slate-400 space-y-0.5 mt-1.5 font-semibold leading-snug">
-                <div>8 verified wallet users + 3 feedback submitters not in onboarding registry</div>
+                <div>{realCount} verified wallet users + {Math.max(0, feedbackCount - realCount)} feedback submitters not in onboarding registry</div>
               </div>
             </div>
           </div>
@@ -463,7 +463,7 @@ export default function AnalyticsDashboard() {
               <span>Feedback Submissions</span>
             </span>
             <div className="mt-2">
-              <p className="text-3xl font-black text-slate-100">11</p>
+              <p className="text-3xl font-black text-slate-100">{feedbackCount}</p>
               <div className="text-[9px] text-slate-400 space-y-0.5 mt-1.5 font-semibold">
                 <div>Source: Real historical reviews in feedbacks.json</div>
               </div>

@@ -407,8 +407,8 @@ Our team resolved critical usability blockers, security enhancements, and metada
               {renderBadge('verified')}
             </div>
             <div className="my-2">
-              <span className="text-3xl font-extrabold text-slate-100">11</span>
-              <span className="text-[10px] text-slate-450 block mt-1 leading-snug">8 verified wallet users + 3 feedback submitters not in onboarding records</span>
+              <span className="text-3xl font-extrabold text-slate-100">{realCount + Math.max(0, uniqueFeedbackWallets - realCount)}</span>
+              <span className="text-[10px] text-slate-450 block mt-1 leading-snug">{realCount} verified wallet users + {Math.max(0, uniqueFeedbackWallets - realCount)} feedback submitters not in onboarding records</span>
             </div>
             <span className="text-slate-505 text-[10px] font-bold">Audited Record</span>
           </div>
@@ -422,7 +422,7 @@ Our team resolved critical usability blockers, security enhancements, and metada
               {renderBadge('verified')}
             </div>
             <div className="my-2">
-              <span className="text-3xl font-extrabold text-slate-100">11</span>
+              <span className="text-3xl font-extrabold text-slate-100">{feedbackCount}</span>
               <span className="text-[10px] text-slate-400 block mt-1">Source: feedbacks.json</span>
             </div>
             <button 
@@ -493,8 +493,8 @@ Our team resolved critical usability blockers, security enhancements, and metada
             </div>
             <div className="bg-slate-900/30 border border-white/5 rounded-xl p-4 text-center">
               <p className="text-slate-550 text-[10px] font-bold uppercase tracking-wider">Real Human Testers</p>
-              <p className="text-3xl font-black text-slate-100 mt-2">11</p>
-              <p className="text-[10px] text-slate-500 mt-1">8 Wallet Users + 3 Valid Feedback submitters</p>
+              <p className="text-3xl font-black text-slate-100 mt-2">{realCount + Math.max(0, uniqueFeedbackWallets - realCount)}</p>
+              <p className="text-[10px] text-slate-500 mt-1">{realCount} Wallet Users + {Math.max(0, uniqueFeedbackWallets - realCount)} Valid Feedback submitters</p>
             </div>
             <div className="bg-slate-900/30 border border-white/5 rounded-xl p-4 text-center">
               <p className="text-slate-550 text-[10px] font-bold uppercase tracking-wider">Simulator / Sandbox Profiles</p>
