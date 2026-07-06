@@ -44,16 +44,9 @@ export const trackEvent = async (event: ValidationEvent) => {
 
   // 2. Sync to Supabase Database (or local storage fallback)
   try {
-    const isMock = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('stellartrust.supabase.co') || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const hasKeys = !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     
-    if (isMock) {
-      // Local fallback sync
-      mockDb.addValidationEvent({
-        wallet_address,
-        event_type,
-        metadata
-      });
-    } else {
+    if (hasKeys) {
       // Production database write
       const { error } = await supabase
         .from('validation_events')
@@ -65,6 +58,13 @@ export const trackEvent = async (event: ValidationEvent) => {
         });
       
       if (error) throw error;
+    } else {
+      // Local fallback sync
+      mockDb.addValidationEvent({
+        wallet_address,
+        event_type,
+        metadata
+      });
     }
   } catch (err) {
     console.error('Failed to sync validation event to DB:', err);

@@ -5,6 +5,14 @@ import path from 'path';
 // GET: Retrieve all aggregated feedbacks from disk
 export async function GET() {
   try {
+    const hasKeys = !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (hasKeys) {
+      const { supabase } = await import('@/lib/supabase');
+      const { data, error } = await supabase.from('feedbacks').select('*');
+      if (error) throw error;
+      return NextResponse.json(data || []);
+    }
+
     const jsonPath = path.resolve(process.cwd(), 'feedbacks.json');
     let feedbacks = [];
     if (fs.existsSync(jsonPath)) {
@@ -27,6 +35,25 @@ export async function POST(request: Request) {
     const { feedbacks: incomingFeedbacks } = await request.json();
     if (!incomingFeedbacks || !Array.isArray(incomingFeedbacks)) {
       return NextResponse.json({ error: 'Invalid feedbacks array' }, { status: 400 });
+    }
+
+    const hasKeys = !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (hasKeys) {
+      const { supabase } = await import('@/lib/supabase');
+      const toInsert = incomingFeedbacks.map((fb: any) => ({
+        user_address: fb.user_address || fb.wallet_address,
+        rating: fb.rating || 5,
+        comment: fb.comment || fb.feedback_text || '',
+        category: fb.category || '',
+        created_at: fb.created_at || new Date().toISOString()
+      }));
+
+      if (toInsert.length > 0) {
+        const { error } = await supabase.from('feedbacks').insert(toInsert);
+        if (error) throw error;
+      }
+      return NextResponse.json({ success: true, feedbacks: toInsert });
     }
 
     const jsonPath = path.resolve(process.cwd(), 'feedbacks.json');
@@ -54,61 +81,62 @@ export async function POST(request: Request) {
       }
     });
 
-    // Write merged list to disk
-    fs.writeFileSync(jsonPath, JSON.stringify(existingFeedbacks, null, 2), 'utf8');
+    try {
+      // Write merged list to disk
+      fs.writeFileSync(jsonPath, JSON.stringify(existingFeedbacks, null, 2), 'utf8');
 
-    // Build CSV Content for Blue Belt evidence
-    const csvHeaders = ['id', 'name', 'email', 'wallet_address', 'rating', 'feedback_text', 'feature_request', 'created_at'];
-    const csvRows = existingFeedbacks.map((fb: any) => {
-      const id = fb.id || '';
-      const name = fb.name || '';
-      const email = fb.email || '';
-      const wallet_address = fb.user_address || fb.wallet_address || '';
-      const rating = fb.rating || 5;
-      const feedback_text = fb.comment || fb.feedback_text || '';
-      const feature_request = fb.feature_request || '';
-      const created_at = fb.created_at || '';
-      return [id, name, email, wallet_address, rating, feedback_text, feature_request, created_at];
-    });
+      // Build CSV Content for Blue Belt evidence
+      const csvHeaders = ['id', 'name', 'email', 'wallet_address', 'rating', 'feedback_text', 'feature_request', 'created_at'];
+      const csvRows = existingFeedbacks.map((fb: any) => {
+        const id = fb.id || '';
+        const name = fb.name || '';
+        const email = fb.email || '';
+        const wallet_address = fb.user_address || fb.wallet_address || '';
+        const rating = fb.rating || 5;
+        const feedback_text = fb.comment || fb.feedback_text || '';
+        const feature_request = fb.feature_request || '';
+        const created_at = fb.created_at || '';
+        return [id, name, email, wallet_address, rating, feedback_text, feature_request, created_at];
+      });
 
-    const csvContent = [csvHeaders.join(','), ...csvRows.map(r => r.map(val => `"${String(val).replace(/"/g, '""')}"`).join(','))].join('\n') + '\n';
+      const csvContent = [csvHeaders.join(','), ...csvRows.map(r => r.map(val => `"${String(val).replace(/"/g, '""')}"`).join(','))].join('\n') + '\n';
 
-    // Target path: submission-proof/user-testing/blue-belt-feedback.csv
-    const csvTargetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/blue-belt-feedback.csv');
-    const csvDir = path.dirname(csvTargetPath);
-    if (!fs.existsSync(csvDir)) {
-      fs.mkdirSync(csvDir, { recursive: true });
-    }
-    fs.writeFileSync(csvTargetPath, csvContent, 'utf8');
-
-    // Group feedbacks based on keywords and ratings for markdown summary
-    const positive: string[] = [];
-    const negative: string[] = [];
-    const bugs: string[] = [];
-    const features: string[] = [];
-    const resolved: string[] = [];
-
-    existingFeedbacks.forEach((fb: any) => {
-      const comment = fb.comment || fb.feedback_text || '';
-      const category = fb.category || '';
-      const rating = fb.rating || 5;
-      const user = fb.user_address || fb.wallet_address || 'Unknown';
-      const date = fb.created_at ? new Date(fb.created_at).toLocaleDateString() : new Date().toLocaleDateString();
-
-      const entry = `*   **${user.substring(0, 8)}... (${date})** [Rating: ${rating}★]: "${comment}"`;
-
-      if (category === 'Vulnerabilities Found' || comment.toLowerCase().includes('bug') || comment.toLowerCase().includes('error')) {
-        bugs.push(entry);
-      } else if (comment.toLowerCase().includes('should') || comment.toLowerCase().includes('suggest') || comment.toLowerCase().includes('improve') || comment.toLowerCase().includes('feature') || fb.feature_request) {
-        features.push(entry);
-      } else if (rating <= 2) {
-        negative.push(entry);
-      } else {
-        positive.push(entry);
+      // Target path: submission-proof/user-testing/blue-belt-feedback.csv
+      const csvTargetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/blue-belt-feedback.csv');
+      const csvDir = path.dirname(csvTargetPath);
+      if (!fs.existsSync(csvDir)) {
+        fs.mkdirSync(csvDir, { recursive: true });
       }
-    });
+      fs.writeFileSync(csvTargetPath, csvContent, 'utf8');
 
-    const markdownContent = `# 💬 User Feedback Summary
+      // Group feedbacks based on keywords and ratings for markdown summary
+      const positive: string[] = [];
+      const negative: string[] = [];
+      const bugs: string[] = [];
+      const features: string[] = [];
+      const resolved: string[] = [];
+
+      existingFeedbacks.forEach((fb: any) => {
+        const comment = fb.comment || fb.feedback_text || '';
+        const category = fb.category || '';
+        const rating = fb.rating || 5;
+        const user = fb.user_address || fb.wallet_address || 'Unknown';
+        const date = fb.created_at ? new Date(fb.created_at).toLocaleDateString() : new Date().toLocaleDateString();
+
+        const entry = `*   **${user.substring(0, 8)}... (${date})** [Rating: ${rating}★]: "${comment}"`;
+
+        if (category === 'Vulnerabilities Found' || comment.toLowerCase().includes('bug') || comment.toLowerCase().includes('error')) {
+          bugs.push(entry);
+        } else if (comment.toLowerCase().includes('should') || comment.toLowerCase().includes('suggest') || comment.toLowerCase().includes('improve') || comment.toLowerCase().includes('feature') || fb.feature_request) {
+          features.push(entry);
+        } else if (rating <= 2) {
+          negative.push(entry);
+        } else {
+          positive.push(entry);
+        }
+      });
+
+      const markdownContent = `# 💬 User Feedback Summary
 
 This document aggregates the actual feedback collected from users during the active testing sessions.
 
@@ -144,10 +172,14 @@ ${features.length > 0 ? features.join('\n') : '*   *No feature requests register
 ${resolved.length > 0 ? resolved.join('\n') : '*   *No items marked as resolved.*'}
 `;
 
-    const targetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/feedback-summary.md');
-    fs.writeFileSync(targetPath, markdownContent, 'utf8');
+      const targetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/feedback-summary.md');
+      fs.writeFileSync(targetPath, markdownContent, 'utf8');
 
-    return NextResponse.json({ success: true, path: csvTargetPath, feedbacks: existingFeedbacks });
+      return NextResponse.json({ success: true, path: csvTargetPath, feedbacks: existingFeedbacks });
+    } catch (fsError) {
+      console.warn("Failed to write to local filesystem (likely Vercel env):", fsError);
+      return NextResponse.json({ success: true, feedbacks: existingFeedbacks, note: "Filesystem write skipped." });
+    }
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

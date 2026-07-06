@@ -71,6 +71,14 @@ function sanitizeEvent(ev: any): any {
 // GET: Retrieve all aggregated validation events from server disk
 export async function GET() {
   try {
+    const hasKeys = !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (hasKeys) {
+      const { supabase } = await import('@/lib/supabase');
+      const { data, error } = await supabase.from('validation_events').select('*');
+      if (error) throw error;
+      return NextResponse.json(data ? data.map(sanitizeEvent) : []);
+    }
+
     const jsonPath = path.resolve(process.cwd(), 'events.json');
     let events = [];
     if (fs.existsSync(jsonPath)) {
@@ -93,6 +101,34 @@ export async function POST(request: Request) {
     const { events: incomingEvents } = await request.json();
     if (!incomingEvents || !Array.isArray(incomingEvents)) {
       return NextResponse.json({ error: 'Invalid events array' }, { status: 400 });
+    }
+
+    const hasKeys = !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    
+    if (hasKeys) {
+      const { supabase } = await import('@/lib/supabase');
+      // Insert into Supabase
+      const toInsert = incomingEvents.map(sanitizeEvent).map((ev: any) => ({
+        id: ev.id && !ev.id.startsWith('val_') ? ev.id : undefined, // let Supabase generate UUID if needed, or use existing if it's a valid UUID
+        wallet_address: ev.wallet_address,
+        event_type: ev.event_type,
+        session_id: ev.session_id || 'sess_default',
+        metadata: ev.metadata || {},
+        created_at: ev.created_at || new Date().toISOString()
+      }));
+
+      // In real scenario, we might want to avoid duplicate inserts. For now, simple insert.
+      // We will remove id to let supabase auto generate UUIDs for new events.
+      const safeToInsert = toInsert.map((ev: any) => {
+        const { id, ...rest } = ev;
+        return rest;
+      });
+
+      if (safeToInsert.length > 0) {
+        const { error } = await supabase.from('validation_events').insert(safeToInsert);
+        if (error) throw error;
+      }
+      return NextResponse.json({ success: true, events: safeToInsert });
     }
 
     const jsonPath = path.resolve(process.cwd(), 'events.json');
@@ -122,36 +158,41 @@ export async function POST(request: Request) {
 
     const cleanedExisting = existingEvents.map(sanitizeEvent);
 
-    // Write merged list to disk
-    fs.writeFileSync(jsonPath, JSON.stringify(cleanedExisting, null, 2), 'utf8');
+    try {
+      // Write merged list to disk
+      fs.writeFileSync(jsonPath, JSON.stringify(cleanedExisting, null, 2), 'utf8');
 
-    // CSV headers matching Phase 3 constraints:
-    // wallet_address, action, timestamp, transaction_hash, session_id
-    const headers = ['wallet_address', 'action', 'timestamp', 'transaction_hash', 'session_id'];
-    const rows = cleanedExisting.map(e => {
-      const txHash = e.metadata?.tx_hash || e.metadata?.tx || e.metadata?.transaction_hash || '';
-      return [
-        e.wallet_address || '',
-        e.event_type || '',
-        e.created_at || new Date().toISOString(),
-        txHash,
-        e.session_id || ''
-      ];
-    });
+      // CSV headers matching Phase 3 constraints:
+      // wallet_address, action, timestamp, transaction_hash, session_id
+      const headers = ['wallet_address', 'action', 'timestamp', 'transaction_hash', 'session_id'];
+      const rows = cleanedExisting.map(e => {
+        const txHash = e.metadata?.tx_hash || e.metadata?.tx || e.metadata?.transaction_hash || '';
+        return [
+          e.wallet_address || '',
+          e.event_type || '',
+          e.created_at || new Date().toISOString(),
+          txHash,
+          e.session_id || ''
+        ];
+      });
 
-    const csvContent = [headers.join(','), ...rows.map(r => r.map(val => `"${val}"`).join(','))].join('\n') + '\n';
+      const csvContent = [headers.join(','), ...rows.map(r => r.map(val => `"${val}"`).join(','))].join('\n') + '\n';
 
-    // Target: submission-proof/user-testing/10-user-wallet-proof.csv
-    const targetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/10-user-wallet-proof.csv');
-    
-    const dir = path.dirname(targetPath);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
+      // Target: submission-proof/user-testing/10-user-wallet-proof.csv
+      const targetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/10-user-wallet-proof.csv');
+      
+      const dir = path.dirname(targetPath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+
+      fs.writeFileSync(targetPath, csvContent, 'utf8');
+
+      return NextResponse.json({ success: true, path: targetPath, events: cleanedExisting });
+    } catch (fsError) {
+       console.warn("Failed to write to local filesystem (likely Vercel env):", fsError);
+       return NextResponse.json({ success: true, events: cleanedExisting, note: "Filesystem write skipped." });
     }
-
-    fs.writeFileSync(targetPath, csvContent, 'utf8');
-
-    return NextResponse.json({ success: true, path: targetPath, events: cleanedExisting });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
