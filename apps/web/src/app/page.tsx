@@ -4,14 +4,14 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { 
-  ShieldCheck, 
-  Coins, 
-  TrendingUp, 
-  Award, 
-  ArrowRight, 
-  Lock, 
-  ChevronRight, 
+import {
+  ShieldCheck,
+  Coins,
+  TrendingUp,
+  Award,
+  ArrowRight,
+  Lock,
+  ChevronRight,
   Star,
   Users,
   CheckCircle2,
@@ -151,8 +151,8 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feat, idx) => (
-            <div 
-              key={idx} 
+            <div
+              key={idx}
               className="glass-panel hover:glass-panel-glow border border-white/5 rounded-2xl p-8 space-y-4 transition-all duration-300 hover:-translate-y-1 group"
             >
               <div className="p-3 bg-white/5 border border-white/10 w-fit rounded-xl">
@@ -214,33 +214,30 @@ export default function LandingPage() {
           <div className="flex flex-wrap bg-slate-900/80 border border-white/5 p-1.5 rounded-2xl max-w-lg mx-auto">
             <button
               onClick={() => setActiveTab('wallet')}
-              className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-xl text-xs font-bold transition-all ${
-                activeTab === 'wallet'
+              className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-xl text-xs font-bold transition-all ${activeTab === 'wallet'
                   ? 'bg-cyan-500 text-white shadow'
                   : 'text-slate-400 hover:text-slate-200'
-              }`}
+                }`}
             >
               <Wallet className="h-4 w-4" />
               <span>1. Setup Wallet</span>
             </button>
             <button
               onClick={() => setActiveTab('faucet')}
-              className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-xl text-xs font-bold transition-all ${
-                activeTab === 'faucet'
+              className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-xl text-xs font-bold transition-all ${activeTab === 'faucet'
                   ? 'bg-purple-600 text-white shadow'
                   : 'text-slate-400 hover:text-slate-200'
-              }`}
+                }`}
             >
               <Coins className="h-4 w-4" />
               <span>2. Fund Faucet</span>
             </button>
             <button
               onClick={() => setActiveTab('demo')}
-              className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-xl text-xs font-bold transition-all ${
-                activeTab === 'demo'
+              className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-xl text-xs font-bold transition-all ${activeTab === 'demo'
                   ? 'bg-blue-600 text-white shadow'
                   : 'text-slate-400 hover:text-slate-200'
-              }`}
+                }`}
             >
               <Laptop className="h-4 w-4" />
               <span>3. Demo Simulator</span>
@@ -334,14 +331,14 @@ export default function LandingPage() {
         <div className="glass-panel border border-cyan-500/20 p-8 sm:p-12 rounded-3xl space-y-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full filter blur-3xl -z-10" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/5 rounded-full filter blur-3xl -z-10" />
-          
+
           <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-100">
             Ready to secure your next project?
           </h2>
           <p className="text-slate-400 max-w-xl mx-auto text-sm sm:text-base font-medium">
             Initiate a zero-trust payment agreement on Stellar Testnet and see smart contract automation in action.
           </p>
-          
+
           <div className="pt-4 flex flex-col sm:flex-row justify-center gap-4">
             <Link
               href="/dashboard"

@@ -698,5 +698,35 @@
     "connection_source": "albedo",
     "escrow_count": 0,
     "nft_count": 0
+  },
+  {
+    "id": "onb_real_0",
+    "wallet_address": "GBGHSPQEIZGJOJDJYG5VVIPU7THJQU2Z4B6V5VF5IHUQ2SOLIRITDQS",
+    "joined_at": "2026-07-06T06:31:31.286Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "freighter",
+    "escrow_count": 0,
+    "nft_count": 0
+  },
+  {
+    "id": "onb_real_1",
+    "wallet_address": "GAJOE3OBM5CDRG75LLO732V3ZZB5LPT6VIWBOAHCYXW57DTYOOGCLD6B",
+    "joined_at": "2026-07-06T06:31:31.286Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "freighter",
+    "escrow_count": 0,
+    "nft_count": 0
+  },
+  {
+    "id": "onb_real_2",
+    "wallet_address": "GBMXYR5FRWAWD4CMECCIMCBK2RTPTDQSIILHPQ6ZPK6UXLNX3ZLX2BVG",
+    "joined_at": "2026-07-06T06:31:31.286Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "freighter",
+    "escrow_count": 0,
+    "nft_count": 0
   }
 ]

@@ -86,5 +86,29 @@
     "comment": "So far i cant see any issues in the site, great work ",
     "category": "Vulnerabilities Found",
     "created_at": "2026-06-17T14:51:01.360Z"
+  },
+  {
+    "id": "fb_real_0",
+    "user_address": "GBGHSPQEIZGJOJDJYG5VVIPU7THJQU2Z4B6V5VF5IHUQ2SOLIRITDQS",
+    "rating": 4,
+    "comment": "UX needs improvement. It seemed a bit complicated, but other than that it seems usable.",
+    "category": "UI/UX Usability",
+    "created_at": "2026-07-06T06:31:31.286Z"
+  },
+  {
+    "id": "fb_real_1",
+    "user_address": "GAJOE3OBM5CDRG75LLO732V3ZZB5LPT6VIWBOAHCYXW57DTYOOGCLD6B",
+    "rating": 4,
+    "comment": "Nice work - lots of features\\ncan improve - work on ui , it looks unfocused on ,also u can make an option to create open jobs such that its visible to all freelancers just like actual platforms\\ngood work happy to connect <3",
+    "category": "UI/UX Usability",
+    "created_at": "2026-07-06T06:31:31.286Z"
+  },
+  {
+    "id": "fb_real_2",
+    "user_address": "GBMXYR5FRWAWD4CMECCIMCBK2RTPTDQSIILHPQ6ZPK6UXLNX3ZLX2BVG",
+    "rating": 5,
+    "comment": "I didn't run into any problems while using the site. It's a great job 👏",
+    "category": "UI/UX Usability",
+    "created_at": "2026-07-06T06:31:31.286Z"
   }
 ]

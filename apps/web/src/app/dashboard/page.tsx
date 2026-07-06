@@ -6,15 +6,15 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useStellar } from '@/hooks/useStellar';
 import { mockDb } from '@/lib/supabase';
-import { 
-  Plus, 
-  ArrowUpRight, 
-  Coins, 
-  Award, 
-  FileText, 
-  UserCheck, 
-  TrendingUp, 
-  ShieldAlert, 
+import {
+  Plus,
+  ArrowUpRight,
+  Coins,
+  Award,
+  FileText,
+  UserCheck,
+  TrendingUp,
+  ShieldAlert,
   CheckCircle,
   Briefcase,
   Users
@@ -22,7 +22,7 @@ import {
 
 export default function Dashboard() {
   const { address, connected, userProfile, isDemo, acceptAgreement, discoverAndSyncAgreements, discoverAndSyncNFTs } = useStellar();
-  
+
   const [activeRole, setActiveRole] = useState<'client' | 'freelancer'>('client');
   const [agreements, setAgreements] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -117,7 +117,7 @@ export default function Dashboard() {
       alert("This agreement is not yet funded by the client. The client must fund the escrow contract on-chain before you can accept it.");
       return;
     }
-    
+
     setLoading(true);
     try {
       await acceptAgreement(id);
@@ -133,7 +133,7 @@ export default function Dashboard() {
   const handleRejectAgreement = async (id: string, title: string) => {
     const confirmReject = confirm(`Are you sure you want to reject the agreement "${title}"?`);
     if (!confirmReject) return;
-    
+
     try {
       mockDb.updateAgreementStatus(id, 'Cancelled');
       if (address) {
@@ -207,7 +207,7 @@ export default function Dashboard() {
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8">
-        
+
         {/* Onboarding Wizard Checklist */}
         {connected && onboardingProgress < 100 && (
           <div className="glass-panel border border-cyan-500/20 rounded-2xl p-6 relative overflow-hidden">
@@ -226,14 +226,13 @@ export default function Dashboard() {
 
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-6">
               {onboardingSteps.map((step, idx) => (
-                <Link 
-                  href={step.link} 
+                <Link
+                  href={step.link}
                   key={idx}
-                  className={`p-3.5 rounded-xl border text-center transition-all ${
-                    step.done 
-                      ? 'bg-emerald-950/20 border-emerald-800/30 text-emerald-400' 
+                  className={`p-3.5 rounded-xl border text-center transition-all ${step.done
+                      ? 'bg-emerald-950/20 border-emerald-800/30 text-emerald-400'
                       : 'bg-white/5 border-white/5 hover:border-cyan-500/20 text-slate-400'
-                  }`}
+                    }`}
                 >
                   <div className="flex justify-center mb-1">
                     <CheckCircle className={`h-4.5 w-4.5 ${step.done ? 'fill-emerald-400 text-slate-950' : 'text-slate-600'}`} />
@@ -307,22 +306,20 @@ export default function Dashboard() {
                 <div className="flex bg-slate-900 border border-white/10 p-1 rounded-xl">
                   <button
                     onClick={() => setActiveRole('client')}
-                    className={`flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                      activeRole === 'client' 
-                        ? 'bg-cyan-500 text-white shadow' 
+                    className={`flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeRole === 'client'
+                        ? 'bg-cyan-500 text-white shadow'
                         : 'text-slate-400 hover:text-slate-200'
-                    }`}
+                      }`}
                   >
                     <Users className="h-3.5 w-3.5" />
                     <span>Client Board</span>
                   </button>
                   <button
                     onClick={() => setActiveRole('freelancer')}
-                    className={`flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                      activeRole === 'freelancer' 
-                        ? 'bg-purple-600 text-white shadow' 
+                    className={`flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeRole === 'freelancer'
+                        ? 'bg-purple-600 text-white shadow'
                         : 'text-slate-400 hover:text-slate-200'
-                    }`}
+                      }`}
                   >
                     <Briefcase className="h-3.5 w-3.5" />
                     <span>Freelancer Board</span>
@@ -377,73 +374,73 @@ export default function Dashboard() {
             {/* Freelancer Assignment Inbox */}
             {agreements.filter(
               a => a.freelancer_address?.toLowerCase() === address?.toLowerCase() &&
-                   ['Created', 'Funded'].includes(a.status)
+                ['Created', 'Funded'].includes(a.status)
             ).length > 0 && (
-              <div className="space-y-4 mb-8">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-bold text-slate-200 flex items-center gap-2">
-                    <span className="p-1 bg-purple-950/60 border border-purple-800/30 text-purple-400 rounded-lg">
-                      <Briefcase className="h-4 w-4" />
-                    </span>
-                    <span>📥 Assigned to You (Inbox)</span>
-                  </h3>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {agreements.filter(
-                    a => a.freelancer_address?.toLowerCase() === address?.toLowerCase() &&
-                         ['Created', 'Funded'].includes(a.status)
-                  ).map((ag: any) => (
-                    <div 
-                      key={ag.id} 
-                      className="glass-panel border border-purple-500/20 rounded-2xl p-6 flex flex-col justify-between hover:border-purple-500/40 transition-all duration-300 relative overflow-hidden"
-                    >
-                      <div className="absolute top-0 right-0 bg-purple-950/80 border-b border-l border-purple-800/35 px-2.5 py-1 text-[10px] font-bold text-purple-400 uppercase tracking-widest rounded-bl-xl">
-                        Pending Action
-                      </div>
-                      <div className="space-y-3">
-                        <div className="flex justify-between items-start">
-                          <h4 className="font-bold text-base text-slate-100 line-clamp-1 pr-24">{ag.title}</h4>
-                          {getStatusBadge(ag.status)}
+                <div className="space-y-4 mb-8">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-lg font-bold text-slate-200 flex items-center gap-2">
+                      <span className="p-1 bg-purple-950/60 border border-purple-800/30 text-purple-400 rounded-lg">
+                        <Briefcase className="h-4 w-4" />
+                      </span>
+                      <span>📥 Assigned to You (Inbox)</span>
+                    </h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {agreements.filter(
+                      a => a.freelancer_address?.toLowerCase() === address?.toLowerCase() &&
+                        ['Created', 'Funded'].includes(a.status)
+                    ).map((ag: any) => (
+                      <div
+                        key={ag.id}
+                        className="glass-panel border border-purple-500/20 rounded-2xl p-6 flex flex-col justify-between hover:border-purple-500/40 transition-all duration-300 relative overflow-hidden"
+                      >
+                        <div className="absolute top-0 right-0 bg-purple-950/80 border-b border-l border-purple-800/35 px-2.5 py-1 text-[10px] font-bold text-purple-400 uppercase tracking-widest rounded-bl-xl">
+                          Pending Action
                         </div>
-                        <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-                          {ag.description || 'No description provided.'}
-                        </p>
-                      </div>
-
-                      <div className="border-t border-white/5 mt-4 pt-4 space-y-4">
-                        <div className="flex justify-between items-center text-xs">
-                          <div>
-                            <span className="text-slate-500 block text-[10px] font-semibold uppercase tracking-wider">Amount</span>
-                            <span className="font-extrabold text-slate-200">{ag.amount} XLM</span>
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-start">
+                            <h4 className="font-bold text-base text-slate-100 line-clamp-1 pr-24">{ag.title}</h4>
+                            {getStatusBadge(ag.status)}
                           </div>
-                          <div>
-                            <span className="text-slate-500 block text-[10px] font-semibold uppercase tracking-wider">Client</span>
-                            <span className="font-mono text-slate-300">
-                              {ag.client_address ? `${ag.client_address.substring(0, 6)}...${ag.client_address.substring(ag.client_address.length - 6)}` : 'Unknown'}
-                            </span>
-                          </div>
+                          <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                            {ag.description || 'No description provided.'}
+                          </p>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3">
-                          <button
-                            onClick={() => handleAcceptAgreement(ag.id, ag.status)}
-                            className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center space-x-1"
-                          >
-                            <span>Accept Agreement</span>
-                          </button>
-                          <button
-                            onClick={() => handleRejectAgreement(ag.id, ag.title)}
-                            className="w-full py-2 bg-slate-900 border border-white/10 hover:border-rose-500/30 hover:text-rose-400 text-slate-400 font-bold text-xs rounded-xl transition-all flex items-center justify-center space-x-1"
-                          >
-                            <span>Reject</span>
-                          </button>
+                        <div className="border-t border-white/5 mt-4 pt-4 space-y-4">
+                          <div className="flex justify-between items-center text-xs">
+                            <div>
+                              <span className="text-slate-500 block text-[10px] font-semibold uppercase tracking-wider">Amount</span>
+                              <span className="font-extrabold text-slate-200">{ag.amount} XLM</span>
+                            </div>
+                            <div>
+                              <span className="text-slate-500 block text-[10px] font-semibold uppercase tracking-wider">Client</span>
+                              <span className="font-mono text-slate-300">
+                                {ag.client_address ? `${ag.client_address.substring(0, 6)}...${ag.client_address.substring(ag.client_address.length - 6)}` : 'Unknown'}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-3">
+                            <button
+                              onClick={() => handleAcceptAgreement(ag.id, ag.status)}
+                              className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center space-x-1"
+                            >
+                              <span>Accept Agreement</span>
+                            </button>
+                            <button
+                              onClick={() => handleRejectAgreement(ag.id, ag.title)}
+                              className="w-full py-2 bg-slate-900 border border-white/10 hover:border-rose-500/30 hover:text-rose-400 text-slate-400 font-bold text-xs rounded-xl transition-all flex items-center justify-center space-x-1"
+                            >
+                              <span>Reject</span>
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* Agreements Section */}
             <div className="space-y-4">
@@ -478,8 +475,8 @@ export default function Dashboard() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {(activeRole === 'client' ? clientAgreements : freelancerAgreements.filter(a => !['Created', 'Funded'].includes(a.status))).map((ag: any) => (
-                    <div 
-                      key={ag.id} 
+                    <div
+                      key={ag.id}
                       className="glass-panel border border-white/5 rounded-2xl p-6 flex flex-col justify-between hover:border-cyan-500/20 transition-all duration-300"
                     >
                       <div className="space-y-3">
@@ -502,7 +499,7 @@ export default function Dashboard() {
                             {activeRole === 'client' ? 'Freelancer' : 'Client'}
                           </span>
                           <span className="font-mono text-slate-300">
-                            {activeRole === 'client' 
+                            {activeRole === 'client'
                               ? `${ag.freelancer_address?.substring(0, 5)}...${ag.freelancer_address?.substring(ag.freelancer_address.length - 5)}`
                               : `${ag.client_address?.substring(0, 5)}...${ag.client_address?.substring(ag.client_address.length - 5)}`
                             }

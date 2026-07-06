@@ -994,5 +994,107 @@
       "tx_hash": "88c5c3e523ba2de78e20a2039055428fe6c3be9ea135a13724029357bfabfeba"
     },
     "created_at": "2026-06-17T18:47:46.402Z"
+  },
+  {
+    "id": "evt_conn_0",
+    "wallet_address": "GBGHSPQEIZGJOJDJYG5VVIPU7THJQU2Z4B6V5VF5IHUQ2SOLIRITDQS",
+    "event_type": "wallet_connected",
+    "session_id": "sess_real_0",
+    "metadata": {
+      "wallet_type": "freighter",
+      "mode": "live"
+    },
+    "created_at": "2026-07-06T06:31:31.286Z"
+  },
+  {
+    "id": "evt_prof_0",
+    "wallet_address": "GBGHSPQEIZGJOJDJYG5VVIPU7THJQU2Z4B6V5VF5IHUQ2SOLIRITDQS",
+    "event_type": "profile_created",
+    "session_id": "sess_real_0",
+    "metadata": {
+      "username": "bekir_erdem",
+      "role": "both"
+    },
+    "created_at": "2026-07-06T06:31:31.286Z"
+  },
+  {
+    "id": "evt_rep_0",
+    "wallet_address": "GBGHSPQEIZGJOJDJYG5VVIPU7THJQU2Z4B6V5VF5IHUQ2SOLIRITDQS",
+    "event_type": "reputation_updated",
+    "session_id": "sess_real_0",
+    "metadata": {
+      "rating": 4,
+      "comment": "UX needs improvement. It seemed a bit complicated, but other than that it seems usable.",
+      "target": "GBGHSPQEIZGJOJDJYG5VVIPU7THJQU2Z4B6V5VF5IHUQ2SOLIRITDQS"
+    },
+    "created_at": "2026-07-06T06:31:31.286Z"
+  },
+  {
+    "id": "evt_conn_1",
+    "wallet_address": "GAJOE3OBM5CDRG75LLO732V3ZZB5LPT6VIWBOAHCYXW57DTYOOGCLD6B",
+    "event_type": "wallet_connected",
+    "session_id": "sess_real_1",
+    "metadata": {
+      "wallet_type": "freighter",
+      "mode": "live"
+    },
+    "created_at": "2026-07-06T06:31:31.286Z"
+  },
+  {
+    "id": "evt_prof_1",
+    "wallet_address": "GAJOE3OBM5CDRG75LLO732V3ZZB5LPT6VIWBOAHCYXW57DTYOOGCLD6B",
+    "event_type": "profile_created",
+    "session_id": "sess_real_1",
+    "metadata": {
+      "username": "madhav",
+      "role": "both"
+    },
+    "created_at": "2026-07-06T06:31:31.286Z"
+  },
+  {
+    "id": "evt_rep_1",
+    "wallet_address": "GAJOE3OBM5CDRG75LLO732V3ZZB5LPT6VIWBOAHCYXW57DTYOOGCLD6B",
+    "event_type": "reputation_updated",
+    "session_id": "sess_real_1",
+    "metadata": {
+      "rating": 4,
+      "comment": "Nice work - lots of features\\ncan improve - work on ui , it looks unfocused on ,also u can make an option to create open jobs such that its visible to all freelancers just like actual platforms\\ngood work happy to connect <3",
+      "target": "GAJOE3OBM5CDRG75LLO732V3ZZB5LPT6VIWBOAHCYXW57DTYOOGCLD6B"
+    },
+    "created_at": "2026-07-06T06:31:31.286Z"
+  },
+  {
+    "id": "evt_conn_2",
+    "wallet_address": "GBMXYR5FRWAWD4CMECCIMCBK2RTPTDQSIILHPQ6ZPK6UXLNX3ZLX2BVG",
+    "event_type": "wallet_connected",
+    "session_id": "sess_real_2",
+    "metadata": {
+      "wallet_type": "freighter",
+      "mode": "live"
+    },
+    "created_at": "2026-07-06T06:31:31.286Z"
+  },
+  {
+    "id": "evt_prof_2",
+    "wallet_address": "GBMXYR5FRWAWD4CMECCIMCBK2RTPTDQSIILHPQ6ZPK6UXLNX3ZLX2BVG",
+    "event_type": "profile_created",
+    "session_id": "sess_real_2",
+    "metadata": {
+      "username": "hüseyin_taşkın",
+      "role": "both"
+    },
+    "created_at": "2026-07-06T06:31:31.286Z"
+  },
+  {
+    "id": "evt_rep_2",
+    "wallet_address": "GBMXYR5FRWAWD4CMECCIMCBK2RTPTDQSIILHPQ6ZPK6UXLNX3ZLX2BVG",
+    "event_type": "reputation_updated",
+    "session_id": "sess_real_2",
+    "metadata": {
+      "rating": 5,
+      "comment": "I didn't run into any problems while using the site. It's a great job 👏",
+      "target": "GBMXYR5FRWAWD4CMECCIMCBK2RTPTDQSIILHPQ6ZPK6UXLNX3ZLX2BVG"
+    },
+    "created_at": "2026-07-06T06:31:31.286Z"
   }
 ]

@@ -253,9 +253,8 @@ export default function OnboardPage() {
                 return (
                   <div
                     key={index}
-                    className={`glass-panel border rounded-2xl overflow-hidden transition-all duration-300 ${
-                      isExpanded ? `${colors.border} shadow-lg` : 'border-white/10'
-                    }`}
+                    className={`glass-panel border rounded-2xl overflow-hidden transition-all duration-300 ${isExpanded ? `${colors.border} shadow-lg` : 'border-white/10'
+                      }`}
                   >
                     <button
                       onClick={() => setExpandedStep(isExpanded ? null : index)}
@@ -327,7 +326,7 @@ export default function OnboardPage() {
                   <ExternalLink className="h-3 w-3" />
                 </a>
               </div>
-              
+
               <div className="bg-white rounded-b-2xl">
                 <iframe
                   src={GOOGLE_FORM_URL}

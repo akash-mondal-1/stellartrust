@@ -5,16 +5,16 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useStellar } from '@/hooks/useStellar';
 import { mockDb } from '@/lib/supabase';
-import { 
-  Star, 
-  MessageSquare, 
-  Download, 
-  User, 
-  Mail, 
-  Wallet, 
-  Send, 
-  CheckCircle, 
-  AlertCircle 
+import {
+  Star,
+  MessageSquare,
+  Download,
+  User,
+  Mail,
+  Wallet,
+  Send,
+  CheckCircle,
+  AlertCircle
 } from 'lucide-react';
 
 export default function FeedbackPage() {
@@ -46,7 +46,7 @@ export default function FeedbackPage() {
       const res = await fetch('/api/export-feedback');
       if (res.ok) {
         const serverFeedbacks = await res.json();
-        
+
         let updated = false;
         const merged = [...localFeedbacks];
         serverFeedbacks.forEach((sf: any) => {
@@ -105,7 +105,7 @@ export default function FeedbackPage() {
     try {
       // 1. Add locally
       mockDb.addFeedback(newFeedback);
-      
+
       // 2. Post to API to sync with dev server disk & generate CSV
       const currentFeedbacks = mockDb.getFeedback();
       const res = await fetch('/api/export-feedback', {
@@ -114,7 +114,7 @@ export default function FeedbackPage() {
         body: JSON.stringify({ feedbacks: currentFeedbacks })
       });
       const data = await res.json();
-      
+
       if (data.success) {
         // Sync database state from disk merge
         mockDb.setStorage('feedback', data.feedbacks);
@@ -161,7 +161,7 @@ export default function FeedbackPage() {
     });
 
     const csvContent = [
-      csvHeaders.join(','), 
+      csvHeaders.join(','),
       ...csvRows.map(r => r.map(val => `"${String(val).replace(/"/g, '""')}"`).join(','))
     ].join('\n') + '\n';
 
@@ -203,11 +203,10 @@ export default function FeedbackPage() {
               </h2>
 
               {message && (
-                <div className={`p-4 rounded-xl flex items-start gap-3 mb-6 border ${
-                  message.type === 'success' 
-                    ? 'bg-emerald-950/40 border-emerald-800 text-emerald-200' 
+                <div className={`p-4 rounded-xl flex items-start gap-3 mb-6 border ${message.type === 'success'
+                    ? 'bg-emerald-950/40 border-emerald-800 text-emerald-200'
                     : 'bg-rose-950/40 border-rose-800 text-rose-200'
-                }`}>
+                  }`}>
                   {message.type === 'success' ? (
                     <CheckCircle className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
                   ) : (
@@ -292,12 +291,11 @@ export default function FeedbackPage() {
                         onClick={() => setRating(star)}
                         className="p-1 rounded-lg hover:bg-white/5 transition"
                       >
-                        <Star 
-                          className={`h-8 w-8 transition-colors ${
-                            star <= rating 
-                              ? 'text-amber-400 fill-amber-400' 
+                        <Star
+                          className={`h-8 w-8 transition-colors ${star <= rating
+                              ? 'text-amber-400 fill-amber-400'
                               : 'text-slate-600'
-                          }`}
+                            }`}
                         />
                       </button>
                     ))}
@@ -369,7 +367,7 @@ export default function FeedbackPage() {
                 <div className="bg-slate-900/60 border border-white/5 p-4 rounded-xl text-center">
                   <span className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Average Rating</span>
                   <span className="text-3xl font-extrabold text-amber-400 mt-1 block">
-                    {feedbacksList.length > 0 
+                    {feedbacksList.length > 0
                       ? (feedbacksList.reduce((acc, f) => acc + (f.rating || 5), 0) / feedbacksList.length).toFixed(1)
                       : '5.0'}★
                   </span>
