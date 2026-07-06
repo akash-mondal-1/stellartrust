@@ -119,5 +119,16 @@
     "feature_request": "",
     "category": "UI/UX Usability",
     "created_at": "2026-07-06T06:31:31.286Z"
+  },
+  {
+    "id": "fb_real_3",
+    "name": "Edwin Ariesto Umbu Malahina",
+    "email": "edwinariesto@gmail.com",
+    "user_address": "GCGKXHO2BRXYPTAC2DPWO4O2JGZ32VAGPXFEHQ24MFPIXC3VVCY2YNIE",
+    "rating": 5,
+    "comment": "Its good MVP Project.",
+    "feature_request": "Add Reward or Royalti for Client, because its perfect features for sustainable services",
+    "category": "UI/UX Usability",
+    "created_at": "2026-07-06T15:40:47.635Z"
   }
 ]
