@@ -3,6 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { supabase } from '@/lib/supabase';
 
+export const dynamic = 'force-dynamic';
+
 const hasKeys = !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 // GET: Retrieve all onboarding user sessions
