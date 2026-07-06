@@ -399,7 +399,7 @@ Our team resolved critical usability blockers, security enhancements, and metada
           </div>
 
           {/* Card 2: Real Human Testers */}
-          <div className="glass-panel border border-white/10 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between h-40">
+          <div className="glass-panel border border-white/10 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between h-full min-h-[10rem]">
             <div className="flex justify-between items-start">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
                 <Users className="h-3.5 w-3.5 text-amber-500" /> Real Human Testers
@@ -414,7 +414,7 @@ Our team resolved critical usability blockers, security enhancements, and metada
           </div>
 
           {/* Card 3: Feedback Submissions */}
-          <div className="glass-panel border border-white/10 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between h-40">
+          <div className="glass-panel border border-white/10 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between h-full min-h-[10rem]">
             <div className="flex justify-between items-start">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
                 <MessageSquare className="h-3.5 w-3.5 text-yellow-400" /> Feedback Submissions
@@ -434,7 +434,7 @@ Our team resolved critical usability blockers, security enhancements, and metada
           </div>
 
           {/* Card 4: Verified Escrows */}
-          <div className="glass-panel border border-white/10 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between h-40">
+          <div className="glass-panel border border-white/10 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between h-full min-h-[10rem]">
             <div className="flex justify-between items-start">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
                 <Coins className="h-3.5 w-3.5 text-emerald-400" /> Verified Escrows
@@ -456,7 +456,7 @@ Our team resolved critical usability blockers, security enhancements, and metada
           </div>
 
           {/* Card 5: Blue Belt Goal */}
-          <div className="glass-panel border border-white/10 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between h-40">
+          <div className="glass-panel border border-white/10 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between h-full min-h-[10rem]">
             <div className="flex justify-between items-start">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
                 <ShieldCheck className="h-3.5 w-3.5 text-slate-400" /> Blue Belt Goal
