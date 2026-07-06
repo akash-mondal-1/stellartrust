@@ -125,14 +125,19 @@ export default function BlueBeltEvidenceCenter() {
       setAvgFeedbackRating(localFeedbacks.length > 0 ? parseFloat((sumRating / localFeedbacks.length).toFixed(1)) : 5.0);
 
       try {
-        const res = await fetch('/api/export-feedback');
+        const res = await fetch('/api/export-feedback?t=' + Date.now());
         if (res.ok) {
           const serverFeedbacks = await res.json();
           let updated = false;
           const merged = [...localFeedbacks];
           serverFeedbacks.forEach((sf: any) => {
-            if (!merged.some((lf: any) => lf.id === sf.id)) {
+            const index = merged.findIndex((lf: any) => lf.id === sf.id);
+            if (index === -1) {
               merged.push(sf);
+              updated = true;
+            } else {
+              // Overwrite local with server data to ensure updates (like added names) reflect
+              merged[index] = { ...merged[index], ...sf };
               updated = true;
             }
           });

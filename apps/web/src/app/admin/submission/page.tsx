@@ -136,8 +136,12 @@ export default function SubmissionDashboard() {
         let updated = false;
         const mergedFeedbacks = [...localFeedbacks];
         serverFeedbacks.forEach((fb: any) => {
-          if (!mergedFeedbacks.some((local: any) => local.id === fb.id)) {
+          const index = mergedFeedbacks.findIndex((local: any) => local.id === fb.id);
+          if (index === -1) {
             mergedFeedbacks.push(fb);
+            updated = true;
+          } else {
+            mergedFeedbacks[index] = { ...mergedFeedbacks[index], ...fb };
             updated = true;
           }
         });

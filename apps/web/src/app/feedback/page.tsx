@@ -43,15 +43,19 @@ export default function FeedbackPage() {
     setFeedbacksList(localFeedbacks);
 
     try {
-      const res = await fetch('/api/export-feedback');
+      const res = await fetch('/api/export-feedback?t=' + Date.now());
       if (res.ok) {
         const serverFeedbacks = await res.json();
 
         let updated = false;
         const merged = [...localFeedbacks];
         serverFeedbacks.forEach((sf: any) => {
-          if (!merged.some((lf: any) => lf.id === sf.id)) {
+          const index = merged.findIndex((lf: any) => lf.id === sf.id);
+          if (index === -1) {
             merged.push(sf);
+            updated = true;
+          } else {
+            merged[index] = { ...merged[index], ...sf };
             updated = true;
           }
         });
