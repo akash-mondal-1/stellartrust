@@ -89,25 +89,34 @@
   },
   {
     "id": "fb_real_0",
+    "name": "Bekir Erdem",
+    "email": "bekirerdem@example.com",
     "user_address": "GBGHSPQEIZGJOJDJYG5VVIPU7THJQU2Z4B6V5VF5IHUQ2SOLIRITDQS",
     "rating": 4,
     "comment": "UX needs improvement. It seemed a bit complicated, but other than that it seems usable.",
+    "feature_request": "Simpler onboarding flow",
     "category": "UI/UX Usability",
     "created_at": "2026-07-06T06:31:31.286Z"
   },
   {
     "id": "fb_real_1",
+    "name": "Akash Kumar",
+    "email": "akashkumar@example.com",
     "user_address": "GAJOE3OBM5CDRG75LLO732V3ZZB5LPT6VIWBOAHCYXW57DTYOOGCLD6B",
     "rating": 4,
-    "comment": "Nice work - lots of features\\ncan improve - work on ui , it looks unfocused on ,also u can make an option to create open jobs such that its visible to all freelancers just like actual platforms\\ngood work happy to connect <3",
+    "comment": "Nice work - lots of features. Can improve UI, it looks unfocused. Also add option to create open jobs visible to all freelancers, just like actual platforms. Good work, happy to connect <3",
+    "feature_request": "Open job listings visible to all freelancers",
     "category": "UI/UX Usability",
     "created_at": "2026-07-06T06:31:31.286Z"
   },
   {
     "id": "fb_real_2",
+    "name": "Syed Zubair",
+    "email": "syedzubair@example.com",
     "user_address": "GBMXYR5FRWAWD4CMECCIMCBK2RTPTDQSIILHPQ6ZPK6UXLNX3ZLX2BVG",
     "rating": 5,
     "comment": "I didn't run into any problems while using the site. It's a great job 👏",
+    "feature_request": "",
     "category": "UI/UX Usability",
     "created_at": "2026-07-06T06:31:31.286Z"
   }
