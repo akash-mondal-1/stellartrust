@@ -45,15 +45,19 @@ export async function POST(request: Request) {
     if (hasKeys) {
       const { supabase } = await import('@/lib/supabase');
       const toInsert = incomingFeedbacks.map((fb: any) => ({
-        user_address: fb.user_address || fb.wallet_address,
+        id: fb.id || Math.random().toString(36).substring(2, 11),
+        user_address: fb.user_address || fb.wallet_address || '',
         rating: fb.rating || 5,
         comment: fb.comment || fb.feedback_text || '',
         category: fb.category || '',
+        name: fb.name || '',
+        email: fb.email || '',
+        feature_request: fb.feature_request || '',
         created_at: fb.created_at || new Date().toISOString()
       }));
 
       if (toInsert.length > 0) {
-        const { error } = await supabase.from('feedbacks').insert(toInsert);
+        const { error } = await supabase.from('feedbacks').upsert(toInsert, { onConflict: 'id' });
         if (error) throw error;
       }
       return NextResponse.json({ success: true, feedbacks: toInsert });

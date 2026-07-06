@@ -2,6 +2,69 @@
 -- Run this script in your Supabase SQL Editor to create the required tables for tracking
 
 CREATE TABLE IF NOT EXISTS validation_events (
+    id TEXT PRIMARY KEY,
+    wallet_address TEXT NOT NULL,
+    event_type TEXT NOT NULL,
+    session_id TEXT,
+    metadata JSONB,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS onboardings (
+    id TEXT PRIMARY KEY,
+    wallet_address TEXT NOT NULL UNIQUE,
+    joined_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    first_interaction TEXT,
+    referred_by TEXT,
+    connection_source TEXT,
+    username TEXT,
+    email TEXT,
+    escrow_count INTEGER DEFAULT 0,
+    nft_count INTEGER DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS feedbacks (
+    id TEXT PRIMARY KEY,
+    user_address TEXT NOT NULL,
+    rating INTEGER NOT NULL,
+    comment TEXT,
+    category TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- ============================================================
+-- If tables already exist, run these ALTER statements to add
+-- missing columns (safe to run multiple times):
+-- ============================================================
+ALTER TABLE feedbacks ADD COLUMN IF NOT EXISTS id TEXT;
+ALTER TABLE onboardings ADD COLUMN IF NOT EXISTS username TEXT;
+ALTER TABLE onboardings ADD COLUMN IF NOT EXISTS email TEXT;
+ALTER TABLE validation_events ADD COLUMN IF NOT EXISTS session_id TEXT;
+
+-- Fix primary key if using UUID (drop and recreate with TEXT primary key)
+-- NOTE: Only run below if you get "id type mismatch" errors:
+-- ALTER TABLE feedbacks DROP CONSTRAINT IF EXISTS feedbacks_pkey;
+-- ALTER TABLE feedbacks ALTER COLUMN id TYPE TEXT;
+-- ALTER TABLE feedbacks ADD PRIMARY KEY (id);
+
+-- Enable Row Level Security
+ALTER TABLE validation_events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE onboardings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE feedbacks ENABLE ROW LEVEL SECURITY;
+
+-- Create policies to allow public inserts and reads
+CREATE POLICY IF NOT EXISTS "Allow public insert on validation_events" ON validation_events FOR INSERT TO public WITH CHECK (true);
+CREATE POLICY IF NOT EXISTS "Allow public read on validation_events" ON validation_events FOR SELECT TO public USING (true);
+
+CREATE POLICY IF NOT EXISTS "Allow public insert on onboardings" ON onboardings FOR INSERT TO public WITH CHECK (true);
+CREATE POLICY IF NOT EXISTS "Allow public read on onboardings" ON onboardings FOR SELECT TO public USING (true);
+CREATE POLICY IF NOT EXISTS "Allow public update on onboardings" ON onboardings FOR UPDATE TO public USING (true) WITH CHECK (true);
+
+CREATE POLICY IF NOT EXISTS "Allow public insert on feedbacks" ON feedbacks FOR INSERT TO public WITH CHECK (true);
+CREATE POLICY IF NOT EXISTS "Allow public read on feedbacks" ON feedbacks FOR SELECT TO public USING (true);
+
+
+CREATE TABLE IF NOT EXISTS validation_events (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     wallet_address TEXT NOT NULL,
     event_type TEXT NOT NULL,

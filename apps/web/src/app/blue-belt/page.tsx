@@ -488,7 +488,7 @@ Our team resolved critical usability blockers, security enhancements, and metada
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
             <div className="bg-slate-900/30 border border-white/5 rounded-xl p-4 text-center">
               <p className="text-slate-550 text-[10px] font-bold uppercase tracking-wider">Verified Wallet Connections</p>
-              <p className="text-3xl font-black text-slate-100 mt-2">8</p>
+              <p className="text-3xl font-black text-slate-100 mt-2">{realCount}</p>
               <p className="text-[10px] text-slate-500 mt-1">Cryptographically Valid Stellar Keys</p>
             </div>
             <div className="bg-slate-900/30 border border-white/5 rounded-xl p-4 text-center">
