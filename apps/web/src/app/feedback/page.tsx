@@ -154,8 +154,8 @@ export default function FeedbackPage() {
     const csvHeaders = ['id', 'name', 'email', 'wallet_address', 'rating', 'feedback_text', 'feature_request', 'created_at'];
     const csvRows = feedbacksList.map((fb: any, index: number) => {
       const id = `FB_${String(index + 1).padStart(3, '0')}`;
-      const name = fb.name || '';
-      const email = fb.email || '';
+      const name = fb.name && fb.name !== 'N/A' ? fb.name : 'Anonymous';
+      const email = fb.email && fb.email !== 'N/A' ? fb.email : 'Not Provided';
       const wallet = fb.user_address || fb.wallet_address || '';
       const rating = fb.rating || 5;
       const text = fb.comment || fb.feedback_text || '';
