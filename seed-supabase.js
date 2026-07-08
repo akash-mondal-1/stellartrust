@@ -22,7 +22,7 @@ async function seedFeedbacks() {
 
   const toInsert = feedbacks
     .filter(fb => fb.user_address || fb.wallet_address)
-    .filter(fb => !existingIds.has(fb.id))
+    // .filter(fb => !existingIds.has(fb.id))
     .map(fb => ({
       id: fb.id,
       user_address: fb.user_address || fb.wallet_address || '',
@@ -74,9 +74,7 @@ async function seedOnboardings() {
       connection_source: o.connection_source || 'freighter',
       joined_at: o.joined_at || o.created_at || new Date().toISOString(),
       first_interaction: o.first_interaction || 'wallet_connected',
-      referred_by: o.referred_by || null,
-      username: o.username || null,
-      email: o.email || null
+      referred_by: o.referred_by || null
     }));
 
   if (toInsert.length === 0) {

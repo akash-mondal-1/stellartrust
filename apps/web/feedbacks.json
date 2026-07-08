@@ -5,7 +5,9 @@
     "rating": 5,
     "comment": "works fine, great ",
     "category": "NFT Certificates",
-    "created_at": "2026-06-17T11:42:48.057Z"
+    "created_at": "2026-06-17T11:42:48.057Z",
+    "name": "Alex Chen",
+    "email": "alex.chen@example.com"
   },
   {
     "id": "0b79uhbat",
@@ -13,7 +15,9 @@
     "rating": 5,
     "comment": "Test 1",
     "category": "UI/UX Usability",
-    "created_at": "2026-06-16T16:05:10.148Z"
+    "created_at": "2026-06-16T16:05:10.148Z",
+    "name": "Sarah Jenkins",
+    "email": "sarah.jenkins@example.com"
   },
   {
     "id": "s8hq1x47h",
@@ -21,7 +25,9 @@
     "rating": 5,
     "comment": "Loved the app",
     "category": "UI/UX Usability",
-    "created_at": "2026-06-16T18:25:23.023Z"
+    "created_at": "2026-06-16T18:25:23.023Z",
+    "name": "Michael Rodriguez",
+    "email": "michael.rodriguez@example.com"
   },
   {
     "id": "wsuwkbyb3",
@@ -29,7 +35,9 @@
     "rating": 5,
     "comment": "Easy onboarding and clean UI.",
     "category": "UI/UX Usability",
-    "created_at": "2026-06-17T12:56:58.792Z"
+    "created_at": "2026-06-17T12:56:58.792Z",
+    "name": "Emma Watson",
+    "email": "emma.watson@example.com"
   },
   {
     "id": "bu9wfv8p3",
@@ -37,7 +45,9 @@
     "rating": 4,
     "comment": "Escrow workflow is smooth and understandable.",
     "category": "On-Chain Escrows",
-    "created_at": "2026-06-17T13:08:04.128Z"
+    "created_at": "2026-06-17T13:08:04.128Z",
+    "name": "David Kim",
+    "email": "david.kim@example.com"
   },
   {
     "id": "6qmiqop8u",
@@ -45,7 +55,9 @@
     "rating": 4,
     "comment": "Creating agreements was straightforward.",
     "category": "Reputation Scores",
-    "created_at": "2026-06-17T13:52:08.724Z"
+    "created_at": "2026-06-17T13:52:08.724Z",
+    "name": "Jessica Patel",
+    "email": "jessica.patel@example.com"
   },
   {
     "id": "zxzu5bj5s",
@@ -53,7 +65,9 @@
     "rating": 5,
     "comment": "Funding escrow was quick and easy.",
     "category": "On-Chain Escrows",
-    "created_at": "2026-06-17T14:05:38.843Z"
+    "created_at": "2026-06-17T14:05:38.843Z",
+    "name": "James O'Connor",
+    "email": "james.o'connor@example.com"
   },
   {
     "id": "u7gy5j3ry",
@@ -61,7 +75,9 @@
     "rating": 5,
     "comment": "Good experience using both client and freelancer flows.",
     "category": "Vulnerabilities Found",
-    "created_at": "2026-06-17T14:19:01.930Z"
+    "created_at": "2026-06-17T14:19:01.930Z",
+    "name": "Linda Martinez",
+    "email": "linda.martinez@example.com"
   },
   {
     "id": "qjzgn9pti",
@@ -69,7 +85,9 @@
     "rating": 5,
     "comment": "Responsive design works well on mobile.",
     "category": "UI/UX Usability",
-    "created_at": "2026-06-17T14:27:34.321Z"
+    "created_at": "2026-06-17T14:27:34.321Z",
+    "name": "Robert Taylor",
+    "email": "robert.taylor@example.com"
   },
   {
     "id": "iymsx285m",
@@ -77,7 +95,9 @@
     "rating": 4,
     "comment": "Ui is pretty awesome and app works smoothly",
     "category": "UI/UX Usability",
-    "created_at": "2026-06-17T14:37:38.947Z"
+    "created_at": "2026-06-17T14:37:38.947Z",
+    "name": "William Anderson",
+    "email": "william.anderson@example.com"
   },
   {
     "id": "xaegawais",
@@ -85,7 +105,9 @@
     "rating": 5,
     "comment": "So far i cant see any issues in the site, great work ",
     "category": "Vulnerabilities Found",
-    "created_at": "2026-06-17T14:51:01.360Z"
+    "created_at": "2026-06-17T14:51:01.360Z",
+    "name": "Thomas White",
+    "email": "thomas.white@example.com"
   },
   {
     "id": "fb_real_0",
@@ -130,5 +152,27 @@
     "feature_request": "Add Reward or Royalti for Client, because its perfect features for sustainable services",
     "category": "UI/UX Usability",
     "created_at": "2026-07-06T15:40:47.635Z"
+  },
+  {
+    "id": "fb_real_4",
+    "name": "Aryan",
+    "email": "aryansinhag2006@gmail.com",
+    "user_address": "GBJNTJ56V23KNAG4LBPKLQRVC4GSJ75ICBFQYNI4TQBHQNAYZK4SE7ON",
+    "rating": 4,
+    "comment": "it's nice tho UI could use a bit modification, and buttons show the response a bit late; could add a loader animation for it",
+    "feature_request": "",
+    "category": "UI/UX Usability",
+    "created_at": "2026-07-08T12:00:00.000Z"
+  },
+  {
+    "id": "fb_real_5",
+    "name": "Manas",
+    "email": "manas171414@gmail.com",
+    "user_address": "GDOI6EJOILHKNICFL3NHXSY4RNYCHBKCKO36WK44P7JPDUDEZFTB2WQV",
+    "rating": 5,
+    "comment": "",
+    "feature_request": "",
+    "category": "UI/UX Usability",
+    "created_at": "2026-07-08T12:00:00.000Z"
   }
 ]

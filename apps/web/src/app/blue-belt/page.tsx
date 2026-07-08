@@ -90,9 +90,16 @@ export default function BlueBeltEvidenceCenter() {
           let updated = false;
           const mergedOnboardings = [...localOnboardings];
           serverOnboardings.forEach((se: any) => {
-            if (!mergedOnboardings.some((local: any) => local.wallet_address.toLowerCase() === se.wallet_address.toLowerCase())) {
+            const index = mergedOnboardings.findIndex((local: any) => local.wallet_address.toLowerCase() === se.wallet_address.toLowerCase());
+            if (index === -1) {
               mergedOnboardings.push(se);
               updated = true;
+            } else {
+              // Overwrite local with server data to ensure updates reflect across profiles
+              if (JSON.stringify(mergedOnboardings[index]) !== JSON.stringify({ ...mergedOnboardings[index], ...se })) {
+                mergedOnboardings[index] = { ...mergedOnboardings[index], ...se };
+                updated = true;
+              }
             }
           });
           if (updated) {
@@ -677,8 +684,8 @@ Our team resolved critical usability blockers, security enhancements, and metada
                   ) : (
                     feedbacksList.map((row) => (
                       <tr key={row.id} className="hover:bg-white/5 transition-colors">
-                        <td className="py-3 px-4 font-bold text-slate-200">{row.name || 'Legacy Validator'}</td>
-                        <td className="py-3 px-4 text-slate-400">{row.email || 'N/A'}</td>
+                        <td className="py-3 px-4 font-bold text-slate-200">{row.name || 'Anonymous'}</td>
+                        <td className="py-3 px-4 text-slate-400">{row.email || 'Not Provided'}</td>
                         <td className="py-3 px-4 font-mono text-slate-400">
                           {row.user_address ? `${row.user_address.substring(0, 6)}...${row.user_address.substring(row.user_address.length - 6)}` : 'Guest'}
                         </td>

@@ -152,8 +152,8 @@ export default function FeedbackPage() {
 
   const handleDownloadCSV = () => {
     const csvHeaders = ['id', 'name', 'email', 'wallet_address', 'rating', 'feedback_text', 'feature_request', 'created_at'];
-    const csvRows = feedbacksList.map((fb: any) => {
-      const id = fb.id || '';
+    const csvRows = feedbacksList.map((fb: any, index: number) => {
+      const id = `FB_${String(index + 1).padStart(3, '0')}`;
       const name = fb.name || '';
       const email = fb.email || '';
       const wallet = fb.user_address || fb.wallet_address || '';

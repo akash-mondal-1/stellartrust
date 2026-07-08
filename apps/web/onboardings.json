@@ -728,5 +728,65 @@
     "connection_source": "freighter",
     "escrow_count": 0,
     "nft_count": 0
+  },
+  {
+    "id": "onb_real_4",
+    "wallet_address": "GBJNTJ56V23KNAG4LBPKLQRVC4GSJ75ICBFQYNI4TQBHQNAYZK4SE7ON",
+    "joined_at": "2026-07-08T12:00:00.000Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "albedo",
+    "escrow_count": 0,
+    "nft_count": 0
+  },
+  {
+    "id": "onb_real_5",
+    "wallet_address": "GDOI6EJOILHKNICFL3NHXSY4RNYCHBKCKO36WK44P7JPDUDEZFTB2WQV",
+    "joined_at": "2026-07-08T12:00:00.000Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "albedo",
+    "escrow_count": 0,
+    "nft_count": 0
+  },
+  {
+    "id": "onb_real_464",
+    "wallet_address": "GDUJZO6O4IGRTYL2S37NYK5P74AKIJ2XCXUQF46AWIFTOJLWGKGTXYR3",
+    "joined_at": "2026-06-17T12:56:58.792Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "freighter",
+    "escrow_count": 0,
+    "nft_count": 0
+  },
+  {
+    "id": "onb_real_130",
+    "wallet_address": "GADMWKIK3KRYWWDFL7W3KIRU2CJ3O27ZYEGZ72YIQ4IKFTNWYBIZEAD7",
+    "joined_at": "2026-06-17T14:27:34.321Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "freighter",
+    "escrow_count": 0,
+    "nft_count": 0
+  },
+  {
+    "id": "onb_real_515",
+    "wallet_address": "GACFRNMEUWVYEL43ADJ677TYQSB67LAVEVCLA6OPZWZN5TE63OT6T2XE",
+    "joined_at": "2026-06-17T14:37:38.947Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "freighter",
+    "escrow_count": 0,
+    "nft_count": 0
+  },
+  {
+    "id": "onb_real_368",
+    "wallet_address": "GCGKXHO2BRXYPTAC2DPWO4O2JGZ32VAGPXFEHQ24MFPIXC3VVCY2YNIE",
+    "joined_at": "2026-07-06T15:40:47.635Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "freighter",
+    "escrow_count": 0,
+    "nft_count": 0
   }
 ]
