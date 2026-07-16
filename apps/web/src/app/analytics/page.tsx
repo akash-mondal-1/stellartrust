@@ -76,7 +76,7 @@ export default function AnalyticsDashboard() {
 
   const fetchAnalyticsEvents = async () => {
     try {
-      const res = await fetch('/api/export-csv');
+      const res = await fetch('/api/export-csv?t=' + Date.now());
       let serverEvents: any[] = [];
       if (res.ok) {
         serverEvents = await res.json();
@@ -172,7 +172,7 @@ export default function AnalyticsDashboard() {
       setOnboardingsList(localOnboardings);
 
       try {
-        const res = await fetch('/api/export-onboarding');
+        const res = await fetch('/api/export-onboarding?t=' + Date.now());
         if (res.ok) {
           let serverOnboardings = await res.json();
           const unsynced = localOnboardings.filter((local: any) => 

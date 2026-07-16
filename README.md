@@ -65,7 +65,7 @@ All form responses are auto-synced to a Google Sheet for analysis and record-kee
 **Google Sheet Link:** [User Feedback Responses](https://docs.google.com/spreadsheets/d/1dn8s1d318aTa36IwnHCz4sJYCw6tLXu7GcldzEu_Rnk/edit?usp=sharing)
 
 An Excel export is also maintained in the repository at:
-- [`submission-proof/user-testing/blue-belt-feedback.csv`](submission-proof/user-testing/blue-belt-feedback.csv) — Aggregated user feedback
+- [`submission-proof/user-testing/stellartrust-feedback.csv`](submission-proof/user-testing/stellartrust-feedback.csv) — Aggregated user feedback
 - [`submission-proof/user-testing/50-user-onboarding.csv`](submission-proof/user-testing/50-user-onboarding.csv) — User onboarding registry
 
 ### How Users Onboard
@@ -245,7 +245,7 @@ This repository has 40+ meaningful commits. Key milestones include:
 * **↓**
 * **July:** 50 Users Reached
 * **↓**
-* **July:** Blue Belt Submission
+* **July:** Live Verification Hub
 
 ---
 

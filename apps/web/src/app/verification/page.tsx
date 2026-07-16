@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { mockDb } from '@/lib/supabase';
 import { StrKey } from '@stellar/stellar-sdk';
+import { useStellar } from '@/hooks/useStellar';
 import { 
   ShieldCheck, 
   Users, 
@@ -22,7 +23,8 @@ import {
   Coins
 } from 'lucide-react';
 
-export default function BlueBeltEvidenceCenter() {
+export default function VerificationEvidenceCenter() {
+  const { connected } = useStellar();
   // Metric counts
   const [onboardingsCount, setOnboardingsCount] = useState(0);
   const [eventsCount, setEventsCount] = useState(0);
@@ -60,7 +62,7 @@ export default function BlueBeltEvidenceCenter() {
       setOnboardingsList(localOnboardings);
 
       try {
-        const res = await fetch('/api/export-onboarding');
+        const res = await fetch('/api/export-onboarding?t=' + Date.now());
         if (res.ok) {
           let serverOnboardings = await res.json();
           
@@ -159,7 +161,7 @@ export default function BlueBeltEvidenceCenter() {
           setAvgFeedbackRating(merged.length > 0 ? parseFloat((updatedSum / merged.length).toFixed(1)) : 5.0);
         }
       } catch (e) {
-        console.warn("Failed to fetch server feedback in blue-belt:", e);
+        console.warn("Failed to fetch server feedback in verification:", e);
       }
     };
 
@@ -243,7 +245,7 @@ export default function BlueBeltEvidenceCenter() {
     
     setNftsList(uniqueCombinedNfts);
     setNftsMintedCount(uniqueCombinedNfts.length);
-  }, []);
+  }, [connected]);
 
   // Copy helper
   const handleCopyText = (text: string, section: string) => {
@@ -317,9 +319,9 @@ export default function BlueBeltEvidenceCenter() {
     feedback: `### 💬 Feedback Collection & Summary
 
 *   **Total Feedback Submissions**: ${feedbackCount}
-*   **Unique Validator Wallet Addresses**: ${uniqueFeedbackWallets}
+*   **Unique Wallet Addresses**: ${uniqueFeedbackWallets}
 *   **Average Rating**: ${avgFeedbackRating} / 5.0 ★
-*   **Exported Evidence Dataset**: [blue-belt-feedback.csv](file:///submission-proof/user-testing/blue-belt-feedback.csv)
+*   **Exported Evidence Dataset**: [stellartrust-feedback.csv](file:///submission-proof/user-testing/stellartrust-feedback.csv)
 *   **Visual Markdown Aggregation**: [feedback-summary.md](file:///submission-proof/user-testing/feedback-summary.md)`,
 
     improvements: `### 🔧 Feedback-Driven Improvements
@@ -330,7 +332,7 @@ Our team resolved critical usability blockers, security enhancements, and metada
 3. **Stellar Explorer Integration** - Integrated transaction URL builders for milestone audit. (Commit [57e6869](https://github.com/akash-mondal-1/stellartrust/commit/57e6869))
 4. **Session Recovery** - Reconnected Freighter wallet state automatically on refresh. (Commit [241e6a2](https://github.com/akash-mondal-1/stellartrust/commit/241e6a2))
 5. **IPFS Image Cache** - Solved delay in Reputation/Achievement NFT page loads. (Commit [898d2b7](https://github.com/akash-mondal-1/stellartrust/commit/898d2b7))
-6. **Screenshot Mode** - Added UI clutter sweeper for judge presentations. (Commit [503d335](https://github.com/akash-mondal-1/stellartrust/commit/503d335))`,
+6. **Screenshot Mode** - Added UI clutter sweeper for cleaner display. (Commit [503d335](https://github.com/akash-mondal-1/stellartrust/commit/503d335))`,
 
     analytics: `### 📊 Usage & Ecosystem Analytics Metrics
 
@@ -344,12 +346,12 @@ Our team resolved critical usability blockers, security enhancements, and metada
 
     roadmap: `### 🗺️ StellarTrust Future Roadmap
 
-*   **Phase 1 (Green Belt)**: Core Smart Contracts deployed on Testnet, Escrow/Reputation frameworks complete. [Status: Completed]
-*   **Phase 2 (Blue Belt)**: Active User Growth loop implementation, Feedback Form and Commit Tracker registries, Evidence dashboards. [Status: Completed]
-*   **Phase 3 (Purple Belt)**: Multi-signature escrow releases, Soroban contract optimization, DAO-governed dispute resolution. [Status: Planned]
-*   **Phase 4 (Brown Belt)**: Mainnet audits, DeFi yield integration on idle escrow funds. [Status: Backlog]`,
+*   **Phase 1 (Core Protocol)**: Core Smart Contracts deployed on Testnet, Escrow/Reputation frameworks complete. [Status: Completed]
+*   **Phase 2 (Analytics & Feedback Hub)**: Active User Growth loop implementation, Feedback Form and Commit Tracker registries, Evidence dashboards. [Status: Completed]
+*   **Phase 3 (Enterprise Scale)**: Multi-signature escrow releases, Soroban contract optimization, DAO-governed dispute resolution. [Status: Planned]
+*   **Phase 4 (Mainnet Deployment)**: Mainnet audits, DeFi yield integration on idle escrow funds. [Status: Backlog]`,
 
-    checklist: `### 📋 Blue Belt Level 5 Submission Checklist
+    checklist: `### 📋 MVP Production Standards Checklist
 
 *   ✅ **Live Application**
 *   ✅ **Demo Video**
@@ -371,16 +373,16 @@ Our team resolved critical usability blockers, security enhancements, and metada
           <div className="absolute top-0 right-0 h-64 w-64 bg-gradient-to-br from-cyan-500/20 to-purple-600/20 rounded-full blur-3xl" />
           <div className="relative z-10 space-y-4">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-950 text-cyan-400 border border-cyan-800 text-xs font-bold rounded-full uppercase tracking-wider">
-              <ShieldCheck className="h-3.5 w-3.5" /> Blue Belt Level 5 Verification Center
+              <ShieldCheck className="h-3.5 w-3.5" /> StellarTrust Metrics & Transparency Center
             </span>
             <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-              StellarTrust Validation Hub
+              StellarTrust Verification Hub
             </h1>
             <p className="text-slate-200 font-semibold text-sm sm:text-base">
-              Single Source of Truth for Blue Belt Review
+              Single Source of Truth for Network Metrics & Trust Audits
             </p>
             <p className="text-slate-400 text-xs sm:text-sm max-w-3xl leading-relaxed">
-              Welcome Stellar validators and judges. This dedicated audit hub aggregates real-time user registrations, feedback forms, and git commit details, providing dynamic, verification-ready evidence data.
+              Welcome StellarTrust users, auditors, and community. This dedicated transparency hub aggregates real-time user registrations, feedback forms, and git commit details, providing dynamic, verification-ready evidence data.
             </p>
           </div>
         </div>
@@ -418,7 +420,7 @@ Our team resolved critical usability blockers, security enhancements, and metada
             </div>
             <div className="my-2">
               <span className="text-3xl font-extrabold text-slate-100">{realCount + Math.max(0, uniqueFeedbackWallets - realCount)}</span>
-              <span className="text-[10px] text-slate-450 block mt-1 leading-snug">{realCount} verified wallet users + {Math.max(0, uniqueFeedbackWallets - realCount)} feedback submitters not in onboarding records</span>
+              <span className="text-[10px] text-slate-455 block mt-1 leading-snug">{realCount} verified wallet users + {Math.max(0, uniqueFeedbackWallets - realCount)} feedback submitters not in onboarding records</span>
             </div>
             <span className="text-slate-505 text-[10px] font-bold">Audited Record</span>
           </div>
@@ -465,17 +467,17 @@ Our team resolved critical usability blockers, security enhancements, and metada
             </button>
           </div>
 
-          {/* Card 5: Blue Belt Goal */}
+          {/* Card 5: Network Growth Goal */}
           <div className="glass-panel border border-white/10 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between h-full min-h-[10rem]">
             <div className="flex justify-between items-start">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
-                <ShieldCheck className="h-3.5 w-3.5 text-slate-400" /> Blue Belt Goal
+                <ShieldCheck className="h-3.5 w-3.5 text-slate-400" /> Network Growth Goal
               </span>
               {renderBadge('projected')}
             </div>
             <div className="my-2">
               <span className="text-3xl font-extrabold text-slate-305">50+</span>
-              <span className="text-[10px] text-slate-500 block">Goal: 50+ Participants</span>
+              <span className="text-[10px] text-slate-500 block">Target: 50+ Active Users</span>
             </div>
             <span className="text-slate-500 text-xs">Tracking</span>
           </div>
@@ -493,7 +495,7 @@ Our team resolved critical usability blockers, security enhancements, and metada
         <div className="glass-panel border border-white/10 rounded-2xl p-6 sm:p-8 space-y-4">
           <h2 className="text-xl font-bold text-slate-200">Audit Transparency</h2>
           <p className="text-xs text-slate-450 leading-relaxed">
-            In compliance with the Blue Belt Level 5 rules, this dedicated audit section separates verified on-chain metrics from sandbox testing sessions. Truncated keys, duplicate wallet sessions, and developer simulator profiles have been strictly separated.
+            To ensure maximum platform transparency and audit integrity, this section separates verified on-chain metrics from sandbox testing sessions. Truncated keys, duplicate wallet sessions, and developer simulator profiles have been strictly separated.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
             <div className="bg-slate-900/30 border border-white/5 rounded-xl p-4 text-center">

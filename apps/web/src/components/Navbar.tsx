@@ -67,7 +67,7 @@ export default function Navbar() {
     { name: 'Analytics', href: '/analytics' },
     { name: 'Feedback', href: '/feedback' },
     { name: 'Improvements', href: '/improvements' },
-    { name: 'Blue Belt', href: '/blue-belt' },
+    { name: 'Verification Hub', href: '/verification' },
   ];
 
   return (

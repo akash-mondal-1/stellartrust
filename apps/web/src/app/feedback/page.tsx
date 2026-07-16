@@ -173,7 +173,7 @@ export default function FeedbackPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', 'blue-belt-feedback.csv');
+    link.setAttribute('download', 'stellartrust-feedback.csv');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -190,7 +190,7 @@ export default function FeedbackPage() {
             Feedback Collection System
           </h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Provide feedback, ratings, and feature requests. Your verification helps us prove active validation for our Blue Belt criteria.
+            Provide feedback, ratings, and feature requests. Your verification helps us continuously audit and improve the platform.
           </p>
         </div>
 

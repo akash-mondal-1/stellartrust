@@ -36,7 +36,7 @@ export default function ImprovementsPage() {
     {
       feedback: "Validator reviews lack granular fields like Email, Name, and suggestions for feature requests.",
       category: "Feedback System",
-      improvement: "Extended feedback schemas to support Name, Email, and Feature Requests; implemented automated server-side CSV compilation at blue-belt-feedback.csv.",
+      improvement: "Extended feedback schemas to support Name, Email, and Feature Requests; implemented automated server-side CSV compilation at stellartrust-feedback.csv.",
       commitHash: "792bc7c",
       commitUrl: "https://github.com/akash-mondal-1/stellartrust/commit/792bc7c",
       status: "DEPLOYED",
@@ -91,7 +91,7 @@ export default function ImprovementsPage() {
             Improvement Tracker
           </h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Review product upgrades driven directly by user feedback, connected to their respective Git commit hashes as required for Blue Belt validation.
+            Review product upgrades driven directly by user feedback, connected to their respective Git commit hashes as required for validation audit.
           </p>
         </div>
 

@@ -27,8 +27,8 @@ function syncFeedbacksToDisk(feedbacks: any[]) {
 
     const csvContent = [csvHeaders.join(','), ...csvRows.map(r => r.map(val => `"${String(val).replace(/"/g, '""')}"`).join(','))].join('\n') + '\n';
 
-    // Target path: submission-proof/user-testing/blue-belt-feedback.csv
-    const csvTargetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/blue-belt-feedback.csv');
+    // Target path: submission-proof/user-testing/stellartrust-feedback.csv
+    const csvTargetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/stellartrust-feedback.csv');
     const csvDir = path.dirname(csvTargetPath);
     if (!fs.existsSync(csvDir)) {
       fs.mkdirSync(csvDir, { recursive: true });
