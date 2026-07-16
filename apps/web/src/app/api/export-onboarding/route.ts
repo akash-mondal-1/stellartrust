@@ -7,13 +7,44 @@ export const dynamic = 'force-dynamic';
 
 const hasKeys = !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+// Helper to write onboardings to local JSON and CSV files on disk
+function syncOnboardingsToDisk(onboardings: any[]) {
+  try {
+    const jsonPath = path.resolve(process.cwd(), 'onboardings.json');
+    fs.writeFileSync(jsonPath, JSON.stringify(onboardings, null, 2), 'utf8');
+    
+    const headers = ['wallet_address', 'joined_at', 'first_interaction', 'referred_by', 'connection_source', 'escrow_count', 'nft_count'];
+    const rows = onboardings.map(o => [
+      o.wallet_address || '',
+      o.joined_at || '',
+      o.first_interaction || '',
+      o.referred_by || '',
+      o.connection_source || 'demo',
+      o.escrow_count ?? 0,
+      o.nft_count ?? 0
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map(r => r.map(val => `"${val}"`).join(','))].join('\n') + '\n';
+    const targetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/50-user-onboarding.csv');
+    const dir = path.dirname(targetPath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(targetPath, csvContent, 'utf8');
+  } catch (fsError) {
+    console.warn("Failed to write to local filesystem (likely Vercel env):", fsError);
+  }
+}
+
 // GET: Retrieve all onboarding user sessions
 export async function GET() {
   try {
     if (hasKeys) {
       const { data, error } = await supabase.from('onboardings').select('*');
       if (error) throw error;
-      return NextResponse.json(data || []);
+      const onboardings = data || [];
+      syncOnboardingsToDisk(onboardings);
+      return NextResponse.json(onboardings);
     }
 
     const jsonPath = path.resolve(process.cwd(), 'onboardings.json');
@@ -59,7 +90,14 @@ export async function POST(request: Request) {
         if (error) throw error;
       }
 
-      return NextResponse.json({ success: true, onboardings: toUpsert });
+      // Retrieve the complete set of onboardings from Supabase
+      const { data: allOnboardings, error: fetchError } = await supabase.from('onboardings').select('*');
+      if (fetchError) throw fetchError;
+      
+      const onboardings = allOnboardings || [];
+      syncOnboardingsToDisk(onboardings);
+
+      return NextResponse.json({ success: true, onboardings });
     }
 
     // Fallback: Local Filesystem logic
@@ -106,32 +144,8 @@ export async function POST(request: Request) {
       }
     });
 
-    try {
-      fs.writeFileSync(jsonPath, JSON.stringify(existingOnboardings, null, 2), 'utf8');
-      
-      const headers = ['wallet_address', 'joined_at', 'first_interaction', 'referred_by', 'connection_source', 'escrow_count', 'nft_count'];
-      const rows = existingOnboardings.map(o => [
-        o.wallet_address || '',
-        o.joined_at || '',
-        o.first_interaction || '',
-        o.referred_by || '',
-        o.connection_source || 'demo',
-        o.escrow_count ?? 0,
-        o.nft_count ?? 0
-      ]);
-
-      const csvContent = [headers.join(','), ...rows.map(r => r.map(val => `"${val}"`).join(','))].join('\n') + '\n';
-      const targetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/50-user-onboarding.csv');
-      const dir = path.dirname(targetPath);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
-      fs.writeFileSync(targetPath, csvContent, 'utf8');
-      return NextResponse.json({ success: true, path: targetPath, onboardings: existingOnboardings });
-    } catch (fsError) {
-      console.warn("Failed to write to local filesystem (likely Vercel env):", fsError);
-      return NextResponse.json({ success: true, onboardings: existingOnboardings, note: "Filesystem write skipped." });
-    }
+    syncOnboardingsToDisk(existingOnboardings);
+    return NextResponse.json({ success: true, onboardings: existingOnboardings });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

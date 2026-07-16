@@ -233,6 +233,54 @@ This repository has 40+ meaningful commits. Key milestones include:
 
 ---
 
+## 🗓️ Improvement Timeline
+
+* **June:** Green Belt Approved
+* **↓**
+* **July:** Supabase Integration
+* **↓**
+* **July:** Google Forms Feedback
+* **↓**
+* **July:** Realtime Sync
+* **↓**
+* **July:** 50 Users Reached
+* **↓**
+* **July:** Blue Belt Submission
+
+---
+
+## 📜 Changelog
+
+* **v1:** Green Belt (Smart Contracts, Basic App)
+* **v2:** Realtime backend (Supabase Integration)
+* **v3:** Analytics (Live tracking, active usage)
+* **v4:** Feedback (Google Forms & Reviews)
+* **v5:** Growth (50+ Real testnet users)
+
+---
+
+## 🗺️ Public Roadmap
+
+### ✅ Completed
+* Green Belt Certification
+* Smart Contracts (Identity, Escrow, Reputation, NFT) deployed
+* Supabase Realtime DB Migration
+* Analytics & Telemetry (PostHog + Sentry)
+* Live Feedback System (Google Forms Sync)
+
+### 🔄 In Progress
+* Reaching 50+ Real Testnet Users
+* UI Polishing & Metric Auditing
+* Professional Pitch Deck
+
+### 🚀 Future
+* Multi-Token Escrow Support (USDC, EURC)
+* Decentralized Arbitration DAO
+* Job Board API SDK
+* SEP-Compliant Career Profiles
+
+---
+
 ## 🔄 User Feedback & Product Improvements
 
 Based on collected user feedback, we have implemented the following product improvements. Each improvement is linked to its corresponding Git commit for verification:
@@ -259,13 +307,6 @@ Based on ongoing feedback, we plan to evolve StellarTrust in the next phase:
 
 ---
 
-## 🗺️ Future Roadmap
-
-* 👩‍⚖️ **Decentralized Arbitration (Escrow Dispute Guilds):** Let high-rating StellarTrust validators arbitrate disputes for micro-fees.
-* 💵 **Multi-Asset Pool Support:** Support locked escrow in USDC, EURC, and custom SEP-20 tokens.
-* 📄 **SEP-compliant Career Profiles:** Generate standardized XML resume templates linked directly to the freelancer's NFT gallery.
-
----
 
 ## ✅ Level 5 (Green Belt) Submission Checklist
 

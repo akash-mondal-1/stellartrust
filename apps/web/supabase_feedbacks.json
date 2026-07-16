@@ -284,16 +284,5 @@
     "name": "Sadiya Mulani",
     "email": "sadiyamulani03@gmail.com",
     "feature_request": "contract addresses on the page are truncated with no links — would be nice to make them clickable straight to the Stellar testnet explorer, so people can actually verify stuff instead of just seeing random text"
-  },
-  {
-    "id": "fb_real_8",
-    "name": "Lohit Mishra",
-    "email": "lohitmishra25@gmail.com",
-    "user_address": "GDYWYDOBPPM2XFQS2N7OA2XYO66C24OSBDGASSYAU7V3V4UHFIQYWCRL",
-    "rating": 4,
-    "comment": "according to me on a live project we dont need to mention abt improvement ,bluebelt etc. feedback is ok but",
-    "feature_request": "there been amount glitch on escrow not wired up properly its not deducting the amt i place only  taking the gas fees.",
-    "category": "Vulnerabilities Found",
-    "created_at": "2026-07-11T15:35:08.221Z"
   }
 ]

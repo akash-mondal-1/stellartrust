@@ -164,7 +164,7 @@ export default function AnalyticsDashboard() {
     setFeedbackCount(feedbacks.length);
   }, [events]);
 
-  // Sync and load onboarding list on mount
+  // Sync and load onboarding list & feedbacks on mount
   useEffect(() => {
     const syncAndLoadOnboardings = async () => {
       const localOnboardings = mockDb.getOnboardings();
@@ -174,7 +174,7 @@ export default function AnalyticsDashboard() {
       try {
         const res = await fetch('/api/export-onboarding');
         if (res.ok) {
-          const serverOnboardings = await res.json();
+          let serverOnboardings = await res.json();
           const unsynced = localOnboardings.filter((local: any) => 
             !serverOnboardings.some((server: any) => server.wallet_address.toLowerCase() === local.wallet_address.toLowerCase())
           );
@@ -188,10 +188,7 @@ export default function AnalyticsDashboard() {
             if (postRes.ok) {
               const data = await postRes.json();
               if (data.success && data.onboardings) {
-                mockDb.setStorage('onboardings', data.onboardings);
-                setOnboardingsCount(data.onboardings.length);
-                setOnboardingsList(data.onboardings);
-                return;
+                serverOnboardings = data.onboardings;
               }
             }
           }
@@ -199,9 +196,16 @@ export default function AnalyticsDashboard() {
           let updated = false;
           const mergedOnboardings = [...localOnboardings];
           serverOnboardings.forEach((se: any) => {
-            if (!mergedOnboardings.some((local: any) => local.wallet_address.toLowerCase() === se.wallet_address.toLowerCase())) {
+            const index = mergedOnboardings.findIndex((local: any) => local.wallet_address.toLowerCase() === se.wallet_address.toLowerCase());
+            if (index === -1) {
               mergedOnboardings.push(se);
               updated = true;
+            } else {
+              // Overwrite local with server data to ensure updates reflect across profiles
+              if (JSON.stringify(mergedOnboardings[index]) !== JSON.stringify({ ...mergedOnboardings[index], ...se })) {
+                mergedOnboardings[index] = { ...mergedOnboardings[index], ...se };
+                updated = true;
+              }
             }
           });
           if (updated) {
@@ -214,7 +218,38 @@ export default function AnalyticsDashboard() {
         console.warn("Failed to sync onboardings on analytics mount:", e);
       }
     };
+
+    const syncAndLoadFeedbacks = async () => {
+      const localFeedbacks = mockDb.getFeedback();
+      setFeedbackCount(localFeedbacks.length);
+      try {
+        const res = await fetch('/api/export-feedback?t=' + Date.now());
+        if (res.ok) {
+          const serverFeedbacks = await res.json();
+          let updated = false;
+          const merged = [...localFeedbacks];
+          serverFeedbacks.forEach((sf: any) => {
+            const index = merged.findIndex((lf: any) => lf.id === sf.id);
+            if (index === -1) {
+              merged.push(sf);
+              updated = true;
+            } else {
+              merged[index] = { ...merged[index], ...sf };
+              updated = true;
+            }
+          });
+          if (updated) {
+            mockDb.setStorage('feedback', merged);
+          }
+          setFeedbackCount(merged.length);
+        }
+      } catch (e) {
+        console.warn("Failed to sync feedbacks on analytics mount:", e);
+      }
+    };
+
     syncAndLoadOnboardings();
+    syncAndLoadFeedbacks();
   }, [connected]);
 
   // Aggregate metrics
@@ -429,7 +464,7 @@ export default function AnalyticsDashboard() {
             <div className="absolute top-0 right-0 w-12 h-12 bg-cyan-500/5 rounded-full filter blur-xl" />
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-1">
               <Users className="h-3.5 w-3.5 text-cyan-400" />
-              <span>Verified Wallet Connections</span>
+              <span>Verified Testnet Wallets</span>
             </span>
             <div className="mt-2">
               <p className="text-3xl font-black text-slate-100">{realCount}</p>
@@ -445,7 +480,7 @@ export default function AnalyticsDashboard() {
             <div className="absolute top-0 right-0 w-12 h-12 bg-amber-500/5 rounded-full filter blur-xl" />
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-1">
               <Activity className="h-3.5 w-3.5 text-amber-500" />
-              <span>Real Human Testers</span>
+              <span>Active Testnet Participants</span>
             </span>
             <div className="mt-2">
               <p className="text-3xl font-black text-slate-100">{realCount + Math.max(0, feedbackCount - realCount)}</p>

@@ -62,7 +62,7 @@ export default function BlueBeltEvidenceCenter() {
       try {
         const res = await fetch('/api/export-onboarding');
         if (res.ok) {
-          const serverOnboardings = await res.json();
+          let serverOnboardings = await res.json();
           
           // Find if we have local onboardings NOT present on the server
           const unsynced = localOnboardings.filter((local: any) => 
@@ -78,10 +78,8 @@ export default function BlueBeltEvidenceCenter() {
             if (postRes.ok) {
               const data = await postRes.json();
               if (data.success && data.onboardings) {
-                mockDb.setStorage('onboardings', data.onboardings);
-                setOnboardingsCount(data.onboardings.length);
-                setOnboardingsList(data.onboardings);
-                return;
+                // Use the returned complete list of onboardings from POST
+                serverOnboardings = data.onboardings;
               }
             }
           }
@@ -310,7 +308,7 @@ export default function BlueBeltEvidenceCenter() {
   const templates = {
     growth: `### 📈 Testnet User Growth & Active Wallets
 
-*   **Verified Wallet Connections**: ${realCount} (${freighterCount} Freighter, ${albedoCount} Albedo, ${xbullCount} xBull, ${walletConnectCount} WalletConnect, ${rhaulCount} Rhaul)
+*   **Verified Testnet Wallets**: ${realCount} (${freighterCount} Freighter, ${albedoCount} Albedo, ${xbullCount} xBull, ${walletConnectCount} WalletConnect, ${rhaulCount} Rhaul)
 *   **Demo Sessions**: ${demoCount} demo sessions logged
 *   **Key Growth Infrastructure**: Invite link referral tracking active
 *   **Referral Signups**: Verified referrals logged in database
@@ -391,7 +389,7 @@ Our team resolved critical usability blockers, security enhancements, and metada
           <div className="glass-panel border border-white/10 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between h-auto min-h-40">
             <div className="flex justify-between items-start">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
-                <Users className="h-3.5 w-3.5 text-cyan-400" /> Verified Wallet Connections
+                <Users className="h-3.5 w-3.5 text-cyan-400" /> Verified Testnet Wallets
               </span>
               {renderBadge('verified')}
             </div>
@@ -414,7 +412,7 @@ Our team resolved critical usability blockers, security enhancements, and metada
           <div className="glass-panel border border-white/10 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between h-full min-h-[10rem]">
             <div className="flex justify-between items-start">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
-                <Users className="h-3.5 w-3.5 text-amber-500" /> Real Human Testers
+                <Users className="h-3.5 w-3.5 text-amber-500" /> Active Testnet Participants
               </span>
               {renderBadge('verified')}
             </div>
@@ -499,12 +497,12 @@ Our team resolved critical usability blockers, security enhancements, and metada
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
             <div className="bg-slate-900/30 border border-white/5 rounded-xl p-4 text-center">
-              <p className="text-slate-550 text-[10px] font-bold uppercase tracking-wider">Verified Wallet Connections</p>
+              <p className="text-slate-550 text-[10px] font-bold uppercase tracking-wider">Verified Testnet Wallets</p>
               <p className="text-3xl font-black text-slate-100 mt-2">{realCount}</p>
               <p className="text-[10px] text-slate-500 mt-1">Cryptographically Valid Stellar Keys</p>
             </div>
             <div className="bg-slate-900/30 border border-white/5 rounded-xl p-4 text-center">
-              <p className="text-slate-550 text-[10px] font-bold uppercase tracking-wider">Real Human Testers</p>
+              <p className="text-slate-550 text-[10px] font-bold uppercase tracking-wider">Active Testnet Participants</p>
               <p className="text-3xl font-black text-slate-100 mt-2">{realCount + Math.max(0, uniqueFeedbackWallets - realCount)}</p>
               <p className="text-[10px] text-slate-500 mt-1">{realCount} Wallet Users + {Math.max(0, uniqueFeedbackWallets - realCount)} Valid Feedback submitters</p>
             </div>

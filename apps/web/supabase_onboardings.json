@@ -788,21 +788,5 @@
     "connection_source": "freighter",
     "escrow_count": 0,
     "nft_count": 0
-  },
-  {
-    "id": "onb_jwm42pj5g",
-    "wallet_address": "GBTCGV43NLHEEBMCA5DWFZT6GOJYYCPHXNOEALTBQ7TREIQKQQAVLYT4",
-    "connection_source": "albedo",
-    "joined_at": "2026-07-11T15:31:19.450Z",
-    "first_interaction": "wallet_connected",
-    "referred_by": null
-  },
-  {
-    "id": "onb_hwbmwn3lb",
-    "wallet_address": "GDYWYDOBPPM2XFQS2N7OA2XYO66C24OSBDGASSYAU7V3V4UHFIQYWCRL",
-    "connection_source": "freighter",
-    "joined_at": "2026-07-11T15:35:20.370Z",
-    "first_interaction": "wallet_connected",
-    "referred_by": null
   }
 ]
