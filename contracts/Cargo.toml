@@ -14,3 +14,6 @@ debug = false
 panic = "abort"
 lto = true
 codegen-units = 1
+
+[patch.crates-io]
+ethnum = { path = "ethnum-patch" }
