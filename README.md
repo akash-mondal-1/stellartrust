@@ -22,7 +22,7 @@ StellarTrust is a decentralized freelance payment and trust protocol designed to
 
 Watch the complete product walkthrough demonstration:
 
-**Video Link:** <https://youtu.be/n_OVhpptJ8s?si=m7oKK72R0jKi4_ki>
+**Video Link:** <https://drive.google.com/drive/folders/17e5rADMatJUSohUtWFHJphSaj3d8apRl>
 
 The demo showcases:
 
@@ -316,7 +316,7 @@ Based on ongoing feedback, we plan to evolve StellarTrust in the next phase:
 | 20+ Meaningful Commits | ✅ (40+ commits) |
 | Live Deployed Application | ✅ |
 | PPT / Pitch Deck | ✅ (`/pitch` route) |
-| Demo Video Link | ✅ ([YouTube](https://youtu.be/n_OVhpptJ8s?si=m7oKK72R0jKi4_ki)) |
+| Demo Video Link | ✅ ([Google Drive](https://drive.google.com/drive/folders/17e5rADMatJUSohUtWFHJphSaj3d8apRl)) |
 | Google Form for User Feedback | ✅ (Embedded on `/onboard`) |
 | Exported Excel/Google Sheet | ✅ (Linked above + CSV in repo) |
 | 50+ Testnet Users Proof | ✅ ([onboarding CSV](submission-proof/user-testing/50-user-onboarding.csv)) |
@@ -364,3 +364,162 @@ Below are the automated screenshots capturing the premium glassmorphic UI pages 
 | ![Landing Mobile](docs/screenshots/landing_mobile.png) | ![Dashboard Mobile](docs/screenshots/dashboard_mobile.png) | ![Escrow Mobile](docs/screenshots/escrow_mobile.png) |
 
 For a complete index of all screenshots, check the [Screenshots Index](docs/screenshots/README.md).
+
+---
+
+## 🆕 What's New Since Green Belt Approval
+
+| Area | Improvement |
+|---|---|
+| **Backend** | Migrated to Supabase for persistent, real-time data synchronization |
+| **Analytics** | Enhanced Validation Hub and analytics dashboards with PostHog and Sentry |
+| **Feedback** | Integrated Google Forms with automated Google Sheets export |
+| **UX & UI** | Improved onboarding flow and overall stability |
+| **Documentation** | Expanded deployment guides, testing notes, and roadmaps |
+| **Testing & CI/CD** | Stabilized smart contract compilation and continuous integration |
+
+---
+
+## 🚀 Project Evolution Since Green Belt Approval
+
+Following the initial Green Belt approval, StellarTrust has undergone significant capability enhancements to mature into a more robust platform. Major improvements completed include:
+
+- **Supabase Backend Integration:** Transitioned to a real-time, persistent database architecture.
+- **Real-Time Synchronization:** Ensured seamless state updates across clients and freelancer dashboards.
+- **Improved Analytics Dashboard:** Expanded the Validation Hub with granular metrics and activity logs.
+- **Improved Onboarding Flow:** Streamlined wallet connection and testnet XLM faucet procedures.
+- **Feedback Collection Improvements:** Integrated embedded Google Forms directly into the app flow.
+- **Google Sheets Export Pipeline:** Automated the ingestion of user feedback into structured spreadsheet evidence.
+- **Contract Stability Improvements:** Hardened Rust smart contracts and stabilized the GitHub Actions CI/CD pipeline against ecosystem updates.
+- **Performance Improvements:** Optimized IPFS NFT caching and wallet session restoration.
+
+---
+
+## 📈 Continuous Product Growth
+
+Since the original Green Belt submission, StellarTrust has demonstrated steady, continuous growth. We have prioritized an active development lifecycle that includes:
+
+- Ongoing user onboarding campaigns.
+- Increasing numbers of real testnet users interacting with the protocol.
+- Increasing feedback submissions from community testers.
+- Continuous commits pushing iterative product improvements based directly on user reviews.
+
+---
+
+## 🔄 Product Iteration Timeline
+
+Initial MVP
+
+↓
+
+Green Belt Submission
+
+↓
+
+Green Belt Approved
+
+↓
+
+Supabase Integration
+
+↓
+
+Realtime Analytics
+
+↓
+
+Feedback Automation
+
+↓
+
+Validation Improvements
+
+↓
+
+Continuous User Growth
+
+↓
+
+Current Production Version
+
+---
+
+## 🛠 Major Improvements Implemented
+
+- **Backend:** Supabase real-time database, robust schema migrations.
+- **Frontend:** Next.js 15 optimization, glassmorphism UI polishing, state caching.
+- **Analytics:** PostHog telemetry, Sentry exception tracking, Validation Hub dashboards.
+- **UX/UI:** Streamlined `/onboard` flow, screenshot-mode toggle for audits, responsive mobile components.
+- **Documentation:** Demo scripts, pitch blueprints, and expanded README architecture notes.
+- **Testing:** Comprehensive CI/CD pipeline fixes, local Rust mock tests.
+- **Evidence Collection:** Automated CSV registries, localized feedback logs.
+
+---
+
+## 📊 Current Production Capabilities
+
+Our deployed protocol currently supports the following production-ready features:
+
+- **Wallet Authentication:** Stellar Wallets Kit (Freighter, Albedo, etc.).
+- **Escrow Contracts:** On-chain milestone payment release algorithms.
+- **Reputation Engine:** Immutable 0-100 algorithmic trust scoring.
+- **Achievement NFTs:** IPFS-backed non-transferable certificates of completion.
+- **Analytics:** Integrated telemetry and monitoring.
+- **Validation Dashboard:** Centralized view of system health and metrics.
+- **Realtime Backend:** PostgreSQL-powered data persistence.
+- **Feedback Collection:** Google Forms to Sheets pipeline.
+- **Continuous Deployment:** Automated GitHub Actions workflows.
+- **Evidence Generation:** Exportable CSVs for audits.
+
+---
+
+## 📂 Repository Growth
+
+StellarTrust has matured significantly since its inception:
+
+- **Meaningful Commits:** Over 40+ commits documenting step-by-step product evolution.
+- **Documentation Expansion:** Addition of detailed pitch decks, setup guides, and comprehensive screenshots.
+- **Automation Improvements:** Implementation of automated testing and deployment pipelines via GitHub Actions.
+
+---
+
+## 🧪 Testing Improvements
+
+To guarantee stability, the testing infrastructure has been expanded:
+
+- **Manual Testing:** Rigorous edge-case exploration for the escrow workflows.
+- **Wallet Testing:** Verification of multiple Stellar wallets across diverse network conditions.
+- **Transaction Validation:** On-chain confirmation of escrow funding, release, and reputation adjustments.
+- **Feedback Collection:** Validation of the end-to-end data pipeline from Google Forms to Google Sheets.
+- **UI Verification:** Cross-device responsive design auditing.
+- **Deployment Verification:** Live sanity checks following Vercel deployments.
+- **Bug Fixes:** Resolution of compiler toolchain mismatches and dependency stability issues.
+
+---
+
+## 📜 Documentation Improvements
+
+Documentation has been treated as a first-class feature to aid reviewers and future contributors:
+
+- Detailed README improvements
+- Setup and Deployment guides
+- Feature walkthroughs and demo scripts
+- Public Roadmaps and Changelogs
+- Embedded pitch decks (`/pitch`)
+
+---
+
+## ⭐ Continuous Improvement Philosophy
+
+StellarTrust operates on a strict iterative development methodology:
+1. **Collect Feedback** from real testnet users via the onboarded Google Forms.
+2. **Analyze** the responses to identify UX friction or feature gaps.
+3. **Implement Improvements** directly addressing the feedback (e.g., wallet session restores, IPFS caching).
+4. **Deploy** updates seamlessly via our CI/CD pipelines.
+5. **Repeat** the cycle to maintain steady, continuous product growth.
+
+---
+
+## 🔮 Transition Toward Blue Belt
+
+The current production version of StellarTrust represents the culmination of our Green Belt objectives and serves as the robust, production-ready foundation for our ongoing Blue Belt growth phase. Development is continuing actively as we shift our focus toward decentralized arbitration DAOs, multi-token escrow support, and further scaling the user base.
