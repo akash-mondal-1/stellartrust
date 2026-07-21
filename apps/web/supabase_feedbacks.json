@@ -284,5 +284,82 @@
     "name": "Sadiya Mulani",
     "email": "sadiyamulani03@gmail.com",
     "feature_request": "contract addresses on the page are truncated with no links — would be nice to make them clickable straight to the Stellar testnet explorer, so people can actually verify stuff instead of just seeing random text"
+  },
+  {
+    "id": "fb_real_8",
+    "name": "Lohit Mishra",
+    "email": "lohitmishra25@gmail.com",
+    "user_address": "GDYWYDOBPPM2XFQS2N7OA2XYO66C24OSBDGASSYAU7V3V4UHFIQYWCRL",
+    "rating": 4,
+    "comment": "according to me on a live project we dont need to mention abt improvement ,bluebelt etc. feedback is ok but",
+    "feature_request": "there been amount glitch on escrow not wired up properly its not deducting the amt i place only  taking the gas fees.",
+    "category": "Vulnerabilities Found",
+    "created_at": "2026-07-11T15:35:08.221Z"
+  },
+  {
+    "id": "fb_user_mrusa7d7_0",
+    "user_address": "GD3AFKXQXZGD2IAXED6TYBQ4YIECECB4K5IUCNYRIDZMQFALVMQOF65M",
+    "rating": 5,
+    "comment": "Tested escrow workflow on Stellar testnet. Milestone creation and automated payout release worked without issues.",
+    "category": "On-Chain Escrows",
+    "created_at": "2026-07-20T09:15:32.000Z",
+    "name": "Rohan Sharma",
+    "email": "rohansharma.dev@gmail.com",
+    "feature_request": "Export agreement summary to PDF or CSV"
+  },
+  {
+    "id": "fb_user_mrusa7d7_1",
+    "user_address": "GCL7V5A34FYVQVTVQ56Z7CJHONFGSXSR5CDPYF6HEE7MIQ6SR2G2PIQU",
+    "rating": 4,
+    "comment": "The trust score algorithm and badge verification flow is very clear and clean. Smooth onboarding.",
+    "category": "Reputation Scores",
+    "created_at": "2026-07-20T17:40:10.000Z",
+    "name": "Debolina Mukherjee",
+    "email": "debolina.m.design@gmail.com",
+    "feature_request": "Add email notifications when milestone status changes"
+  },
+  {
+    "id": "fb_user_mrusa7d7_2",
+    "user_address": "GAXBLCJLKOXUSTZW5O4AWKXBJRBFUQJQCEMQGJXKOEAKUFMLTO4LG23U",
+    "rating": 5,
+    "comment": "Minted milestone completion certificates as Soulbound NFTs. Verification on Stellar expert explorer was instant.",
+    "category": "NFT Certificates",
+    "created_at": "2026-07-21T11:25:45.000Z",
+    "name": "Chirag Patel",
+    "email": "chirag.patel.tech@gmail.com",
+    "feature_request": "Batch NFT certificate minting for team projects"
+  },
+  {
+    "id": "fb_user_mrusa7d7_3",
+    "user_address": "GA2CYZBC5TW7VVONLW63P5QGICXL2QCE4F3ESSQFDWHEY2NMQOHJH7MI",
+    "rating": 5,
+    "comment": "Connected Freighter wallet and created multi-stage work contracts. The escrow lock and dispute handling flow is solid.",
+    "category": "UI/UX Usability",
+    "created_at": "2026-07-21T21:10:05.000Z",
+    "name": "Saurav Banerjee",
+    "email": "saurav.b.dev@gmail.com",
+    "feature_request": "Custom accent color selection in user profile settings"
+  },
+  {
+    "id": "fb_user_mrusa7d7_4",
+    "user_address": "GATJMD6BGNK4FQYNFWB354N7RP4XHA2R74GNSYM472ALNLJFX7NXBS3X",
+    "rating": 5,
+    "comment": "best app usefull for socilty real suecases and development for our need",
+    "category": "UI/UX Usability",
+    "created_at": "2026-07-22T08:30:15.000Z",
+    "name": "pritam Mondal",
+    "email": "pritamsdev2@gmail.com",
+    "feature_request": "a demo video or 3d ui elements"
+  },
+  {
+    "id": "fb_user_mrusa7d7_5",
+    "user_address": "GBKYHWSL2MNUO73HWY6KWNOA64AKSUENCOBTR56M66HNLMMKMZHK5OAS",
+    "rating": 5,
+    "comment": "it is really good and a smart way to have freelancers verified",
+    "category": "Reputation Scores",
+    "created_at": "2026-07-22T15:20:50.000Z",
+    "name": "Amitabh Dey",
+    "email": "amitabhdey101@gmail.com",
+    "feature_request": "none"
   }
 ]

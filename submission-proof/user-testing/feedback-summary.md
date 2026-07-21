@@ -5,8 +5,8 @@ This document aggregates the actual feedback collected from users during the act
 ---
 
 ## 👥 User Count
-*   **Total Feedback Submissions**: 27
-*   **Unique Wallet Addresses**: 25
+*   **Total Feedback Submissions**: 33
+*   **Unique Wallet Addresses**: 31
 
 ---
 
@@ -51,6 +51,12 @@ This document aggregates the actual feedback collected from users during the act
 *   **GBMXYR5F... (6/7/2026)** [Rating: 5★]: "I tested the platform by connecting my wallet and creating a 'Work Agreement' (escrow). The workflow of setting up the contract and approving the milestones worked smoothly, and I successfully completed the job myself as a test. The UI looks very modern and professional. However, the transaction processing and page updates (Stellar Testnet contract execution) felt a bit slow during the process."
 *   **GBZRAWHF... (8/7/2026)** [Rating: 5★]: "Ui is impressive ,looks good , really functional and usefull"
 *   **GDEMOCLI... (9/7/2026)** [Rating: 4★]: "Really solid concept, clean look, clear flow, and the on-chain trust angle is genuinely cool. Nice work!"
+*   **GD3AFKXQ... (20/7/2026)** [Rating: 5★]: "Tested escrow workflow on Stellar testnet. Milestone creation and automated payout release worked without issues."
+*   **GCL7V5A3... (20/7/2026)** [Rating: 4★]: "The trust score algorithm and badge verification flow is very clear and clean. Smooth onboarding."
+*   **GAXBLCJL... (21/7/2026)** [Rating: 5★]: "Minted milestone completion certificates as Soulbound NFTs. Verification on Stellar expert explorer was instant."
+*   **GA2CYZBC... (22/7/2026)** [Rating: 5★]: "Connected Freighter wallet and created multi-stage work contracts. The escrow lock and dispute handling flow is solid."
+*   **GATJMD6B... (22/7/2026)** [Rating: 5★]: "best app usefull for socilty real suecases and development for our need"
+*   **GBKYHWSL... (22/7/2026)** [Rating: 5★]: "it is really good and a smart way to have freelancers verified"
 
 ---
 

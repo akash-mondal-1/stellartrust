@@ -788,5 +788,81 @@
     "connection_source": "freighter",
     "escrow_count": 0,
     "nft_count": 0
+  },
+  {
+    "id": "onb_jwm42pj5g",
+    "wallet_address": "GBTCGV43NLHEEBMCA5DWFZT6GOJYYCPHXNOEALTBQ7TREIQKQQAVLYT4",
+    "connection_source": "albedo",
+    "joined_at": "2026-07-11T15:31:19.450Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null
+  },
+  {
+    "id": "onb_hwbmwn3lb",
+    "wallet_address": "GDYWYDOBPPM2XFQS2N7OA2XYO66C24OSBDGASSYAU7V3V4UHFIQYWCRL",
+    "connection_source": "freighter",
+    "joined_at": "2026-07-11T15:35:20.370Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null
+  },
+  {
+    "id": "onb_user_mrusa7dc_0",
+    "wallet_address": "GD3AFKXQXZGD2IAXED6TYBQ4YIECECB4K5IUCNYRIDZMQFALVMQOF65M",
+    "joined_at": "2026-07-20T09:15:32.000Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "freighter",
+    "escrow_count": 4,
+    "nft_count": 2
+  },
+  {
+    "id": "onb_user_mrusa7dc_1",
+    "wallet_address": "GCL7V5A34FYVQVTVQ56Z7CJHONFGSXSR5CDPYF6HEE7MIQ6SR2G2PIQU",
+    "joined_at": "2026-07-20T17:40:10.000Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "albedo",
+    "escrow_count": 2,
+    "nft_count": 1
+  },
+  {
+    "id": "onb_user_mrusa7dc_2",
+    "wallet_address": "GAXBLCJLKOXUSTZW5O4AWKXBJRBFUQJQCEMQGJXKOEAKUFMLTO4LG23U",
+    "joined_at": "2026-07-21T11:25:45.000Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "xbull",
+    "escrow_count": 3,
+    "nft_count": 3
+  },
+  {
+    "id": "onb_user_mrusa7dc_3",
+    "wallet_address": "GA2CYZBC5TW7VVONLW63P5QGICXL2QCE4F3ESSQFDWHEY2NMQOHJH7MI",
+    "joined_at": "2026-07-21T21:10:05.000Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "freighter",
+    "escrow_count": 5,
+    "nft_count": 2
+  },
+  {
+    "id": "onb_user_mrusa7dc_4",
+    "wallet_address": "GATJMD6BGNK4FQYNFWB354N7RP4XHA2R74GNSYM472ALNLJFX7NXBS3X",
+    "joined_at": "2026-07-22T08:30:15.000Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "freighter",
+    "escrow_count": 4,
+    "nft_count": 3
+  },
+  {
+    "id": "onb_user_mrusa7dc_5",
+    "wallet_address": "GBKYHWSL2MNUO73HWY6KWNOA64AKSUENCOBTR56M66HNLMMKMZHK5OAS",
+    "joined_at": "2026-07-22T15:20:50.000Z",
+    "first_interaction": "wallet_connected",
+    "referred_by": null,
+    "connection_source": "freighter",
+    "escrow_count": 3,
+    "nft_count": 2
   }
 ]
