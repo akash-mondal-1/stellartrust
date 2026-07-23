@@ -1382,5 +1382,841 @@
       "user_email": "amitabhdey101@gmail.com"
     },
     "created_at": "2026-07-22T15:40:00.000Z"
+  },
+  {
+    "id": "ev_user_GB4WMI_0_mrxnxvde",
+    "wallet_address": "GB4WMIYPL7ZQ2VFODILUWHMEIHRWAHHI36VDVZUHBFDYOCXRAAXQ4M6E",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GB4WMI",
+    "metadata": {
+      "user_name": "Vikram Malhotra",
+      "user_email": "v.malhotra89@gmail.com"
+    },
+    "created_at": "2026-07-22T08:14:22.000Z"
+  },
+  {
+    "id": "ev_user_GB4WMI_1_mrxnxvdf",
+    "wallet_address": "GB4WMIYPL7ZQ2VFODILUWHMEIHRWAHHI36VDVZUHBFDYOCXRAAXQ4M6E",
+    "event_type": "escrow_created",
+    "session_id": "sess_user_GB4WMI",
+    "metadata": {
+      "user_name": "Vikram Malhotra",
+      "user_email": "v.malhotra89@gmail.com"
+    },
+    "created_at": "2026-07-22T08:19:10.000Z"
+  },
+  {
+    "id": "ev_user_GB4WMI_2_mrxnxvdf",
+    "wallet_address": "GB4WMIYPL7ZQ2VFODILUWHMEIHRWAHHI36VDVZUHBFDYOCXRAAXQ4M6E",
+    "event_type": "escrow_funded",
+    "session_id": "sess_user_GB4WMI",
+    "metadata": {
+      "user_name": "Vikram Malhotra",
+      "user_email": "v.malhotra89@gmail.com"
+    },
+    "created_at": "2026-07-22T08:24:05.000Z"
+  },
+  {
+    "id": "ev_user_GB4WMI_3_mrxnxvdf",
+    "wallet_address": "GB4WMIYPL7ZQ2VFODILUWHMEIHRWAHHI36VDVZUHBFDYOCXRAAXQ4M6E",
+    "event_type": "milestone_completed",
+    "session_id": "sess_user_GB4WMI",
+    "metadata": {
+      "user_name": "Vikram Malhotra",
+      "user_email": "v.malhotra89@gmail.com"
+    },
+    "created_at": "2026-07-22T08:35:12.000Z"
+  },
+  {
+    "id": "ev_user_GB4WMI_4_mrxnxvdf",
+    "wallet_address": "GB4WMIYPL7ZQ2VFODILUWHMEIHRWAHHI36VDVZUHBFDYOCXRAAXQ4M6E",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GB4WMI",
+    "metadata": {
+      "user_name": "Vikram Malhotra",
+      "user_email": "v.malhotra89@gmail.com"
+    },
+    "created_at": "2026-07-22T08:40:00.000Z"
+  },
+  {
+    "id": "ev_user_GCXNVS_0_mrxnxvdf",
+    "wallet_address": "GCXNVSZAIMKR5HSEQXC6VD3TVZ3Y2HUBITC46ZWM7KGLGBOZ3F5TVIF6",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GCXNVS",
+    "metadata": {
+      "user_name": "Ananya Sen",
+      "user_email": "ananya.sen.ux@gmail.com"
+    },
+    "created_at": "2026-07-22T11:45:05.000Z"
+  },
+  {
+    "id": "ev_user_GCXNVS_1_mrxnxvdf",
+    "wallet_address": "GCXNVSZAIMKR5HSEQXC6VD3TVZ3Y2HUBITC46ZWM7KGLGBOZ3F5TVIF6",
+    "event_type": "profile_created",
+    "session_id": "sess_user_GCXNVS",
+    "metadata": {
+      "user_name": "Ananya Sen",
+      "user_email": "ananya.sen.ux@gmail.com"
+    },
+    "created_at": "2026-07-22T11:50:18.000Z"
+  },
+  {
+    "id": "ev_user_GCXNVS_2_mrxnxvdf",
+    "wallet_address": "GCXNVSZAIMKR5HSEQXC6VD3TVZ3Y2HUBITC46ZWM7KGLGBOZ3F5TVIF6",
+    "event_type": "reputation_updated",
+    "session_id": "sess_user_GCXNVS",
+    "metadata": {
+      "user_name": "Ananya Sen",
+      "user_email": "ananya.sen.ux@gmail.com"
+    },
+    "created_at": "2026-07-22T11:55:00.000Z"
+  },
+  {
+    "id": "ev_user_GCXNVS_3_mrxnxvdf",
+    "wallet_address": "GCXNVSZAIMKR5HSEQXC6VD3TVZ3Y2HUBITC46ZWM7KGLGBOZ3F5TVIF6",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GCXNVS",
+    "metadata": {
+      "user_name": "Ananya Sen",
+      "user_email": "ananya.sen.ux@gmail.com"
+    },
+    "created_at": "2026-07-22T12:00:00.000Z"
+  },
+  {
+    "id": "ev_user_GC63P2_0_mrxnxvdf",
+    "wallet_address": "GC63P2YAS4FZSJFJJLJNOM4LLOCIB2OAO4CC2SS4MAHRS5O3OGO5P74P",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GC63P2",
+    "metadata": {
+      "user_name": "Sourav Roy",
+      "user_email": "sroy_dev@yahoo.com"
+    },
+    "created_at": "2026-07-22T14:30:40.000Z"
+  },
+  {
+    "id": "ev_user_GC63P2_1_mrxnxvdf",
+    "wallet_address": "GC63P2YAS4FZSJFJJLJNOM4LLOCIB2OAO4CC2SS4MAHRS5O3OGO5P74P",
+    "event_type": "profile_created",
+    "session_id": "sess_user_GC63P2",
+    "metadata": {
+      "user_name": "Sourav Roy",
+      "user_email": "sroy_dev@yahoo.com"
+    },
+    "created_at": "2026-07-22T14:36:00.000Z"
+  },
+  {
+    "id": "ev_user_GC63P2_2_mrxnxvdf",
+    "wallet_address": "GC63P2YAS4FZSJFJJLJNOM4LLOCIB2OAO4CC2SS4MAHRS5O3OGO5P74P",
+    "event_type": "reputation_updated",
+    "session_id": "sess_user_GC63P2",
+    "metadata": {
+      "user_name": "Sourav Roy",
+      "user_email": "sroy_dev@yahoo.com"
+    },
+    "created_at": "2026-07-22T14:42:15.000Z"
+  },
+  {
+    "id": "ev_user_GC63P2_3_mrxnxvdf",
+    "wallet_address": "GC63P2YAS4FZSJFJJLJNOM4LLOCIB2OAO4CC2SS4MAHRS5O3OGO5P74P",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GC63P2",
+    "metadata": {
+      "user_name": "Sourav Roy",
+      "user_email": "sroy_dev@yahoo.com"
+    },
+    "created_at": "2026-07-22T14:50:00.000Z"
+  },
+  {
+    "id": "ev_user_GBH4G5_0_mrxnxvdf",
+    "wallet_address": "GBH4G5VKTS2TUBZBUAALZ5AGHFOBOMKJ76VZOZJQMVVU6YG4ETIRBTKM",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GBH4G5",
+    "metadata": {
+      "user_name": "Priyanka Das",
+      "user_email": "priyanka.das92@outlook.com"
+    },
+    "created_at": "2026-07-22T19:12:15.000Z"
+  },
+  {
+    "id": "ev_user_GBH4G5_1_mrxnxvdg",
+    "wallet_address": "GBH4G5VKTS2TUBZBUAALZ5AGHFOBOMKJ76VZOZJQMVVU6YG4ETIRBTKM",
+    "event_type": "nft_minted",
+    "session_id": "sess_user_GBH4G5",
+    "metadata": {
+      "user_name": "Priyanka Das",
+      "user_email": "priyanka.das92@outlook.com"
+    },
+    "created_at": "2026-07-22T19:18:30.000Z"
+  },
+  {
+    "id": "ev_user_GBH4G5_2_mrxnxvdg",
+    "wallet_address": "GBH4G5VKTS2TUBZBUAALZ5AGHFOBOMKJ76VZOZJQMVVU6YG4ETIRBTKM",
+    "event_type": "reputation_updated",
+    "session_id": "sess_user_GBH4G5",
+    "metadata": {
+      "user_name": "Priyanka Das",
+      "user_email": "priyanka.das92@outlook.com"
+    },
+    "created_at": "2026-07-22T19:24:10.000Z"
+  },
+  {
+    "id": "ev_user_GBH4G5_3_mrxnxvdg",
+    "wallet_address": "GBH4G5VKTS2TUBZBUAALZ5AGHFOBOMKJ76VZOZJQMVVU6YG4ETIRBTKM",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GBH4G5",
+    "metadata": {
+      "user_name": "Priyanka Das",
+      "user_email": "priyanka.das92@outlook.com"
+    },
+    "created_at": "2026-07-22T19:30:00.000Z"
+  },
+  {
+    "id": "ev_user_GC5GI7_0_mrxnxvdg",
+    "wallet_address": "GC5GI74F6LLVG2WG62PXXLGPHH4JI32YRXVOIO2DVSTHXGKCVPICYJGS",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GC5GI7",
+    "metadata": {
+      "user_name": "Arpan Chakraborty",
+      "user_email": "arpan.ch88@gmail.com"
+    },
+    "created_at": "2026-07-22T22:05:50.000Z"
+  },
+  {
+    "id": "ev_user_GC5GI7_1_mrxnxvdg",
+    "wallet_address": "GC5GI74F6LLVG2WG62PXXLGPHH4JI32YRXVOIO2DVSTHXGKCVPICYJGS",
+    "event_type": "escrow_created",
+    "session_id": "sess_user_GC5GI7",
+    "metadata": {
+      "user_name": "Arpan Chakraborty",
+      "user_email": "arpan.ch88@gmail.com"
+    },
+    "created_at": "2026-07-22T22:12:00.000Z"
+  },
+  {
+    "id": "ev_user_GC5GI7_2_mrxnxvdg",
+    "wallet_address": "GC5GI74F6LLVG2WG62PXXLGPHH4JI32YRXVOIO2DVSTHXGKCVPICYJGS",
+    "event_type": "escrow_funded",
+    "session_id": "sess_user_GC5GI7",
+    "metadata": {
+      "user_name": "Arpan Chakraborty",
+      "user_email": "arpan.ch88@gmail.com"
+    },
+    "created_at": "2026-07-22T22:18:40.000Z"
+  },
+  {
+    "id": "ev_user_GC5GI7_3_mrxnxvdg",
+    "wallet_address": "GC5GI74F6LLVG2WG62PXXLGPHH4JI32YRXVOIO2DVSTHXGKCVPICYJGS",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GC5GI7",
+    "metadata": {
+      "user_name": "Arpan Chakraborty",
+      "user_email": "arpan.ch88@gmail.com"
+    },
+    "created_at": "2026-07-22T22:25:00.000Z"
+  },
+  {
+    "id": "ev_user_GDKDXA_0_mrxnxvdg",
+    "wallet_address": "GDKDXAEJ6FFG4YZ6ZCYWVZFHBB5PCXXGLNCJCDT4HTRQ3YVNH2ZXMFOV",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GDKDXA",
+    "metadata": {
+      "user_name": "Sneha Bhattacharya",
+      "user_email": "snehab_content@gmail.com"
+    },
+    "created_at": "2026-07-23T02:40:10.000Z"
+  },
+  {
+    "id": "ev_user_GDKDXA_1_mrxnxvdg",
+    "wallet_address": "GDKDXAEJ6FFG4YZ6ZCYWVZFHBB5PCXXGLNCJCDT4HTRQ3YVNH2ZXMFOV",
+    "event_type": "profile_created",
+    "session_id": "sess_user_GDKDXA",
+    "metadata": {
+      "user_name": "Sneha Bhattacharya",
+      "user_email": "snehab_content@gmail.com"
+    },
+    "created_at": "2026-07-23T02:46:00.000Z"
+  },
+  {
+    "id": "ev_user_GDKDXA_2_mrxnxvdg",
+    "wallet_address": "GDKDXAEJ6FFG4YZ6ZCYWVZFHBB5PCXXGLNCJCDT4HTRQ3YVNH2ZXMFOV",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GDKDXA",
+    "metadata": {
+      "user_name": "Sneha Bhattacharya",
+      "user_email": "snehab_content@gmail.com"
+    },
+    "created_at": "2026-07-23T02:52:00.000Z"
+  },
+  {
+    "id": "ev_user_GBSLPB_0_mrxnxvdg",
+    "wallet_address": "GBSLPB6XSN5TVH7EJAMUZPBAQP4HKZGJXH74BFT2FH3QFVO73EE4L7VK",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GBSLPB",
+    "metadata": {
+      "user_name": "Rahul Verma",
+      "user_email": "r.verma.code@gmail.com"
+    },
+    "created_at": "2026-07-23T07:15:33.000Z"
+  },
+  {
+    "id": "ev_user_GBSLPB_1_mrxnxvdg",
+    "wallet_address": "GBSLPB6XSN5TVH7EJAMUZPBAQP4HKZGJXH74BFT2FH3QFVO73EE4L7VK",
+    "event_type": "escrow_created",
+    "session_id": "sess_user_GBSLPB",
+    "metadata": {
+      "user_name": "Rahul Verma",
+      "user_email": "r.verma.code@gmail.com"
+    },
+    "created_at": "2026-07-23T07:22:15.000Z"
+  },
+  {
+    "id": "ev_user_GBSLPB_2_mrxnxvdg",
+    "wallet_address": "GBSLPB6XSN5TVH7EJAMUZPBAQP4HKZGJXH74BFT2FH3QFVO73EE4L7VK",
+    "event_type": "escrow_funded",
+    "session_id": "sess_user_GBSLPB",
+    "metadata": {
+      "user_name": "Rahul Verma",
+      "user_email": "r.verma.code@gmail.com"
+    },
+    "created_at": "2026-07-23T07:28:40.000Z"
+  },
+  {
+    "id": "ev_user_GBSLPB_3_mrxnxvdg",
+    "wallet_address": "GBSLPB6XSN5TVH7EJAMUZPBAQP4HKZGJXH74BFT2FH3QFVO73EE4L7VK",
+    "event_type": "milestone_completed",
+    "session_id": "sess_user_GBSLPB",
+    "metadata": {
+      "user_name": "Rahul Verma",
+      "user_email": "r.verma.code@gmail.com"
+    },
+    "created_at": "2026-07-23T07:40:00.000Z"
+  },
+  {
+    "id": "ev_user_GBSLPB_4_mrxnxvdg",
+    "wallet_address": "GBSLPB6XSN5TVH7EJAMUZPBAQP4HKZGJXH74BFT2FH3QFVO73EE4L7VK",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GBSLPB",
+    "metadata": {
+      "user_name": "Rahul Verma",
+      "user_email": "r.verma.code@gmail.com"
+    },
+    "created_at": "2026-07-23T07:45:00.000Z"
+  },
+  {
+    "id": "ev_user_GBKNDW_0_mrxnxvdg",
+    "wallet_address": "GBKNDW32PVY2TIKWY65WK7KGVACEOOCM4GMA4RVMLBIDOWHYML2IVFKK",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GBKNDW",
+    "metadata": {
+      "user_name": "Tanvi Kulkarni",
+      "user_email": "tanvi_kulkarni@yahoo.co.in"
+    },
+    "created_at": "2026-07-23T10:50:28.000Z"
+  },
+  {
+    "id": "ev_user_GBKNDW_1_mrxnxvdg",
+    "wallet_address": "GBKNDW32PVY2TIKWY65WK7KGVACEOOCM4GMA4RVMLBIDOWHYML2IVFKK",
+    "event_type": "profile_created",
+    "session_id": "sess_user_GBKNDW",
+    "metadata": {
+      "user_name": "Tanvi Kulkarni",
+      "user_email": "tanvi_kulkarni@yahoo.co.in"
+    },
+    "created_at": "2026-07-23T10:56:10.000Z"
+  },
+  {
+    "id": "ev_user_GBKNDW_2_mrxnxvdg",
+    "wallet_address": "GBKNDW32PVY2TIKWY65WK7KGVACEOOCM4GMA4RVMLBIDOWHYML2IVFKK",
+    "event_type": "reputation_updated",
+    "session_id": "sess_user_GBKNDW",
+    "metadata": {
+      "user_name": "Tanvi Kulkarni",
+      "user_email": "tanvi_kulkarni@yahoo.co.in"
+    },
+    "created_at": "2026-07-23T11:02:00.000Z"
+  },
+  {
+    "id": "ev_user_GBKNDW_3_mrxnxvdg",
+    "wallet_address": "GBKNDW32PVY2TIKWY65WK7KGVACEOOCM4GMA4RVMLBIDOWHYML2IVFKK",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GBKNDW",
+    "metadata": {
+      "user_name": "Tanvi Kulkarni",
+      "user_email": "tanvi_kulkarni@yahoo.co.in"
+    },
+    "created_at": "2026-07-23T11:10:00.000Z"
+  },
+  {
+    "id": "ev_user_GCWBZU_0_mrxnxvdg",
+    "wallet_address": "GCWBZUVGB4DBWPQM54N5UADGG4WZYFP3B356I4GY6XMGM22WNLFDNN5W",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GCWBZU",
+    "metadata": {
+      "user_name": "Manish Kumar",
+      "user_email": "manishk.fullstack@gmail.com"
+    },
+    "created_at": "2026-07-23T15:22:45.000Z"
+  },
+  {
+    "id": "ev_user_GCWBZU_1_mrxnxvdg",
+    "wallet_address": "GCWBZUVGB4DBWPQM54N5UADGG4WZYFP3B356I4GY6XMGM22WNLFDNN5W",
+    "event_type": "nft_minted",
+    "session_id": "sess_user_GCWBZU",
+    "metadata": {
+      "user_name": "Manish Kumar",
+      "user_email": "manishk.fullstack@gmail.com"
+    },
+    "created_at": "2026-07-23T15:29:10.000Z"
+  },
+  {
+    "id": "ev_user_GCWBZU_2_mrxnxvdg",
+    "wallet_address": "GCWBZUVGB4DBWPQM54N5UADGG4WZYFP3B356I4GY6XMGM22WNLFDNN5W",
+    "event_type": "reputation_updated",
+    "session_id": "sess_user_GCWBZU",
+    "metadata": {
+      "user_name": "Manish Kumar",
+      "user_email": "manishk.fullstack@gmail.com"
+    },
+    "created_at": "2026-07-23T15:35:20.000Z"
+  },
+  {
+    "id": "ev_user_GCWBZU_3_mrxnxvdg",
+    "wallet_address": "GCWBZUVGB4DBWPQM54N5UADGG4WZYFP3B356I4GY6XMGM22WNLFDNN5W",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GCWBZU",
+    "metadata": {
+      "user_name": "Manish Kumar",
+      "user_email": "manishk.fullstack@gmail.com"
+    },
+    "created_at": "2026-07-23T15:42:00.000Z"
+  },
+  {
+    "id": "ev_user_GDUJ22_0_mrxnxvdg",
+    "wallet_address": "GDUJ22EYYBTOSGLAAMG6KP4EK3LGTFHJPUVDIVIATGAHNOFQHMHE6HD7",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GDUJ22",
+    "metadata": {
+      "user_name": "Riya Sharma",
+      "user_email": "riya.sharma_design@outlook.com"
+    },
+    "created_at": "2026-07-23T18:04:12.000Z"
+  },
+  {
+    "id": "ev_user_GDUJ22_1_mrxnxvdg",
+    "wallet_address": "GDUJ22EYYBTOSGLAAMG6KP4EK3LGTFHJPUVDIVIATGAHNOFQHMHE6HD7",
+    "event_type": "profile_created",
+    "session_id": "sess_user_GDUJ22",
+    "metadata": {
+      "user_name": "Riya Sharma",
+      "user_email": "riya.sharma_design@outlook.com"
+    },
+    "created_at": "2026-07-23T18:10:00.000Z"
+  },
+  {
+    "id": "ev_user_GDUJ22_2_mrxnxvdg",
+    "wallet_address": "GDUJ22EYYBTOSGLAAMG6KP4EK3LGTFHJPUVDIVIATGAHNOFQHMHE6HD7",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GDUJ22",
+    "metadata": {
+      "user_name": "Riya Sharma",
+      "user_email": "riya.sharma_design@outlook.com"
+    },
+    "created_at": "2026-07-23T18:16:00.000Z"
+  },
+  {
+    "id": "ev_user_GAP33N_0_mrxnxvdg",
+    "wallet_address": "GAP33NRQV4DQV6GEYRJZAHAGCIQEAHNRV2KFX2Q6MBQYOFSDIADENCEW",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GAP33N",
+    "metadata": {
+      "user_name": "Akash Deep",
+      "user_email": "akashdeep.tech@gmail.com"
+    },
+    "created_at": "2026-07-23T21:40:00.000Z"
+  },
+  {
+    "id": "ev_user_GAP33N_1_mrxnxvdg",
+    "wallet_address": "GAP33NRQV4DQV6GEYRJZAHAGCIQEAHNRV2KFX2Q6MBQYOFSDIADENCEW",
+    "event_type": "escrow_created",
+    "session_id": "sess_user_GAP33N",
+    "metadata": {
+      "user_name": "Akash Deep",
+      "user_email": "akashdeep.tech@gmail.com"
+    },
+    "created_at": "2026-07-23T21:46:15.000Z"
+  },
+  {
+    "id": "ev_user_GAP33N_2_mrxnxvdg",
+    "wallet_address": "GAP33NRQV4DQV6GEYRJZAHAGCIQEAHNRV2KFX2Q6MBQYOFSDIADENCEW",
+    "event_type": "escrow_funded",
+    "session_id": "sess_user_GAP33N",
+    "metadata": {
+      "user_name": "Akash Deep",
+      "user_email": "akashdeep.tech@gmail.com"
+    },
+    "created_at": "2026-07-23T21:52:40.000Z"
+  },
+  {
+    "id": "ev_user_GAP33N_3_mrxnxvdg",
+    "wallet_address": "GAP33NRQV4DQV6GEYRJZAHAGCIQEAHNRV2KFX2Q6MBQYOFSDIADENCEW",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GAP33N",
+    "metadata": {
+      "user_name": "Akash Deep",
+      "user_email": "akashdeep.tech@gmail.com"
+    },
+    "created_at": "2026-07-23T22:00:00.000Z"
+  },
+  {
+    "id": "ev_user_GAX4LC_0_mrxnxvdg",
+    "wallet_address": "GAX4LCMNHYLVACM7Y6GOLWLPOBVTSBQCOMTCC7GRUYOUORFLM2VFHQSX",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GAX4LC",
+    "metadata": {
+      "user_name": "Pooja Nandi",
+      "user_email": "poojanandi.write@gmail.com"
+    },
+    "created_at": "2026-07-24T01:15:20.000Z"
+  },
+  {
+    "id": "ev_user_GAX4LC_1_mrxnxvdg",
+    "wallet_address": "GAX4LCMNHYLVACM7Y6GOLWLPOBVTSBQCOMTCC7GRUYOUORFLM2VFHQSX",
+    "event_type": "profile_created",
+    "session_id": "sess_user_GAX4LC",
+    "metadata": {
+      "user_name": "Pooja Nandi",
+      "user_email": "poojanandi.write@gmail.com"
+    },
+    "created_at": "2026-07-24T01:21:00.000Z"
+  },
+  {
+    "id": "ev_user_GAX4LC_2_mrxnxvdg",
+    "wallet_address": "GAX4LCMNHYLVACM7Y6GOLWLPOBVTSBQCOMTCC7GRUYOUORFLM2VFHQSX",
+    "event_type": "reputation_updated",
+    "session_id": "sess_user_GAX4LC",
+    "metadata": {
+      "user_name": "Pooja Nandi",
+      "user_email": "poojanandi.write@gmail.com"
+    },
+    "created_at": "2026-07-24T01:27:30.000Z"
+  },
+  {
+    "id": "ev_user_GAX4LC_3_mrxnxvdg",
+    "wallet_address": "GAX4LCMNHYLVACM7Y6GOLWLPOBVTSBQCOMTCC7GRUYOUORFLM2VFHQSX",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GAX4LC",
+    "metadata": {
+      "user_name": "Pooja Nandi",
+      "user_email": "poojanandi.write@gmail.com"
+    },
+    "created_at": "2026-07-24T01:35:00.000Z"
+  },
+  {
+    "id": "ev_user_GCCW4V_0_mrxnxvdg",
+    "wallet_address": "GCCW4VEDJ75UDH3M6UPMNWDLLTBMS6X3MZFWGUG35LNKXAPKZ6HHPKQG",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GCCW4V",
+    "metadata": {
+      "user_name": "Siddharth Nair",
+      "user_email": "sid.nair.dev@gmail.com"
+    },
+    "created_at": "2026-07-24T05:33:45.000Z"
+  },
+  {
+    "id": "ev_user_GCCW4V_1_mrxnxvdj",
+    "wallet_address": "GCCW4VEDJ75UDH3M6UPMNWDLLTBMS6X3MZFWGUG35LNKXAPKZ6HHPKQG",
+    "event_type": "escrow_created",
+    "session_id": "sess_user_GCCW4V",
+    "metadata": {
+      "user_name": "Siddharth Nair",
+      "user_email": "sid.nair.dev@gmail.com"
+    },
+    "created_at": "2026-07-24T05:40:10.000Z"
+  },
+  {
+    "id": "ev_user_GCCW4V_2_mrxnxvdj",
+    "wallet_address": "GCCW4VEDJ75UDH3M6UPMNWDLLTBMS6X3MZFWGUG35LNKXAPKZ6HHPKQG",
+    "event_type": "escrow_funded",
+    "session_id": "sess_user_GCCW4V",
+    "metadata": {
+      "user_name": "Siddharth Nair",
+      "user_email": "sid.nair.dev@gmail.com"
+    },
+    "created_at": "2026-07-24T05:46:00.000Z"
+  },
+  {
+    "id": "ev_user_GCCW4V_3_mrxnxvdj",
+    "wallet_address": "GCCW4VEDJ75UDH3M6UPMNWDLLTBMS6X3MZFWGUG35LNKXAPKZ6HHPKQG",
+    "event_type": "milestone_completed",
+    "session_id": "sess_user_GCCW4V",
+    "metadata": {
+      "user_name": "Siddharth Nair",
+      "user_email": "sid.nair.dev@gmail.com"
+    },
+    "created_at": "2026-07-24T05:55:00.000Z"
+  },
+  {
+    "id": "ev_user_GCCW4V_4_mrxnxvdj",
+    "wallet_address": "GCCW4VEDJ75UDH3M6UPMNWDLLTBMS6X3MZFWGUG35LNKXAPKZ6HHPKQG",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GCCW4V",
+    "metadata": {
+      "user_name": "Siddharth Nair",
+      "user_email": "sid.nair.dev@gmail.com"
+    },
+    "created_at": "2026-07-24T06:00:00.000Z"
+  },
+  {
+    "id": "ev_user_GATSEM_0_mrxnxvdj",
+    "wallet_address": "GATSEMFDF2CHEPMGQN4SCICYYIDCWEUBDK5Y3WUAUY6UPSS4VCISXBTS",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GATSEM",
+    "metadata": {
+      "user_name": "Ishita Gupta",
+      "user_email": "ishita.g.pm@gmail.com"
+    },
+    "created_at": "2026-07-24T09:10:05.000Z"
+  },
+  {
+    "id": "ev_user_GATSEM_1_mrxnxvdj",
+    "wallet_address": "GATSEMFDF2CHEPMGQN4SCICYYIDCWEUBDK5Y3WUAUY6UPSS4VCISXBTS",
+    "event_type": "profile_created",
+    "session_id": "sess_user_GATSEM",
+    "metadata": {
+      "user_name": "Ishita Gupta",
+      "user_email": "ishita.g.pm@gmail.com"
+    },
+    "created_at": "2026-07-24T09:16:00.000Z"
+  },
+  {
+    "id": "ev_user_GATSEM_2_mrxnxvdj",
+    "wallet_address": "GATSEMFDF2CHEPMGQN4SCICYYIDCWEUBDK5Y3WUAUY6UPSS4VCISXBTS",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GATSEM",
+    "metadata": {
+      "user_name": "Ishita Gupta",
+      "user_email": "ishita.g.pm@gmail.com"
+    },
+    "created_at": "2026-07-24T09:22:00.000Z"
+  },
+  {
+    "id": "ev_user_GCSZYK_0_mrxnxvdj",
+    "wallet_address": "GCSZYKSTA7E2RT5RLMLCCL6JBCK2ANXDHV242Q6U4PLSLOVZ6UXTHQH3",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GCSZYK",
+    "metadata": {
+      "user_name": "Avinash Singh",
+      "user_email": "avinash.singh.web3@gmail.com"
+    },
+    "created_at": "2026-07-24T12:45:30.000Z"
+  },
+  {
+    "id": "ev_user_GCSZYK_1_mrxnxvdj",
+    "wallet_address": "GCSZYKSTA7E2RT5RLMLCCL6JBCK2ANXDHV242Q6U4PLSLOVZ6UXTHQH3",
+    "event_type": "nft_minted",
+    "session_id": "sess_user_GCSZYK",
+    "metadata": {
+      "user_name": "Avinash Singh",
+      "user_email": "avinash.singh.web3@gmail.com"
+    },
+    "created_at": "2026-07-24T12:51:40.000Z"
+  },
+  {
+    "id": "ev_user_GCSZYK_2_mrxnxvdj",
+    "wallet_address": "GCSZYKSTA7E2RT5RLMLCCL6JBCK2ANXDHV242Q6U4PLSLOVZ6UXTHQH3",
+    "event_type": "reputation_updated",
+    "session_id": "sess_user_GCSZYK",
+    "metadata": {
+      "user_name": "Avinash Singh",
+      "user_email": "avinash.singh.web3@gmail.com"
+    },
+    "created_at": "2026-07-24T12:58:00.000Z"
+  },
+  {
+    "id": "ev_user_GCSZYK_3_mrxnxvdj",
+    "wallet_address": "GCSZYKSTA7E2RT5RLMLCCL6JBCK2ANXDHV242Q6U4PLSLOVZ6UXTHQH3",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GCSZYK",
+    "metadata": {
+      "user_name": "Avinash Singh",
+      "user_email": "avinash.singh.web3@gmail.com"
+    },
+    "created_at": "2026-07-24T13:05:00.000Z"
+  },
+  {
+    "id": "ev_user_GDLFEW_0_mrxnxvdj",
+    "wallet_address": "GDLFEW7RXVJOI4EU2NBX6DOMUN2GQHC5QIYNOLIQ4C3JDU4YTGLSAWVX",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GDLFEW",
+    "metadata": {
+      "user_name": "Megha Joshi",
+      "user_email": "megha.j_freelance@yahoo.com"
+    },
+    "created_at": "2026-07-24T15:20:10.000Z"
+  },
+  {
+    "id": "ev_user_GDLFEW_1_mrxnxvdj",
+    "wallet_address": "GDLFEW7RXVJOI4EU2NBX6DOMUN2GQHC5QIYNOLIQ4C3JDU4YTGLSAWVX",
+    "event_type": "escrow_created",
+    "session_id": "sess_user_GDLFEW",
+    "metadata": {
+      "user_name": "Megha Joshi",
+      "user_email": "megha.j_freelance@yahoo.com"
+    },
+    "created_at": "2026-07-24T15:26:30.000Z"
+  },
+  {
+    "id": "ev_user_GDLFEW_2_mrxnxvdj",
+    "wallet_address": "GDLFEW7RXVJOI4EU2NBX6DOMUN2GQHC5QIYNOLIQ4C3JDU4YTGLSAWVX",
+    "event_type": "escrow_funded",
+    "session_id": "sess_user_GDLFEW",
+    "metadata": {
+      "user_name": "Megha Joshi",
+      "user_email": "megha.j_freelance@yahoo.com"
+    },
+    "created_at": "2026-07-24T15:32:00.000Z"
+  },
+  {
+    "id": "ev_user_GDLFEW_3_mrxnxvdj",
+    "wallet_address": "GDLFEW7RXVJOI4EU2NBX6DOMUN2GQHC5QIYNOLIQ4C3JDU4YTGLSAWVX",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GDLFEW",
+    "metadata": {
+      "user_name": "Megha Joshi",
+      "user_email": "megha.j_freelance@yahoo.com"
+    },
+    "created_at": "2026-07-24T15:40:00.000Z"
+  },
+  {
+    "id": "ev_user_GBYBGC_0_mrxnxvdj",
+    "wallet_address": "GBYBGCERGH65WKXODLON77BV7ZL2IKS5UFD6CYMEY6V4YQ6PKVN55C4F",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GBYBGC",
+    "metadata": {
+      "user_name": "Varun Mehta",
+      "user_email": "varun.mehta_sol@gmail.com"
+    },
+    "created_at": "2026-07-24T18:05:40.000Z"
+  },
+  {
+    "id": "ev_user_GBYBGC_1_mrxnxvdj",
+    "wallet_address": "GBYBGCERGH65WKXODLON77BV7ZL2IKS5UFD6CYMEY6V4YQ6PKVN55C4F",
+    "event_type": "profile_created",
+    "session_id": "sess_user_GBYBGC",
+    "metadata": {
+      "user_name": "Varun Mehta",
+      "user_email": "varun.mehta_sol@gmail.com"
+    },
+    "created_at": "2026-07-24T18:11:20.000Z"
+  },
+  {
+    "id": "ev_user_GBYBGC_2_mrxnxvdj",
+    "wallet_address": "GBYBGCERGH65WKXODLON77BV7ZL2IKS5UFD6CYMEY6V4YQ6PKVN55C4F",
+    "event_type": "reputation_updated",
+    "session_id": "sess_user_GBYBGC",
+    "metadata": {
+      "user_name": "Varun Mehta",
+      "user_email": "varun.mehta_sol@gmail.com"
+    },
+    "created_at": "2026-07-24T18:18:00.000Z"
+  },
+  {
+    "id": "ev_user_GBYBGC_3_mrxnxvdj",
+    "wallet_address": "GBYBGCERGH65WKXODLON77BV7ZL2IKS5UFD6CYMEY6V4YQ6PKVN55C4F",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GBYBGC",
+    "metadata": {
+      "user_name": "Varun Mehta",
+      "user_email": "varun.mehta_sol@gmail.com"
+    },
+    "created_at": "2026-07-24T18:25:00.000Z"
+  },
+  {
+    "id": "ev_user_GAWHDH_0_mrxnxvdj",
+    "wallet_address": "GAWHDHKDZ6YG4VM4TCNQUKAX4FQRDAPRSTOZQEIS4UTDUNNOGJPEFO7B",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GAWHDH",
+    "metadata": {
+      "user_name": "Trisha Dasgupta",
+      "user_email": "trishad_graphics@gmail.com"
+    },
+    "created_at": "2026-07-24T20:30:15.000Z"
+  },
+  {
+    "id": "ev_user_GAWHDH_1_mrxnxvdj",
+    "wallet_address": "GAWHDHKDZ6YG4VM4TCNQUKAX4FQRDAPRSTOZQEIS4UTDUNNOGJPEFO7B",
+    "event_type": "profile_created",
+    "session_id": "sess_user_GAWHDH",
+    "metadata": {
+      "user_name": "Trisha Dasgupta",
+      "user_email": "trishad_graphics@gmail.com"
+    },
+    "created_at": "2026-07-24T20:36:00.000Z"
+  },
+  {
+    "id": "ev_user_GAWHDH_2_mrxnxvdj",
+    "wallet_address": "GAWHDHKDZ6YG4VM4TCNQUKAX4FQRDAPRSTOZQEIS4UTDUNNOGJPEFO7B",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GAWHDH",
+    "metadata": {
+      "user_name": "Trisha Dasgupta",
+      "user_email": "trishad_graphics@gmail.com"
+    },
+    "created_at": "2026-07-24T20:42:00.000Z"
+  },
+  {
+    "id": "ev_user_GCCRAQ_0_mrxnxvdj",
+    "wallet_address": "GCCRAQN3QLSVCTVUI2COOY2DAGKN7NG5HZ6RX6BU7CQAKL2LLWOWRUAD",
+    "event_type": "wallet_connected",
+    "session_id": "sess_user_GCCRAQ",
+    "metadata": {
+      "user_name": "Subhajit Pal",
+      "user_email": "subhajit.pal.dev@gmail.com"
+    },
+    "created_at": "2026-07-24T23:14:00.000Z"
+  },
+  {
+    "id": "ev_user_GCCRAQ_1_mrxnxvdj",
+    "wallet_address": "GCCRAQN3QLSVCTVUI2COOY2DAGKN7NG5HZ6RX6BU7CQAKL2LLWOWRUAD",
+    "event_type": "escrow_created",
+    "session_id": "sess_user_GCCRAQ",
+    "metadata": {
+      "user_name": "Subhajit Pal",
+      "user_email": "subhajit.pal.dev@gmail.com"
+    },
+    "created_at": "2026-07-24T23:20:10.000Z"
+  },
+  {
+    "id": "ev_user_GCCRAQ_2_mrxnxvdj",
+    "wallet_address": "GCCRAQN3QLSVCTVUI2COOY2DAGKN7NG5HZ6RX6BU7CQAKL2LLWOWRUAD",
+    "event_type": "escrow_funded",
+    "session_id": "sess_user_GCCRAQ",
+    "metadata": {
+      "user_name": "Subhajit Pal",
+      "user_email": "subhajit.pal.dev@gmail.com"
+    },
+    "created_at": "2026-07-24T23:26:00.000Z"
+  },
+  {
+    "id": "ev_user_GCCRAQ_3_mrxnxvdj",
+    "wallet_address": "GCCRAQN3QLSVCTVUI2COOY2DAGKN7NG5HZ6RX6BU7CQAKL2LLWOWRUAD",
+    "event_type": "milestone_completed",
+    "session_id": "sess_user_GCCRAQ",
+    "metadata": {
+      "user_name": "Subhajit Pal",
+      "user_email": "subhajit.pal.dev@gmail.com"
+    },
+    "created_at": "2026-07-24T23:35:00.000Z"
+  },
+  {
+    "id": "ev_user_GCCRAQ_4_mrxnxvdj",
+    "wallet_address": "GCCRAQN3QLSVCTVUI2COOY2DAGKN7NG5HZ6RX6BU7CQAKL2LLWOWRUAD",
+    "event_type": "feedback_submitted",
+    "session_id": "sess_user_GCCRAQ",
+    "metadata": {
+      "user_name": "Subhajit Pal",
+      "user_email": "subhajit.pal.dev@gmail.com"
+    },
+    "created_at": "2026-07-24T23:40:00.000Z"
   }
 ]

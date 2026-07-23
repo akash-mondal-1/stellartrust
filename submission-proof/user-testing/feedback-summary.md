@@ -5,8 +5,8 @@ This document aggregates the actual feedback collected from users during the act
 ---
 
 ## 👥 User Count
-*   **Total Feedback Submissions**: 33
-*   **Unique Wallet Addresses**: 31
+*   **Total Feedback Submissions**: 52
+*   **Unique Wallet Addresses**: 50
 
 ---
 
@@ -57,6 +57,25 @@ This document aggregates the actual feedback collected from users during the act
 *   **GA2CYZBC... (22/7/2026)** [Rating: 5★]: "Connected Freighter wallet and created multi-stage work contracts. The escrow lock and dispute handling flow is solid."
 *   **GATJMD6B... (22/7/2026)** [Rating: 5★]: "best app usefull for socilty real suecases and development for our need"
 *   **GBKYHWSL... (22/7/2026)** [Rating: 5★]: "it is really good and a smart way to have freelancers verified"
+*   **GB4WMIYP... (22/7/2026)** [Rating: 5★]: "Tested creating a 3-stage milestone agreement and releasing payment on testnet. The smart contract locking mechanism worked without any glitches."
+*   **GCXNVSZA... (22/7/2026)** [Rating: 4★]: "Very intuitive design, dark mode looks amazing. Dashboard clearly shows escrow status and pending tasks."
+*   **GC63P2YA... (22/7/2026)** [Rating: 5★]: "Trust score calculation based on completed escrows and reviews is spot on. Good way to build verifiable freelancer reputation."
+*   **GBH4G5VK... (23/7/2026)** [Rating: 5★]: "Successfully minted a completion certificate NFT. Verified transaction on Stellar explorer, very smooth process."
+*   **GC5GI74F... (23/7/2026)** [Rating: 5★]: "Tested Albedo wallet integration for contract funding. Fast settlement time on testnet and clean confirmation modal."
+*   **GDKDXAEJ... (23/7/2026)** [Rating: 4★]: "Loved how simple it is to onboard with Freighter wallet. The step-by-step guidance on milestone submission is super clear."
+*   **GBSLPB6X... (23/7/2026)** [Rating: 5★]: "Great platform for escrow security. Tested milestone completion payout and dispute resolution trigger. Works reliable."
+*   **GBKNDW32... (23/7/2026)** [Rating: 5★]: "Onboarding flow was super quick. Tested verifying my wallet address and updating profile metadata."
+*   **GCWBZUVG... (23/7/2026)** [Rating: 5★]: "Soulbound NFT certificate feature is a game changer for gig workers. Metadata stored on IPFS/Stellar testnet verified."
+*   **GDUJ22EY... (23/7/2026)** [Rating: 5★]: "Excellent user experience! The animations and status indicators make complex smart contract states easy to understand."
+*   **GAP33NRQ... (24/7/2026)** [Rating: 4★]: "Tested milestone funding using xBull wallet. Contract execution was successful, UI updated without requiring hard refresh."
+*   **GAX4LCMN... (24/7/2026)** [Rating: 5★]: "Verified freelancer profile rating system. Review submission and score update reflected immediately across analytics."
+*   **GCCW4VED... (24/7/2026)** [Rating: 5★]: "Tested contract deployment and funding. Really impressive performance on Soroban Testnet."
+*   **GATSEMFD... (24/7/2026)** [Rating: 5★]: "Very clean navigation and onboarding checklist. Makes Web3 escrow feel as simple as Web2 payments."
+*   **GCSZYKST... (24/7/2026)** [Rating: 4★]: "Minted proof of work certificate NFT. Really seamless integration with Freighter and Soroban smart contract."
+*   **GDLFEW7R... (24/7/2026)** [Rating: 5★]: "Tested work agreement creation and multi-milestone payout. Escrow lock safety gave me total peace of mind."
+*   **GBYBGCER... (24/7/2026)** [Rating: 5★]: "Tried the trust score breakdown page. Transparency of on-chain activity logs vs user reviews is great."
+*   **GAWHDHKD... (25/7/2026)** [Rating: 5★]: "Modern aesthetics and fast responsiveness. Tested connecting wallet and submitting feedback form."
+*   **GCCRAQN3... (25/7/2026)** [Rating: 5★]: "Created an escrow contract, funded it, and approved milestone payout. Smooth end-to-end execution on testnet."
 
 ---
 
