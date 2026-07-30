@@ -1,2 +1,8 @@
 .env*
 node_modules/
+
+.next/
+target/
+dist/
+build/
+out/

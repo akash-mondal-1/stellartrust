@@ -180,8 +180,8 @@ export async function POST(request: Request) {
 
       const csvContent = [headers.join(','), ...rows.map(r => r.map(val => `"${val}"`).join(','))].join('\n') + '\n';
 
-      // Target: submission-proof/user-testing/10-user-wallet-proof.csv
-      const targetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/10-user-wallet-proof.csv');
+      // Target: submission-proof/user-testing/wallet-activity-proof.csv
+      const targetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/wallet-activity-proof.csv');
       
       const dir = path.dirname(targetPath);
       if (!fs.existsSync(dir)) {

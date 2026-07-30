@@ -25,7 +25,7 @@ function syncOnboardingsToDisk(onboardings: any[]) {
     ]);
 
     const csvContent = [headers.join(','), ...rows.map(r => r.map(val => `"${val}"`).join(','))].join('\n') + '\n';
-    const targetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/50-user-onboarding.csv');
+    const targetPath = path.resolve(process.cwd(), '../../submission-proof/user-testing/testnet-onboarding-registry.csv');
     const dir = path.dirname(targetPath);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });

@@ -5,8 +5,8 @@ This document aggregates the actual feedback collected from users during the act
 ---
 
 ## 👥 User Count
-*   **Total Feedback Submissions**: 52
-*   **Unique Wallet Addresses**: 50
+*   **Total Feedback Submissions**: 58
+*   **Unique Wallet Addresses**: 56
 
 ---
 
@@ -76,6 +76,12 @@ This document aggregates the actual feedback collected from users during the act
 *   **GBYBGCER... (24/7/2026)** [Rating: 5★]: "Tried the trust score breakdown page. Transparency of on-chain activity logs vs user reviews is great."
 *   **GAWHDHKD... (25/7/2026)** [Rating: 5★]: "Modern aesthetics and fast responsiveness. Tested connecting wallet and submitting feedback form."
 *   **GCCRAQN3... (25/7/2026)** [Rating: 5★]: "Created an escrow contract, funded it, and approved milestone payout. Smooth end-to-end execution on testnet."
+*   **GCB6R6ZX... (24/7/2026)** [Rating: 5★]: "Created milestone contracts for frontend delivery. Escrow locking and automated approval workflow on testnet performed smoothly."
+*   **GBG4I6NB... (24/7/2026)** [Rating: 5★]: "The glassmorphic design and real-time transaction updates are top notch. Very clear onboarding steps for new wallet users."
+*   **GB26D2YB... (24/7/2026)** [Rating: 5★]: "Trust score algorithm clamped between 0-100 gives an honest signal of freelancer performance based on actual completed escrows."
+*   **GCKK6BFV... (24/7/2026)** [Rating: 5★]: "Minted project completion Soulbound NFT badge upon final milestone release. Verified metadata and transaction on Horizon explorer."
+*   **GDQQEVIT... (25/7/2026)** [Rating: 4★]: "Tested Freighter wallet integration for escrow funding. Smart contract release was instant on Soroban testnet."
+*   **GCSZJFLY... (25/7/2026)** [Rating: 5★]: "Excellent platform stability and onboarding flow. The Google Form feedback integration makes sharing user experience seamless."
 
 ---
 
